@@ -7,10 +7,28 @@ class Ship():
 
     # konstruktor dla jednomasztowca
     def __init__(self, x1, y1):
-        self.list_of_coordinates=[(x1,y1)]
+        self.__list_of_coordinates=[(x1,y1)]
 
     def take_list(self):
-        return self.list_of_coordinates
+        return self.__list_of_coordinates
+
+    #miejsca hipotetycznie zajete (zajete+ rogi boki)
+    def get_miejsca(self):
+        """
+        Funkcja zwroci w liscie wartosci maxX minX maxY minY
+        Wszystkie miejsca takie że (x<=maxX and x>=minX) || (y<=maxY and y>=minY)
+        Są hipotetycznie zajete i nie mozna na nich nic ustawic
+        Aby funkcja dzialala wspolrzedne powinny byc ustawione tak ze
+        zaleznie od orientacji poziom pion ustawione sa od najmnijeszej do najwiekszej
+        """
+        occupied=[]
+        m=self.__list_of_coordinates[0]
+
+        occupied.append(m[0]+1)
+        occupied.append(m[0] -1)
+        occupied.append(m[1] + 1)
+        occupied.append(m[1] - 1)
+        return occupied
 
 class ShipsContainer():
 
@@ -38,6 +56,7 @@ class ShipsContainer():
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x, y)
+            s.get_miejsca() #tmp
             self.__ships_to_set.pop()
             self.__list_of_ships.append(s)
 
