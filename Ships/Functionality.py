@@ -15,19 +15,15 @@ class Ship():
     #miejsca hipotetycznie zajete (zajete+ rogi boki)
     def get_miejsca(self):
         """
-        Funkcja zwroci w liscie wartosci maxX minX maxY minY
-        Wszystkie miejsca takie że (x<=maxX and x>=minX) || (y<=maxY and y>=minY)
+        Funkcja zwroci w zbiorze pary x,y , ktore
         Są hipotetycznie zajete i nie mozna na nich nic ustawic
         Aby funkcja dzialala wspolrzedne powinny byc ustawione tak ze
         zaleznie od orientacji poziom pion ustawione sa od najmnijeszej do najwiekszej
         """
-        occupied=[]
-        m=self.__list_of_coordinates[0]
 
-        occupied.append(m[0]+1)
-        occupied.append(m[0] -1)
-        occupied.append(m[1] + 1)
-        occupied.append(m[1] - 1)
+        m = (self.__list_of_coordinates[0])[0]
+        n = (self.__list_of_coordinates[0])[1]
+        occupied = {(x,y) for x in range(m-1,m+2) for y in range(n-1,n+2)}
         return occupied
 
 class ShipsContainer():
@@ -50,13 +46,13 @@ class ShipsContainer():
             #Akcje sprawdzające czy dany statek moze zostac umieszczony
             print("Hello stranger")
             for i in self.__list_of_ships:
-                if i.take_list().count((x,y)):
+                if i.get_miejsca()&{(x,y)}:
                     print("Juz tu cos jest")
                     return
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x, y)
-            s.get_miejsca() #tmp
+            print(s.get_miejsca()) #tmp
             self.__ships_to_set.pop()
             self.__list_of_ships.append(s)
 
