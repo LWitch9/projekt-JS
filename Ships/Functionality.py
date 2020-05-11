@@ -2,14 +2,20 @@ import random
 class Ship():
 
     def __init__(self, x1, y1, x2, y2):
-        self.__list_of_coordinates = [(x1, y1),(x2,y2)]
+        dl = 0
+        self.__list_of_coordinates = []
+        if x2 != x1:
+            self.__list_of_coordinates = [(x,y1) for x in range(x1,x2+1)]
+
+        else:
+            dl = abs(y2 - y1) + 1
 
     #TODO po odkomentowaniu konstruktora dla jednomaszt nie działa konstruktor wyzej dlaczego?
     #konstruktor dla jednomasztowca
     #def __init__(self, x1, y1):
     #    self.__list_of_coordinates=[(x1,y1)]
 
-    def take_list(self):
+    def get_list(self):
         return self.__list_of_coordinates
 
     #miejsca hipotetycznie zajete (zajete+ rogi boki)
@@ -41,31 +47,35 @@ class ShipsContainer():
         print("Tworze przechowalnie statkow dla: ",who)
         self.__owner=who
         self.__list_of_ships=[]
+        self.__my_shots=set()
         self.__ships_to_set=[4,3,3,2,2,2,1,1,1,1]
 
     def add_ship(self,x,y):
+        #Return 0 jesli udalo sie dodac lub wszystko zostalo ustawione. return 1 w przypadku niepowodzenia
         if not self.__ships_to_set:
             print("Ustawiles juz wszystkie statki! Przejdz do gry")
-            return
+            return 0
 
         if(x<1 or x>10 or y<1 or y>10):
             print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
-            return
+            return 1
         if self.__ships_to_set.count(1):
             #Akcje sprawdzające czy dany statek moze zostac umieszczony
             for i in self.__list_of_ships:
                 if i.get_miejsca()&{(x,y)}:
                     print("Juz tu cos jest")
-                    return
+                    return 1
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x, y)
             print(s.get_miejsca()) #tmp
             self.__ships_to_set.pop()  #TODO usuwa ostatni z listy! powinien konkretny element
             self.__list_of_ships.append(s)
+            return 0
 
         else:
             print("Ustawiles juz wszystkie jednomasztowce!")
+            return 0
 
     def add_ship2(self,x,y,x2,y2):
         if not self.__ships_to_set:
@@ -98,15 +108,37 @@ class ShipsContainer():
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x, y, x2, y2)
-
+            print(s.get_list())
             #self.__ships_to_set.pop()
             self.__list_of_ships.append(s)
+
         else:
             print("Ustawiles juz wszystkie statki o dlugosci: ", dl, " lub nie ma takiego statku do ustawienia")
 
 
     def podglad_statkow(self):
         print(len(self.__list_of_ships))
+
+    def get_list(self):
+        return self.__list_of_ships
+
+    def search_remove_coordinates(self,x,y):
+        for i in self.__list_of_ships:
+            if i.get_list().count((x,y)):
+                ind = i.get_list().index((x,y))      #Pobieram indeks znalezionych wspolrzednych
+                d=i.get_list().pop(ind)              #Usuwam wartosc i przypisuje do d (co z tym dalej?)
+                print("Trafiony")
+                print(i.get_list())
+                self.search_remove_ship()
+                return
+        print("Pudlo")
+
+    def search_remove_ship(self):
+        for i in range(len(self.__list_of_ships)):    #Searching for ship with empty list_of_coordinates
+            if not self.__list_of_ships[i].get_list():
+                print("Zatopiony!")
+                self.__list_of_ships.pop(i)
+                return
 
 if __name__ == '__main__':
 
