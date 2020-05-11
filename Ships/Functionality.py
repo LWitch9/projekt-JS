@@ -7,14 +7,18 @@ class Ship():
 
     # konstruktor dla jednomasztowca
     def __init__(self, x1, y1):
+        self.list_of_coordinates=[(x1,y1)]
 
-class PrzechowywaczStatkow():
+    def take_list(self):
+        return self.list_of_coordinates
+
+class ShipsContainer():
 
     def __init__(self, who):
         print("Tworze przechowalnie statkow dla: ",who)
         self.__owner=who
         self.__list_of_ships=[]
-        self.__ships_to_set=[4,3,3,2,2,2,1,1,1,1]
+        self.__ships_to_set=[1,1,1,1]
 
     def add_ship(self):
         if not self.__ships_to_set:
@@ -24,10 +28,32 @@ class PrzechowywaczStatkow():
         x = int(input("Podaj x: "))     #Wspolrzedne jednego konca sktaku
         y = int(input("Podaj y: "))
 
-        x2 = int(input("Podaj x: "))    #Wspolrzedne drugiego konca sktaku
-        y2 = int(input("Podaj y: "))
+        if self.__ships_to_set.count(1):
+            #Akcje sprawdzające czy dany statek moze zostac umieszczony
+            print("Hello stranger")
+            for i in self.__list_of_ships:
+                if i.take_list().count((x,y)):
+                    print("Juz tu cos jest")
+                    return
+            print("Nie ma ustawiam")
+            # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
+            s = Ship(x, y)
+            self.__ships_to_set.pop()
+            self.__list_of_ships.append(s)
 
+        else:
+            print("Ustawiles juz wszystkie jednomasztowce!")
 
+    def podglad_statkow(self):
+        print(len(self.__list_of_ships))
 
 if __name__ == '__main__':
 
+    us=ShipsContainer("user")
+    print("Chcesz dodac statek:")
+    x= int(input("1/0: "))
+    while x:
+        us.add_ship()
+        us.podglad_statkow()
+        print("Chcesz dodac statek:")
+        x = int(input("1/0: "))
