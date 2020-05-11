@@ -51,7 +51,16 @@ class InterfaceUser():
             print("Chcesz dodac statek:")
             x = int(input("1/0: "))
     def Faza_strzelanie(self):
+        while self.pc.get_list():
+            print("Podaj wspolrzedne : ")
+            x = int(input("Podaj x: "))
+            y = int(input("Podaj y: "))
 
+            if (x < 1 or x > 10 or y < 1 or y > 10):
+                print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
+                continue
+
+            self.pc.search_remove_coordinates(x, y)
         """
 
         :return:
