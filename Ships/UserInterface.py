@@ -1,5 +1,5 @@
 import Functionality as f
-
+import random
 
 class InterfaceUser():
     def __init__(self):
@@ -9,12 +9,26 @@ class InterfaceUser():
         przechowalnie statkow dla uzytkownika i dla komputera ???
         """
         self.us = f.ShipsContainer("user")
+        self.pc=f.ShipsContainer("PC")
     #def Gra(self):
         """
 
         :return:
         """
-    def Faza_rozmieszcanie(self):
+    def Faza_rozmieszczanie_PC(self):
+        #TODO Bardziej zaawansowana! Ustawia tylko w poziomie
+        print("Przeciwnik rozmieszcza swoje statki...")
+        for i in range(2,5):        #Jakie dlugosci
+            for j in range (5-i):   #Ile razy
+                check=1
+                while check:
+                    x, y = random.randint(1, 10), random.randint(1, 10)
+                    x2,y2 = x+i,y   #Tylko w poziomie!
+                    check=self.pc.add_ship2(x, y, x2, y2)
+        print("Przeciwnik jest gotowy!")
+        self.pc.podglad_statkow()
+
+    def Faza_rozmieszczanie_user(self):
         """
         :return:
         """
@@ -36,11 +50,13 @@ class InterfaceUser():
                 self.us.add_ship(x, y)
             print("Chcesz dodac statek:")
             x = int(input("1/0: "))
-   # def Faza_strzelanie(self):
+    def Faza_strzelanie(self):
+
         """
 
         :return:
         """
 if __name__ == '__main__':
     x= InterfaceUser()
-    x.Faza_rozmieszcanie()
+    x.Faza_rozmieszczanie_PC()
+    x.Faza_strzelanie()
