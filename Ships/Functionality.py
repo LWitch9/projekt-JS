@@ -50,6 +50,15 @@ class ShipsContainer():
         self.__my_shots=set()
         self.__ships_to_set=[4,3,3,2,2,2,1,1,1,1]
 
+    def get_owner(self):
+        return self.__owner
+
+    def get_list_of_ships(self):
+        return self.__list_of_ships
+
+    def count_ships(self):
+        print(len(self.__list_of_ships))
+
     def add_ship(self,x,y):
         #Return 0 jesli udalo sie dodac lub wszystko zostalo ustawione. return 1 w przypadku niepowodzenia
         if not self.__ships_to_set:
@@ -78,16 +87,17 @@ class ShipsContainer():
             return 0
 
     def add_ship2(self,x,y,x2,y2):
+        # jezeli statek z jakis wzgledow nie zostanie ustawiony zwroci 1
         if not self.__ships_to_set:
             print("Ustawiles juz wszystkie statki! Przejdz do gry")
             return
 
         if(x<1 or x>10 or x2<1 or x2>10 or y<1 or y>10 or y2<1 or y2>10):
             print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
-            return
+            return 1
         if x2 != x and y2 != y:  # Sprawdzenie pion/poziom po tym czy ktores wspolrzedne sa takie same
             print("Statek moze byc ustawiony tylko w poziomie lub pionie")
-            return
+            return 1
         else:
             dl=0
             if x2 != x:
@@ -104,60 +114,34 @@ class ShipsContainer():
             for i in self.__list_of_ships:
                 if i.get_miejsca()&{(x,y)} or i.get_miejsca() & {(x2,y2)}:
                     print("Juz tu cos jest")
-                    return
+                    return 1
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x, y, x2, y2)
             print(s.get_list())
             #self.__ships_to_set.pop()
             self.__list_of_ships.append(s)
+            return 0
 
         else:
             print("Ustawiles juz wszystkie statki o dlugosci: ", dl, " lub nie ma takiego statku do ustawienia")
 
-
-    def podglad_statkow(self):
-        print(len(self.__list_of_ships))
-
-    def get_list(self):
-        return self.__list_of_ships
-
     def search_remove_coordinates(self,x,y):
         for i in self.__list_of_ships:
-            if i.get_list().count((x,y)):
-                ind = i.get_list().index((x,y))      #Pobieram indeks znalezionych wspolrzednych
-                d=i.get_list().pop(ind)              #Usuwam wartosc i przypisuje do d (co z tym dalej?)
+            if i.get_list_of_ships().count((x, y)):
+                ind = i.get_list_of_ships().index((x, y))      #Pobieram indeks znalezionych wspolrzednych
+                d=i.get_list_of_ships().pop(ind)              #Usuwam wartosc i przypisuje do d (co z tym dalej?)
                 print("Trafiony")
-                print(i.get_list())
+                print(i.get_list_of_ships())
                 self.search_remove_ship()
-                return
+                return 0
         print("Pudlo")
+        return 1
 
     def search_remove_ship(self):
         for i in range(len(self.__list_of_ships)):    #Searching for ship with empty list_of_coordinates
-            if not self.__list_of_ships[i].get_list():
+            if not self.__list_of_ships[i].get_list_of_ships():
                 print("Zatopiony!")
                 self.__list_of_ships.pop(i)
-                return
 
-if __name__ == '__main__':
 
-    us=ShipsContainer("user")
-    print("Chcesz dodac statek:")
-    x= int(input("1/0: "))
-    while x:
-        print("Podaj wspolrzedne statku: ")
-        x = int(input("Podaj x: "))     #Wspolrzedne jednego konca sktaku
-        y = int(input("Podaj y: "))
-
-        _longer_ship=int(input("Czy twoj statek jest dluzszy? 1/0:"))
-        if _longer_ship:
-            print("Podaj wspolrzedne statku: ")
-            x2 = int(input("Podaj x: "))     #Wspolrzedne drugiego konca sktaku
-            y2 = int(input("Podaj y: "))
-            us.add_ship2(x,y,x2,y2)
-            us.podglad_statkow()
-        else:
-            us.add_ship(x,y)
-        print("Chcesz dodac statek:")
-        x = int(input("1/0: "))
