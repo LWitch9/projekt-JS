@@ -15,7 +15,6 @@ class Ship():
                 # Statek pionowo x1=x2 stale zmienia sie y w zakresie od y1 do y2
                 self.__list_of_coordinates = [(x1, y) for y in range(y1, y2 + 1)]
 
-
     def get_list_of_coordinates(self):
         return self.__list_of_coordinates
 
@@ -57,6 +56,9 @@ class ShipsContainer():
 
     def get_list_of_ships(self):
         return self.__list_of_ships
+
+    def get_ships_to_set(self):
+        return self.__ships_to_set
 
     def get_my_shots(self):
         return self.__my_shots
