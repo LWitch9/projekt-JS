@@ -18,7 +18,7 @@ class Ship():
     #def __init__(self, x1, y1):
     #    self.__list_of_coordinates=[(x1,y1)]
 
-    def get_list(self):
+    def get_list_of_coordinates(self):
         return self.__list_of_coordinates
 
     #miejsca hipotetycznie zajete (zajete+ rogi boki)
@@ -127,7 +127,7 @@ class ShipsContainer():
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x, y, x2, y2)
-            print(s.get_list())
+            print(s.get_list_of_coordinates())
             #self.__ships_to_set.pop()
             self.__list_of_ships.append(s)
             return 0
@@ -137,11 +137,11 @@ class ShipsContainer():
 
     def search_remove_coordinates(self,x,y):
         for i in self.__list_of_ships:
-            if i.get_list_of_ships().count((x, y)):
-                ind = i.get_list_of_ships().index((x, y))      #Pobieram indeks znalezionych wspolrzednych
-                d=i.get_list_of_ships().pop(ind)              #Usuwam wartosc i przypisuje do d (co z tym dalej?)
+            if i.get_list_of_coordinates().count((x, y)):
+                ind = i.get_list_of_coordinates().index((x, y))      #Pobieram indeks znalezionych wspolrzednych
+                d=i.get_list_of_coordinates().pop(ind)              #Usuwam wartosc i przypisuje do d (co z tym dalej?)
                 print("Trafiony")
-                print(i.get_list_of_ships())
+                print(i.get_list_of_coordinates())
                 self.search_remove_ship()
                 return 0
         print("Pudlo")
