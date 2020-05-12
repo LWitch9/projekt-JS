@@ -59,6 +59,9 @@ class ShipsContainer():
     def get_my_shots(self):
         return self.__my_shots
 
+    def add_shot(self,coordinates):
+        self.__my_shots.add(coordinates)
+
     def count_ships(self):
         print(len(self.__list_of_ships))
 
