@@ -55,7 +55,7 @@ class InterfaceUser():
         #TODO usprawnic losowanie zeby nie losowal miejsc juz strzelanych
         #TODO Musi probowac zestrzelic statek do konca
         x, y = random.randint(1, 10), random.randint(1, 10)
-        if self.pc.get_my_shots() &((x,y)):
+        if self.pc.get_my_shots() &{(x,y)}:
             print("Tu juz strzelales!")
             self.Faza_strzelanie_PC()  # Jeszcze raz strzelaj jezeli strzeliles  w to samo miejsce
         else:
@@ -65,7 +65,7 @@ class InterfaceUser():
         if self.pc.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
             self.Faza_strzelanie_user()
         else:
-            if self.user.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
+            if self.us.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
                 self.Faza_strzelanie_PC()  # User ma kolejny ruch
             else:
                 self.EndGame(self.us.get_owner())  # W przeciwnym razie koniec gry User wygral
@@ -81,7 +81,7 @@ class InterfaceUser():
             self.Faza_strzelanie_user()     #Jeszcze raz strzelaj bo dane bledne
 
         #Po wykonaniu strzalu zostaje on zapisany do zbioru my shots!!!!
-        if self.us.get_my_shots() &((x,y)):
+        if self.us.get_my_shots() &{(x,y)}:
             print("Tu juz strzelales!")
             self.Faza_strzelanie_user()  # Jeszcze raz strzelaj jezeli strzeliles  w to samo miejsce
         else:
@@ -99,7 +99,10 @@ class InterfaceUser():
 
     def EndGame(self,name):
         print("Wygral: ",name)
+        return
 
 if __name__ == '__main__':
     x= InterfaceUser()
     x.Faza_rozmieszczanie_PC()
+    x.Faza_rozmieszczanie_user()
+    x.Faza_strzelanie_user()

@@ -149,8 +149,10 @@ class ShipsContainer():
 
     def search_remove_ship(self):
         for i in range(len(self.__list_of_ships)):    #Searching for ship with empty list_of_coordinates
-            if not self.__list_of_ships[i].get_list_of_ships():
+
+            if not self.__list_of_ships[i].get_list_of_coordinates():
                 print("Zatopiony!")
                 self.__list_of_ships.pop(i)
+                return
 
 
