@@ -1,22 +1,20 @@
 import random
 class Ship():
 
-    def __init__(self, x1, y1, x2, y2):
+    def __init__(self, x1, y1, x2=0, y2=0):
         dl = 0
         self.__list_of_coordinates = []
-        if x2 != x1:
-            #Statek pionowo y1=y2 stale zmienia sie x w zakresie od x1 do x2
-            self.__list_of_coordinates = [(x,y1) for x in range(x1,x2+1)]
-
+        if not x2:
+            self.__list_of_coordinates = [(x1,y1)]
         else:
-            # Statek pionowo x1=x2 stale zmienia sie y w zakresie od y1 do y2
-            self.__list_of_coordinates = [(x1, y) for y in range(y1, y2 + 1)]
-            dl = abs(y2 - y1) + 1
+            if x2 != x1:
+                # Statek pionowo y1=y2 stale zmienia sie x w zakresie od x1 do x2
+                self.__list_of_coordinates = [(x, y1) for x in range(x1, x2 + 1)]
 
-    #TODO po odkomentowaniu konstruktora dla jednomaszt nie działa konstruktor wyzej dlaczego?
-    #konstruktor dla jednomasztowca
-    #def __init__(self, x1, y1):
-    #    self.__list_of_coordinates=[(x1,y1)]
+            else:
+                # Statek pionowo x1=x2 stale zmienia sie y w zakresie od y1 do y2
+                self.__list_of_coordinates = [(x1, y) for y in range(y1, y2 + 1)]
+                dl = abs(y2 - y1) + 1
 
     def get_list_of_coordinates(self):
         return self.__list_of_coordinates
@@ -68,65 +66,54 @@ class ShipsContainer():
     def count_ships(self):
         print(len(self.__list_of_ships))
 
-    def add_ship(self,x,y):
-        #Return 0 jesli udalo sie dodac lub wszystko zostalo ustawione. return 1 w przypadku niepowodzenia
-        if not self.__ships_to_set:
-            print("Ustawiles juz wszystkie statki! Przejdz do gry")
-            return 0
 
-        if(x<1 or x>10 or y<1 or y>10):
-            print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
-            return 1
-        if self.__ships_to_set.count(1):
-            #Akcje sprawdzające czy dany statek moze zostac umieszczony
-            for i in self.__list_of_ships:
-                if i.get_hip_occupied()&{(x, y)}:
-                    print("Juz tu cos jest")
-                    return 1
-            print("Nie ma ustawiam")
-            # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
-            s = Ship(x, y)
-            print(s.get_hip_occupied()) #tmp
-            self.__ships_to_set.pop()  #TODO usuwa ostatni z listy! powinien konkretny element
-            self.__list_of_ships.append(s)
-            return 0
-
-        else:
-            print("Ustawiles juz wszystkie jednomasztowce!")
-            return 0
-
-    def add_ship2(self,x,y,x2,y2):
+    def add_ship(self, x1, y1, x2, y2):
         # jezeli statek z jakis wzgledow nie zostanie ustawiony zwroci 1
         if not self.__ships_to_set:
             print("Ustawiles juz wszystkie statki! Przejdz do gry")
             return
 
-        if(x<1 or x>10 or x2<1 or x2>10 or y<1 or y>10 or y2<1 or y2>10):
+        #Warunek do sprawdzenia zawsze!
+        #TODO czesto sie powtarza mozna zrobic metode
+        if(x1<1 or x1>10  or y1<1 or y1>10 ):
             print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
             return 1
-        if x2 != x and y2 != y:  # Sprawdzenie pion/poziom po tym czy ktores wspolrzedne sa takie same
+        dl = 0
+
+        #Warunek sprawdzajacy czy jednomasztowiec czy niee
+        if not x2 or not y2:
+            print("Jednomasztowiec ustawiam dlugosc")   #Jednomasztowiec to dlugosc=1
+            dl=1
+
+        #Warunek na to czy miesci sie w planszy
+        elif (x2<1 or x2>10 or y2<1 or y2>10):
+            print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
+
+        # Sprawdzenie pion/poziom po tym czy ktores wspolrzedne sa takie same
+        elif x2 != x1 and y2 != y1:
             print("Statek moze byc ustawiony tylko w poziomie lub pionie")
             return 1
-        else:
-            dl=0
-            if x2 != x:
-                dl = abs(x2 - x)+1  # dlugosc zadanego statku (+1 bo nie liczylo wlacznie z pierwszym polem)
-                if x2 < x:
-                    x, x2 = x2, x   #Ustawienie wspolrzednych tak aby x wskazywala na mniejsza a x2 na wieksza
+        else:   #Wykona sie jesli: nie jednomasztowiec oraz wspolrzedne sa poprawne
+                #Sprawdzi orientacje statku i poda jego dlugosc
+            if x2 != x1:
+                dl = abs(x2 - x1) + 1  # dlugosc zadanego statku (+1 bo nie liczylo wlacznie z pierwszym polem)
+                if x2 < x1:
+                    x1, x2 = x2, x1   #Ustawienie wspolrzednych tak aby x wskazywala na mniejsza a x2 na wieksza
 
             else:
-                dl = abs(y2 - y)+1
-                if y2 < y:
-                    y, y2 = y2, y   #Ustawienie wspolrzednych tak aby y wskazywala na mniejsza a y2 na wieksza
+                dl = abs(y2 - y1) + 1
+                if y2 < y1:
+                    y1, y2 = y2, y1   #Ustawienie wspolrzednych tak aby y wskazywala na mniejsza a y2 na wieksza
 
+        #Wykona sie dla wszystkich statkow o poprawnych danych (jedno i wielo masztowce)
         if self.__ships_to_set.count(dl):
             for i in self.__list_of_ships:
-                if i.get_hip_occupied()&{(x, y)} or i.get_hip_occupied() & {(x2, y2)}:
+                if i.get_hip_occupied()&{(x1, y1)} or i.get_hip_occupied() & {(x2, y2)}:
                     print("Juz tu cos jest")
                     return 1
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
-            s = Ship(x, y, x2, y2)
+            s = Ship(x1, y1, x2, y2)
             print(s.get_list_of_coordinates())
             self.__ships_to_set.pop(self.__ships_to_set.index(dl))
             self.__list_of_ships.append(s)
