@@ -5,9 +5,12 @@ class Ship():
         dl = 0
         self.__list_of_coordinates = []
         if x2 != x1:
+            #Statek pionowo y1=y2 stale zmienia sie x w zakresie od x1 do x2
             self.__list_of_coordinates = [(x,y1) for x in range(x1,x2+1)]
 
         else:
+            # Statek pionowo x1=x2 stale zmienia sie y w zakresie od y1 do y2
+            self.__list_of_coordinates = [(x1, y) for y in range(y1, y2 + 1)]
             dl = abs(y2 - y1) + 1
 
     #TODO po odkomentowaniu konstruktora dla jednomaszt nie działa konstruktor wyzej dlaczego?
