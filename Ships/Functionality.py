@@ -71,9 +71,6 @@ class ShipsContainer():
 
     def add_ship(self, x1, y1, x2, y2):
         # jezeli statek z jakis wzgledow nie zostanie ustawiony zwroci 1
-        if not self.__ships_to_set:
-            print("Ustawiles juz wszystkie statki! Przejdz do gry")
-            return
 
         #Warunek do sprawdzenia zawsze!
         #TODO czesto sie powtarza mozna zrobic metode
@@ -119,7 +116,6 @@ class ShipsContainer():
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x1, y1, x2, y2)
             print(s.get_list_of_coordinates())
-            print(s.get_hip_occupied())
             self.__ships_to_set.pop(self.__ships_to_set.index(dl))
             self.__list_of_ships.append(s)
             return 0

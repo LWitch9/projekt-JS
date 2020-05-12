@@ -18,21 +18,19 @@ class InterfaceUser():
     def Faza_rozmieszczanie_PC(self):
         #TODO Bardziej zaawansowana! Ustawia tylko w poziomie
         print("Przeciwnik rozmieszcza swoje statki...")
-        for i in range(1,4):        #Jakie dlugosci
+        for i in range(0,4):        #Jakie dlugosci
             for j in range (4-i):   #Ile razy
                 check=1
                 while check:
                     x, y = random.randint(1, 10-i), random.randint(1, 10)
                     x2,y2 = x+i,y   #Tylko w poziomie!
-                    check=self.pc.add_ship2(x, y, x2, y2)
+                    check=self.pc.add_ship(x, y, x2, y2)
         print("Przeciwnik jest gotowy!")
         self.pc.count_ships()
 
     def Faza_rozmieszczanie_user(self):
 
-        print("Chcesz dodac statek:")
-        x = int(input("1/0: "))
-        while x:
+        while self.us.get_ships_to_set():
             print("Podaj wspolrzedne statku: ")
             x = int(input("Podaj x: "))  # Wspolrzedne jednego konca sktaku
             y = int(input("Podaj y: "))
@@ -42,12 +40,11 @@ class InterfaceUser():
                 print("Podaj wspolrzedne statku: ")
                 x2 = int(input("Podaj x: "))  # Wspolrzedne drugiego konca sktaku
                 y2 = int(input("Podaj y: "))
-                self.us.add_ship2(x, y, x2, y2)
+                self.us.add_ship(x, y, x2, y2)
                 self.us.count_ships()
             else:
-                self.us.add_ship(x, y)
-            print("Chcesz dodac statek:")
-            x = int(input("1/0: "))
+                self.us.add_ship(x, y,0,0)  #kolejne miejsca ustawia sie na zero
+        print("Ustawiles wszystkie statki. Czas zagrac!")
 
     def Faza_strzelanie_PC(self):
 
@@ -105,3 +102,4 @@ if __name__ == '__main__':
     x.Faza_rozmieszczanie_PC()
     x.Faza_rozmieszczanie_user()
     x.Faza_strzelanie_user()
+
