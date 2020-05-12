@@ -51,8 +51,24 @@ class InterfaceUser():
 
     def Faza_strzelanie_PC(self):
 
+        #Part of choosing random coordinates
+        #TODO usprawnic losowanie zeby nie losowal miejsc juz strzelanych
+        #TODO Musi probowac zestrzelic statek do konca
+        x, y = random.randint(1, 10), random.randint(1, 10)
+        if self.pc.get_my_shots() &((x,y)):
+            print("Tu juz strzelales!")
+            self.Faza_strzelanie_PC()  # Jeszcze raz strzelaj jezeli strzeliles  w to samo miejsce
+        else:
+            self.pc.add_shot((x,y))
 
-
+        # Szukanie i usuwanie zestrzelonych pol/ statkow
+        if self.pc.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
+            self.Faza_strzelanie_user()
+        else:
+            if self.user.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
+                self.Faza_strzelanie_PC()  # User ma kolejny ruch
+            else:
+                self.EndGame(self.us.get_owner())  # W przeciwnym razie koniec gry User wygral
 
     def Faza_strzelanie_user(self):
         print("Twoja kolej!")
