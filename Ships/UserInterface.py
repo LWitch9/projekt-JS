@@ -56,7 +56,6 @@ class InterfaceUser():
         #TODO Musi probowac zestrzelic statek do konca
         x, y = random.randint(1, 10), random.randint(1, 10)
         if self.pc.get_my_shots() &{(x,y)}:
-            print("Tu juz strzelales!")
             self.Faza_strzelanie_PC()  # Jeszcze raz strzelaj jezeli strzeliles  w to samo miejsce
         else:
             self.pc.add_shot((x,y))

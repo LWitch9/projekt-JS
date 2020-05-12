@@ -22,7 +22,7 @@ class Ship():
         return self.__list_of_coordinates
 
     #miejsca hipotetycznie zajete (zajete+ rogi boki)
-    def get_miejsca(self):
+    def get_hip_occupied(self):
         """
         Funkcja zwroci w zbiorze pary x,y , ktore
         Są hipotetycznie zajete i nie mozna na nich nic ustawic
@@ -80,13 +80,13 @@ class ShipsContainer():
         if self.__ships_to_set.count(1):
             #Akcje sprawdzające czy dany statek moze zostac umieszczony
             for i in self.__list_of_ships:
-                if i.get_miejsca()&{(x,y)}:
+                if i.get_hip_occupied()&{(x, y)}:
                     print("Juz tu cos jest")
                     return 1
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x, y)
-            print(s.get_miejsca()) #tmp
+            print(s.get_hip_occupied()) #tmp
             self.__ships_to_set.pop()  #TODO usuwa ostatni z listy! powinien konkretny element
             self.__list_of_ships.append(s)
             return 0
@@ -121,14 +121,14 @@ class ShipsContainer():
 
         if self.__ships_to_set.count(dl):
             for i in self.__list_of_ships:
-                if i.get_miejsca()&{(x,y)} or i.get_miejsca() & {(x2,y2)}:
+                if i.get_hip_occupied()&{(x, y)} or i.get_hip_occupied() & {(x2, y2)}:
                     print("Juz tu cos jest")
                     return 1
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x, y, x2, y2)
             print(s.get_list_of_coordinates())
-            #self.__ships_to_set.pop()
+            self.__ships_to_set.pop(self.__ships_to_set.index(dl))
             self.__list_of_ships.append(s)
             return 0
 
