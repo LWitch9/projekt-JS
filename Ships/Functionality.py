@@ -1,10 +1,10 @@
 import random
 class Ship():
 
-    def __init__(self, x1, y1, x2=0, y2=0):
-        dl = 0
+    def __init__(self, x1, y1, x2, y2):
+
         self.__list_of_coordinates = []
-        if not x2:
+        if not x2:      #Jezeli x2 i y2 sa zerami to jednomasztowiec
             self.__list_of_coordinates = [(x1,y1)]
         else:
             if x2 != x1:
@@ -14,7 +14,7 @@ class Ship():
             else:
                 # Statek pionowo x1=x2 stale zmienia sie y w zakresie od y1 do y2
                 self.__list_of_coordinates = [(x1, y) for y in range(y1, y2 + 1)]
-                dl = abs(y2 - y1) + 1
+
 
     def get_list_of_coordinates(self):
         return self.__list_of_coordinates
@@ -36,6 +36,7 @@ class Ship():
             xk= (self.__list_of_coordinates[-1])[0]
             yk = (self.__list_of_coordinates[-1])[1]
         else:
+            #TODO Niech sprawdza tez czy te nowe miejsca mieszcza sie w planszy i tylko te uwzglednia
             xk,yk=xp,yp
         occupied = {(x,y) for x in range(xp-1,xk+2) for y in range(yp-1,yk+2)}
         return occupied
@@ -65,7 +66,6 @@ class ShipsContainer():
 
     def count_ships(self):
         print(len(self.__list_of_ships))
-
 
     def add_ship(self, x1, y1, x2, y2):
         # jezeli statek z jakis wzgledow nie zostanie ustawiony zwroci 1
@@ -108,13 +108,16 @@ class ShipsContainer():
         #Wykona sie dla wszystkich statkow o poprawnych danych (jedno i wielo masztowce)
         if self.__ships_to_set.count(dl):
             for i in self.__list_of_ships:
-                if i.get_hip_occupied()&{(x1, y1)} or i.get_hip_occupied() & {(x2, y2)}:
+            #Sprawdz czy pierwsze x1,y2 nie są hip_occupied
+            #Lub jezeli wielo-masztowiec czy rowniez x2,y2 nie sa hip_occupied
+                if i.get_hip_occupied()&{(x1, y1)} or (dl>1 and i.get_hip_occupied() & {(x2, y2)}):
                     print("Juz tu cos jest")
                     return 1
             print("Nie ma ustawiam")
             # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
             s = Ship(x1, y1, x2, y2)
             print(s.get_list_of_coordinates())
+            print(s.get_hip_occupied())
             self.__ships_to_set.pop(self.__ships_to_set.index(dl))
             self.__list_of_ships.append(s)
             return 0
