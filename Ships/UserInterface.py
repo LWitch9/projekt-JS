@@ -17,6 +17,7 @@ class InterfaceUser():
         """
     def Faza_rozmieszczanie_PC(self):
         #TODO Bardziej zaawansowana! Ustawia tylko w poziomie
+        #TODO Nawet w poziomie nie ustawia jak trzeba!!!!!
         print("Przeciwnik rozmieszcza swoje statki...")
         for i in range(2,5):        #Jakie dlugosci
             for j in range (5-i):   #Ile razy
@@ -29,9 +30,7 @@ class InterfaceUser():
         self.pc.podglad_statkow()
 
     def Faza_rozmieszczanie_user(self):
-        """
-        :return:
-        """
+
         print("Chcesz dodac statek:")
         x = int(input("1/0: "))
         while x:
@@ -50,22 +49,33 @@ class InterfaceUser():
                 self.us.add_ship(x, y)
             print("Chcesz dodac statek:")
             x = int(input("1/0: "))
-    def Faza_strzelanie(self):
-        while self.pc.get_list():
-            print("Podaj wspolrzedne : ")
-            x = int(input("Podaj x: "))
-            y = int(input("Podaj y: "))
 
-            if (x < 1 or x > 10 or y < 1 or y > 10):
-                print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
-                continue
 
-            self.pc.search_remove_coordinates(x, y)
+    def Faza_strzelanie_user(self):
+        print("Twoja kolej!")
+        print("Podaj wspolrzedne : ")
+        x = int(input("Podaj x: "))
+        y = int(input("Podaj y: "))
+
+        if (x < 1 or x > 10 or y < 1 or y > 10):
+            print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
+            self.Faza_strzelanie_user()     #Jeszcze raz strzelaj bo dane bledne
+
+        if self.pc.search_remove_coordinates(x, y): #Jesli 0- trafiony/zatopiony; jesli 1- pudlo
+            print("Kolej przeciwnika!")
+            self.Faza_strzelanie_PC()
+        else:
+            if self.pc.get_list_of_ships():         #Jezeli lista statkow przeciwnika nie jest pusta
+                self.Faza_strzelanie_user()         #User ma kolejny ruch
+            else:
+                self.EndGame(name)           #W przeciwnym razie koniec gry User wygral
         """
 
         :return:
         """
+    def EndGame(self,name):
+        print("Wygral: ",name)
+
 if __name__ == '__main__':
     x= InterfaceUser()
     x.Faza_rozmieszczanie_PC()
-    x.Faza_strzelanie()
