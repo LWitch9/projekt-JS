@@ -26,7 +26,7 @@ class InterfaceUser():
                     x2,y2 = x+i,y   #Tylko w poziomie!
                     check=self.pc.add_ship2(x, y, x2, y2)
         print("Przeciwnik jest gotowy!")
-        self.pc.podglad_statkow()
+        self.pc.count_ships()
 
     def Faza_rozmieszczanie_user(self):
 
@@ -43,12 +43,13 @@ class InterfaceUser():
                 x2 = int(input("Podaj x: "))  # Wspolrzedne drugiego konca sktaku
                 y2 = int(input("Podaj y: "))
                 self.us.add_ship2(x, y, x2, y2)
-                self.us.podglad_statkow()
+                self.us.count_ships()
             else:
                 self.us.add_ship(x, y)
             print("Chcesz dodac statek:")
             x = int(input("1/0: "))
 
+    def Faza_strzelanie_PC(self):
 
 
 
@@ -63,6 +64,13 @@ class InterfaceUser():
             print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
             self.Faza_strzelanie_user()     #Jeszcze raz strzelaj bo dane bledne
 
+        #Po wykonaniu strzalu zostaje on zapisany do zbioru my shots!!!!
+        if self.us.get_my_shots() &((x,y)):
+            print("Tu juz strzelales!")
+            self.Faza_strzelanie_user()  # Jeszcze raz strzelaj jezeli strzeliles  w to samo miejsce
+        else:
+            self.us.add_shot((x,y))
+
         if self.pc.search_remove_coordinates(x, y): #Jesli 0- trafiony/zatopiony; jesli 1- pudlo
             print("Kolej przeciwnika!")
             self.Faza_strzelanie_PC()
@@ -70,12 +78,9 @@ class InterfaceUser():
             if self.pc.get_list_of_ships():         #Jezeli lista statkow przeciwnika nie jest pusta
                 self.Faza_strzelanie_user()         #User ma kolejny ruch
             else:
-                name="name"
-                self.EndGame(name)           #W przeciwnym razie koniec gry User wygral
-        """
+                self.EndGame(self.us.get_owner())           #W przeciwnym razie koniec gry User wygral
 
-        :return:
-        """
+
     def EndGame(self,name):
         print("Wygral: ",name)
 
