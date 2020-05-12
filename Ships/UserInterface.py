@@ -17,13 +17,12 @@ class InterfaceUser():
         """
     def Faza_rozmieszczanie_PC(self):
         #TODO Bardziej zaawansowana! Ustawia tylko w poziomie
-        #TODO Nawet w poziomie nie ustawia jak trzeba!!!!!
         print("Przeciwnik rozmieszcza swoje statki...")
-        for i in range(2,5):        #Jakie dlugosci
-            for j in range (5-i):   #Ile razy
+        for i in range(1,4):        #Jakie dlugosci
+            for j in range (4-i):   #Ile razy
                 check=1
                 while check:
-                    x, y = random.randint(1, 10), random.randint(1, 10)
+                    x, y = random.randint(1, 10-i), random.randint(1, 10)
                     x2,y2 = x+i,y   #Tylko w poziomie!
                     check=self.pc.add_ship2(x, y, x2, y2)
         print("Przeciwnik jest gotowy!")
@@ -51,6 +50,9 @@ class InterfaceUser():
             x = int(input("1/0: "))
 
 
+
+
+
     def Faza_strzelanie_user(self):
         print("Twoja kolej!")
         print("Podaj wspolrzedne : ")
@@ -68,6 +70,7 @@ class InterfaceUser():
             if self.pc.get_list_of_ships():         #Jezeli lista statkow przeciwnika nie jest pusta
                 self.Faza_strzelanie_user()         #User ma kolejny ruch
             else:
+                name="name"
                 self.EndGame(name)           #W przeciwnym razie koniec gry User wygral
         """
 
