@@ -344,6 +344,11 @@ class InterfaceUser():
         if self.us.get_ships_to_set():
             self.display_message("Najpierw musisz ustawic wszystkie statki")
             return
+        #Jezeli PC posiad jakies statki oznacza to ze jest w trakcie gry wiec nie mozna jej ropoczac
+        elif self.pc.get_list_of_ships():
+            self.display_message("Jestes juz w trakcje pojedynku")
+            return
+
         self.pc.automatic_set_up()
         #todo sprawdz wszystkie atrybuty czy zgadzaja sie przed rozpoczeciem
         x=0 #todo ma byc losowanie pierwszego gracza
@@ -401,6 +406,7 @@ class InterfaceUser():
             # Po wykonaniu strzalu zostaje on zapisany do zbioru my shots!!!!
             if self.us.get_my_shots() & {(x, y)}:
                 self.display_message("Tu juz strzelales!")
+                return #Wyjdz z funkcji jesli juz strzeliles w to miejsce by moc znowu sprobowac
             else:
                 self.us.add_shot((x, y))
 
