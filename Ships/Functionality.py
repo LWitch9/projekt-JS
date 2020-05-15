@@ -143,4 +143,15 @@ class ShipsContainer():
                 self.__list_of_ships.pop(i)
                 return
 
-
+    def automatic_set_up(self):
+        #TODO Bardziej zaawansowana! Ustawia tylko w poziomie
+        print("Przeciwnik rozmieszcza swoje statki...")
+        for i in range(0,4):        #Jakie dlugosci
+            for j in range (4-i):   #Ile razy
+                check=1
+                while check:
+                    x, y = random.randint(1, 10-i), random.randint(1, 10)
+                    x2,y2 = x+i,y   #Tylko w poziomie!
+                    check=self.add_ship(x, y, x2, y2)
+        print("Przeciwnik jest gotowy!")
+        self.count_ships()
