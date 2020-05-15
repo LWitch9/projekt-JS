@@ -17,6 +17,10 @@ class InterfaceUser():
         self.__back_frame = Frame(master, bg='green')
         self.__back_frame.place(relwidth=1,relheight=1)
 
+        #Pole na komunikaty
+        self.__frame_message = Frame(self.__back_frame, bg='black')
+        self.__frame_message.place(x=90, y=60, width=720, height=60)
+
         # Pole planszy lewej
         self.__board_left = Frame(self.__back_frame, bg='black')
         self.__board_left.place(x=90, y=150, width=300, height=300)
@@ -25,8 +29,25 @@ class InterfaceUser():
         self.__board_right = Frame(self.__back_frame, bg='black')
         self.__board_right.place(x=510, y=150, width=300, height=300)
 
+        #Ustawiam przyciski na planszach
         self.buttons_left(self.__board_left, 1, 3, "Light Yellow")
         self.buttons_right(self.__board_right, 1, 3, "Light Yellow")
+
+        #Pole na start gry
+        self.__frame_start = Frame(self.__back_frame, bg='black')
+        self.__frame_start.place(x=150, y=480, width=180, height=60)
+
+        #Przycisk start gry
+        self.__button_start = Button(self.__frame_start, command=lambda: self.start_game(), bg='grey',justify=CENTER, text="Battle!")
+        self.__button_start.pack(expand=True, fill=BOTH)
+
+        #Pole na reset gry
+        self.__frame_reset = Frame(self.__back_frame, bg='black')
+        self.__frame_reset.place(x=570, y=480, width=180, height=60)
+
+        #Przycisk RESET gry
+        self.__button_reset = Button(self.__frame_reset, command=lambda: self.reset_game(), bg='grey',justify=CENTER, text="Reset")
+        self.__button_reset.pack(expand=True, fill=BOTH)
 
         #Tworze liste zbierajaca klikniecia
         self.__clicked_coords=[]
@@ -323,8 +344,6 @@ class InterfaceUser():
             else:
                 self.EndGame(self.us.get_owner())  # W przeciwnym razie koniec gry User wygral
 
-
-
     def shoot_ship(self,coordinate):
 
         """
@@ -366,7 +385,7 @@ if __name__ == '__main__':
     # Creating root window
     root = Tk()
     x = InterfaceUser(root)
-    x.pc.automatic_set_up()
+
     root.mainloop()
 
 
