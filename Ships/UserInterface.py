@@ -10,18 +10,23 @@ class InterfaceUser():
         przechowalnie statkow dla uzytkownika i dla komputera ???
         """
         #todo Czy zmienne frame itp powinny byc self?????
-        canvas = Canvas(master, height=600, width=900)
-        canvas.pack()
+        self.__canvas = Canvas(master, height=600, width=900)
+        self.__canvas.pack()
 
         # background
-        back_frame = Frame(master, bg='green')
-        back_frame.place(relwidth=1,relheight=1)
+        self.__back_frame = Frame(master, bg='green')
+        self.__back_frame.place(relwidth=1,relheight=1)
 
         # Pole planszy lewej
-        board_left = Frame(back_frame, bg='black')
-        board_left.place(x=90, y=150, width=300, height=300)
+        self.__board_left = Frame(self.__back_frame, bg='black')
+        self.__board_left.place(x=90, y=150, width=300, height=300)
 
-        self.buttons_left(board_left)
+        # Pole planszy prawej
+        self.__board_right = Frame(self.__back_frame, bg='black')
+        self.__board_right.place(x=510, y=150, width=300, height=300)
+
+        self.buttons_left(self.__board_left, 1, 3, "Light Yellow")
+        self.buttons_right(self.__board_right, 1, 3, "Light Yellow")
 
         #Tworze liste zbierajaca klikniecia
         self.__clicked_coords=[]
@@ -30,109 +35,109 @@ class InterfaceUser():
         self.us = ShipsContainer("user")
         self.pc=ShipsContainer("PC")
 
-    def buttons_left(self,board_left):
+    def buttons_left(self,board_left,h,w,color,):
 
         """ Wszystkie przyciski lewej planszy"""
-        self.__A1 = Button(board_left, height=1, width=3, command=lambda: self.click((1, 1)), bg="Olive Drab",anchor="sw",text="A1")
-        self.__A2 = Button(board_left, height=1, width=3, command=lambda: self.click((2, 1)), bg="Light Yellow",anchor="sw",text="2")
-        self.__A3 = Button(board_left, height=1, width=3, command=lambda: self.click((3, 1)), bg="Olive Drab",anchor="sw",text="3")
-        self.__A4 = Button(board_left, height=1, width=3, command=lambda: self.click((4, 1)), bg="Light Yellow",anchor="sw",text="4")
-        self.__A5 = Button(board_left, height=1, width=3, command=lambda: self.click((5, 1)), bg="Olive Drab",anchor="sw",text="5")
-        self.__A6 = Button(board_left, height=1, width=3, command=lambda: self.click((6, 1)), bg="Light Yellow",anchor="sw",text="6")
-        self.__A7 = Button(board_left, height=1, width=3, command=lambda: self.click((7, 1)), bg="Olive Drab",anchor="sw",text="7")
-        self.__A8 = Button(board_left, height=1, width=3, command=lambda: self.click((8, 1)), bg="Light Yellow",anchor="sw",text="8")
-        self.__A9 = Button(board_left, height=1, width=3, command=lambda: self.click((9, 1)), bg="Olive Drab",anchor="sw",text="9")
-        self.__A10= Button(board_left, height=1, width=3, command=lambda: self.click((10, 1)), bg="Light Yellow",anchor="sw", text="10")
-        self.__B1 = Button(board_left, height=1, width=3, command=lambda: self.click((2,1)), bg="Light Yellow",anchor="sw",text="B")
-        self.__B2 = Button(board_left, height=1, width=3, command=lambda: self.click((2,2)), bg="Olive Drab",anchor="sw")
-        self.__B3 = Button(board_left, height=1, width=3, command=lambda: self.click((2,3)), bg="Light Yellow",anchor="sw")
-        self.__B4 = Button(board_left, height=1, width=3, command=lambda: self.click((2,4)), bg="Olive Drab",anchor="sw")
-        self.__B5 = Button(board_left, height=1, width=3, command=lambda: self.click((2,5)), bg="Light Yellow",anchor="sw")
-        self.__B6 = Button(board_left, height=1, width=3, command=lambda: self.click((2,6)), bg="Olive Drab",anchor="sw")
-        self.__B7 = Button(board_left, height=1, width=3, command=lambda: self.click((2,7)), bg="Light Yellow",anchor="sw")
-        self.__B8 = Button(board_left, height=1, width=3, command=lambda: self.click((2,8)), bg="Olive Drab",anchor="sw")
-        self.__B9 = Button(board_left, height=1, width=3, command=lambda: self.click((2,9)), bg="Olive Drab",anchor="sw")
-        self.__B10= Button(board_left, height=1, width=3, command=lambda: self.click((2,10)), bg="Olive Drab",anchor="sw")
-        self.__C1 = Button(board_left, height=1, width=3, command=lambda: self.click((3,1)), bg="Olive Drab",anchor="sw",text="C")
-        self.__C2 = Button(board_left, height=1, width=3, command=lambda: self.click((3,2)), bg="Light Yellow",anchor="sw")
-        self.__C3 = Button(board_left, height=1, width=3, command=lambda: self.click((3,3)), bg="Olive Drab",anchor="sw")
-        self.__C4 = Button(board_left, height=1, width=3, command=lambda: self.click((3,4)), bg="Light Yellow",anchor="sw")
-        self.__C5 = Button(board_left, height=1, width=3, command=lambda: self.click((3,5)), bg="Olive Drab",anchor="sw")
-        self.__C6 = Button(board_left, height=1, width=3, command=lambda: self.click((3,6)), bg="Light Yellow",anchor="sw")
-        self.__C7 = Button(board_left, height=1, width=3, command=lambda: self.click((3,7)), bg="Olive Drab",anchor="sw")
-        self.__C8 = Button(board_left, height=1, width=3, command=lambda: self.click((3,8)), bg="Light Yellow",anchor="sw")
-        self.__C9 = Button(board_left, height=1, width=3, command=lambda: self.click((3,9)), bg="Light Yellow",anchor="sw")
-        self.__C10= Button(board_left, height=1, width=3, command=lambda: self.click((3,10)), bg="Light Yellow",anchor="sw")
-        self.__D1 = Button(board_left, height=1, width=3, command=lambda: self.click((4,1)), bg="Light Yellow",anchor="sw",text="D")
-        self.__D2 = Button(board_left, height=1, width=3, command=lambda: self.click((4,2)), bg="Olive Drab",anchor="sw")
-        self.__D3 = Button(board_left, height=1, width=3, command=lambda: self.click((4,3)), bg="Light Yellow",anchor="sw")
-        self.__D4 = Button(board_left, height=1, width=3, command=lambda: self.click((4,4)), bg="Olive Drab",anchor="sw")
-        self.__D5 = Button(board_left, height=1, width=3, command=lambda: self.click((4,5)), bg="Light Yellow",anchor="sw")
-        self.__D6 = Button(board_left, height=1, width=3, command=lambda: self.click((4,6)), bg="Olive Drab",anchor="sw")
-        self.__D7 = Button(board_left, height=1, width=3, command=lambda: self.click((4,7)), bg="Light Yellow",anchor="sw")
-        self.__D8 = Button(board_left, height=1, width=3, command=lambda: self.click((4,8)), bg="Olive Drab",anchor="sw")
-        self.__D9 = Button(board_left, height=1, width=3, command=lambda: self.click((4,9)), bg="Olive Drab",anchor="sw")
-        self.__D10= Button(board_left, height=1, width=3, command=lambda: self.click((4,10)), bg="Olive Drab",anchor="sw")
-        self.__E1 = Button(board_left, height=1, width=3, command=lambda: self.click((5,1)), bg="Olive Drab",anchor="sw",text="E")
-        self.__E2 = Button(board_left, height=1, width=3, command=lambda: self.click((5,2)), bg="Light Yellow",anchor="sw")
-        self.__E3 = Button(board_left, height=1, width=3, command=lambda: self.click((5,3)), bg="Olive Drab", anchor="sw")
-        self.__E4 = Button(board_left, height=1, width=3, command=lambda: self.click((5,4)), bg="Light Yellow",anchor="sw")
-        self.__E5 = Button(board_left, height=1, width=3, command=lambda: self.click((5,5)), bg="Olive Drab",anchor="sw")
-        self.__E6 = Button(board_left, height=1, width=3, command=lambda: self.click((5,6)), bg="Light Yellow",anchor="sw")
-        self.__E7 = Button(board_left, height=1, width=3, command=lambda: self.click((5,7)), bg="Olive Drab",anchor="sw")
-        self.__E8 = Button(board_left, height=1, width=3, command=lambda: self.click((5,8)), bg="Light Yellow",anchor="sw")
-        self.__E9 = Button(board_left, height=1, width=3, command=lambda: self.click((5,9)), bg="Light Yellow",anchor="sw")
-        self.__E10= Button(board_left, height=1, width=3, command=lambda: self.click((5,10)), bg="Light Yellow",anchor="sw")
-        self.__F1 = Button(board_left, height=1, width=3, command=lambda: self.click((6,1)), bg="Light Yellow",anchor="sw",text="F")
-        self.__F2 = Button(board_left, height=1, width=3, command=lambda: self.click((6,2)), bg="Olive Drab",anchor="sw")
-        self.__F3 = Button(board_left, height=1, width=3, command=lambda: self.click((6,3)), bg="Light Yellow",anchor="sw")
-        self.__F4 = Button(board_left, height=1, width=3, command=lambda: self.click((6,4)), bg="Olive Drab",anchor="sw")
-        self.__F5 = Button(board_left, height=1, width=3, command=lambda: self.click((6,5)), bg="Light Yellow",anchor="sw")
-        self.__F6 = Button(board_left, height=1, width=3, command=lambda: self.click((6,6)), bg="Olive Drab",anchor="sw")
-        self.__F7 = Button(board_left, height=1, width=3, command=lambda: self.click((6,7)), bg="Light Yellow",anchor="sw")
-        self.__F8 = Button(board_left, height=1, width=3, command=lambda: self.click((6,8)), bg="Olive Drab",anchor="sw")
-        self.__F9 = Button(board_left, height=1, width=3, command=lambda: self.click((6,9)), bg="Olive Drab",anchor="sw")
-        self.__F10= Button(board_left, height=1, width=3, command=lambda: self.click((6,10)), bg="Olive Drab",anchor="sw")
-        self.__G1 = Button(board_left, height=1, width=3, command=lambda: self.click((7,1)), bg="Olive Drab",anchor="sw",text="G")
-        self.__G2 = Button(board_left, height=1, width=3, command=lambda: self.click((7,2)), bg="Light Yellow",anchor="sw")
-        self.__G3 = Button(board_left, height=1, width=3, command=lambda: self.click((7,3)), bg="Olive Drab",anchor="sw")
-        self.__G4 = Button(board_left, height=1, width=3, command=lambda: self.click((7,4)), bg="Light Yellow",anchor="sw")
-        self.__G5 = Button(board_left, height=1, width=3, command=lambda: self.click((7,5)), bg="Olive Drab",anchor="sw")
-        self.__G6 = Button(board_left, height=1, width=3, command=lambda: self.click((7,6)), bg="Light Yellow",anchor="sw")
-        self.__G7 = Button(board_left, height=1, width=3, command=lambda: self.click((7,7)), bg="Olive Drab",anchor="sw")
-        self.__G8 = Button(board_left, height=1, width=3, command=lambda: self.click((7,8)), bg="Light Yellow",anchor="sw")
-        self.__G9 = Button(board_left, height=1, width=3, command=lambda: self.click((7,9)), bg="Light Yellow",anchor="sw")
-        self.__G10= Button(board_left, height=1, width=3, command=lambda: self.click((7,10)), bg="Light Yellow",anchor="sw")
-        self.__H1 = Button(board_left, height=1, width=3, command=lambda: self.click((8,1)), bg="Light Yellow",anchor="sw",text="H")
-        self.__H2 = Button(board_left, height=1, width=3, command=lambda: self.click((8,2)), bg="Olive Drab",anchor="sw")
-        self.__H3 = Button(board_left, height=1, width=3, command=lambda: self.click((8,3)), bg="Light Yellow",anchor="sw")
-        self.__H4 = Button(board_left, height=1, width=3, command=lambda: self.click((8,4)), bg="Olive Drab",anchor="sw")
-        self.__H5 = Button(board_left, height=1, width=3, command=lambda: self.click(8,5), bg="Light Yellow",anchor="sw")
-        self.__H6 = Button(board_left, height=1, width=3, command=lambda: self.click((8,6)), bg="Olive Drab",anchor="sw")
-        self.__H7 = Button(board_left, height=1, width=3, command=lambda: self.click((8,7)), bg="Light Yellow",anchor="sw")
-        self.__H8 = Button(board_left, height=1, width=3, command=lambda: self.click((8,8)), bg="Olive Drab",anchor="sw")
-        self.__H9 = Button(board_left, height=1, width=3, command=lambda: self.click((8,9)), bg="Olive Drab",anchor="sw")
-        self.__H10= Button(board_left, height=1, width=3, command=lambda: self.click((8,10)), bg="Olive Drab",anchor="sw")
-        self.__I1 = Button(board_left, height=1, width=3, command=lambda: self.click((9,1)), bg="Olive Drab",anchor="sw")
-        self.__I2 = Button(board_left, height=1, width=3, command=lambda: self.click((9,2)), bg="Olive Drab",anchor="sw")
-        self.__I3 = Button(board_left, height=1, width=3, command=lambda: self.click((9,3)), bg="Olive Drab",anchor="sw")
-        self.__I4 = Button(board_left, height=1, width=3, command=lambda: self.click((9,4)), bg="Olive Drab",anchor="sw")
-        self.__I5 = Button(board_left, height=1, width=3, command=lambda: self.click((9,5)), bg="Olive Drab",anchor="sw")
-        self.__I6 = Button(board_left, height=1, width=3, command=lambda: self.click((9,6)), bg="Olive Drab",anchor="sw")
-        self.__I7 = Button(board_left, height=1, width=3, command=lambda: self.click((9,7)), bg="Olive Drab",anchor="sw")
-        self.__I8 = Button(board_left, height=1, width=3, command=lambda: self.click((9,8)), bg="Olive Drab",anchor="sw")
-        self.__I9 = Button(board_left, height=1, width=3, command=lambda: self.click((9,9)), bg="Olive Drab",anchor="sw")
-        self.__I10= Button(board_left, height=1, width=3, command=lambda: self.click((9,10)), bg="Olive Drab",anchor="sw")
-        self.__J1 = Button(board_left, height=1, width=3, command=lambda: self.click((10,1)), bg="Olive Drab",anchor="sw")
-        self.__J2 = Button(board_left, height=1, width=3, command=lambda: self.click((10,2)), bg="Olive Drab",anchor="sw")
-        self.__J3 = Button(board_left, height=1, width=3, command=lambda: self.click((10,3)), bg="Olive Drab",anchor="sw")
-        self.__J4 = Button(board_left, height=1, width=3, command=lambda: self.click((10,4)), bg="Olive Drab",anchor="sw")
-        self.__J5 = Button(board_left, height=1, width=3, command=lambda: self.click((10,5)), bg="Olive Drab",anchor="sw")
-        self.__J6 = Button(board_left, height=1, width=3, command=lambda: self.click((10,6)), bg="Olive Drab",anchor="sw")
-        self.__J7 = Button(board_left, height=1, width=3, command=lambda: self.click((10,7)), bg="Olive Drab",anchor="sw")
-        self.__J8 = Button(board_left, height=1, width=3, command=lambda: self.click((10,8)), bg="Olive Drab",anchor="sw")
-        self.__J9 = Button(board_left, height=1, width=3, command=lambda: self.click((10,9)), bg="Olive Drab",anchor="sw")
-        self.__J10= Button(board_left, height=1, width=3, command=lambda: self.click((10,10)), bg="Olive Drab",anchor="sw")
+        self.__A1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 1)), bg=color, anchor="sw", text="A1")
+        self.__A2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 2)), bg=color, anchor="sw", text="2")
+        self.__A3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 3)), bg=color, anchor="sw", text="3")
+        self.__A4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 4)), bg=color, anchor="sw", text="4")
+        self.__A5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 5)), bg=color, anchor="sw", text="5")
+        self.__A6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 6)), bg=color, anchor="sw", text="6")
+        self.__A7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 7)), bg=color, anchor="sw", text="7")
+        self.__A8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 8)), bg=color, anchor="sw", text="8")
+        self.__A9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 9)), bg=color, anchor="sw", text="9")
+        self.__A10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 10)), bg=color, anchor="sw", text="10")
+        self.__B1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 1)), bg=color, anchor="sw", text="B")
+        self.__B2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 2)), bg=color, anchor="sw")
+        self.__B3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 3)), bg=color, anchor="sw")
+        self.__B4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 4)), bg=color, anchor="sw")
+        self.__B5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 5)), bg=color, anchor="sw")
+        self.__B6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 6)), bg=color, anchor="sw")
+        self.__B7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 7)), bg=color, anchor="sw")
+        self.__B8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 8)), bg=color, anchor="sw")
+        self.__B9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 9)), bg=color, anchor="sw")
+        self.__B10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((2, 10)), bg=color, anchor="sw")
+        self.__C1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 1)), bg=color, anchor="sw", text="C")
+        self.__C2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 2)), bg=color, anchor="sw")
+        self.__C3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 3)), bg=color, anchor="sw")
+        self.__C4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 4)), bg=color, anchor="sw")
+        self.__C5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 5)), bg=color, anchor="sw")
+        self.__C6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 6)), bg=color, anchor="sw")
+        self.__C7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 7)), bg=color, anchor="sw")
+        self.__C8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 8)), bg=color, anchor="sw")
+        self.__C9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 9)), bg=color, anchor="sw")
+        self.__C10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((3, 10)), bg=color, anchor="sw")
+        self.__D1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 1)), bg=color, anchor="sw", text="D")
+        self.__D2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 2)), bg=color, anchor="sw")
+        self.__D3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 3)), bg=color, anchor="sw")
+        self.__D4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 4)), bg=color, anchor="sw")
+        self.__D5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 5)), bg=color, anchor="sw")
+        self.__D6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 6)), bg=color, anchor="sw")
+        self.__D7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 7)), bg=color, anchor="sw")
+        self.__D8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 8)), bg=color, anchor="sw")
+        self.__D9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 9)), bg=color, anchor="sw")
+        self.__D10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((4, 10)), bg=color, anchor="sw")
+        self.__E1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 1)), bg=color, anchor="sw", text="E")
+        self.__E2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 2)), bg=color, anchor="sw")
+        self.__E3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 3)), bg=color, anchor="sw")
+        self.__E4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 4)), bg=color, anchor="sw")
+        self.__E5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 5)), bg=color, anchor="sw")
+        self.__E6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 6)), bg=color, anchor="sw")
+        self.__E7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 7)), bg=color, anchor="sw")
+        self.__E8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 8)), bg=color, anchor="sw")
+        self.__E9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 9)), bg=color, anchor="sw")
+        self.__E10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((5, 10)), bg=color, anchor="sw")
+        self.__F1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 1)), bg=color, anchor="sw", text="F")
+        self.__F2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 2)), bg=color, anchor="sw")
+        self.__F3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 3)), bg=color, anchor="sw")
+        self.__F4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 4)), bg=color, anchor="sw")
+        self.__F5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 5)), bg=color, anchor="sw")
+        self.__F6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 6)), bg=color, anchor="sw")
+        self.__F7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 7)), bg=color, anchor="sw")
+        self.__F8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 8)), bg=color, anchor="sw")
+        self.__F9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 9)), bg=color, anchor="sw")
+        self.__F10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((6, 10)), bg=color, anchor="sw")
+        self.__G1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 1)), bg=color, anchor="sw", text="G")
+        self.__G2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 2)), bg=color, anchor="sw")
+        self.__G3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 3)), bg=color, anchor="sw")
+        self.__G4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 4)), bg=color, anchor="sw")
+        self.__G5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 5)), bg=color, anchor="sw")
+        self.__G6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 6)), bg=color, anchor="sw")
+        self.__G7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 7)), bg=color, anchor="sw")
+        self.__G8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 8)), bg=color, anchor="sw")
+        self.__G9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 9)), bg=color, anchor="sw")
+        self.__G10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((7, 10)), bg=color, anchor="sw")
+        self.__H1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 1)), bg=color, anchor="sw", text="H")
+        self.__H2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 2)), bg=color, anchor="sw")
+        self.__H3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 3)), bg=color, anchor="sw")
+        self.__H4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 4)), bg=color, anchor="sw")
+        self.__H5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 5)), bg=color, anchor="sw")
+        self.__H6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 6)), bg=color, anchor="sw")
+        self.__H7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 7)), bg=color, anchor="sw")
+        self.__H8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 8)), bg=color, anchor="sw")
+        self.__H9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 9)), bg=color, anchor="sw")
+        self.__H10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((8, 10)), bg=color, anchor="sw")
+        self.__I1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 1)), bg=color, anchor="sw", text="I")
+        self.__I2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 2)), bg=color, anchor="sw")
+        self.__I3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 3)), bg=color, anchor="sw")
+        self.__I4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 4)), bg=color, anchor="sw")
+        self.__I5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 5)), bg=color, anchor="sw")
+        self.__I6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 6)), bg=color, anchor="sw")
+        self.__I7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 7)), bg=color, anchor="sw")
+        self.__I8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 8)), bg=color, anchor="sw")
+        self.__I9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 9)), bg=color, anchor="sw")
+        self.__I10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((9, 10)), bg=color, anchor="sw")
+        self.__J1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 1)), bg=color, anchor="sw", text="J")
+        self.__J2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 2)), bg=color, anchor="sw")
+        self.__J3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 3)), bg=color, anchor="sw")
+        self.__J4 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 4)), bg=color, anchor="sw")
+        self.__J5 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 5)), bg=color, anchor="sw")
+        self.__J6 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 6)), bg=color, anchor="sw")
+        self.__J7 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 7)), bg=color, anchor="sw")
+        self.__J8 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 8)), bg=color, anchor="sw")
+        self.__J9 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 9)), bg=color, anchor="sw")
+        self.__J10= Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((10, 10)), bg=color, anchor="sw")
 
         # Placeing buttons on board
         Alist = [self.__A1, self.__A2, self.__A3, self.__A4, self.__A5, self.__A6, self.__A7, self.__A8, self.__A9, self.__A10]
@@ -150,12 +155,132 @@ class InterfaceUser():
 
         self.place_buttons((self.__list_of_columns_left))
 
+    def buttons_right(self,board_right,h,w,color):
+
+        """ Wszystkie przyciski prawej planszy"""
+        self.__rA1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 1)), bg=color,anchor="sw", text="A1")
+        self.__rA2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 2)), bg=color,anchor="sw", text="2")
+        self.__rA3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 3)), bg=color,anchor="sw", text="3")
+        self.__rA4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 4)), bg=color,anchor="sw", text="4")
+        self.__rA5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 5)), bg=color,anchor="sw", text="5")
+        self.__rA6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 6)), bg=color,anchor="sw", text="6")
+        self.__rA7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 7)), bg=color,anchor="sw", text="7")
+        self.__rA8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 8)), bg=color,anchor="sw", text="8")
+        self.__rA9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 9)), bg=color,anchor="sw", text="9")
+        self.__rA10 =Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 10)), bg=color,anchor="sw", text="10")
+        self.__rB1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 1)), bg=color, anchor="sw", text="B")
+        self.__rB2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 2)), bg=color, anchor="sw")
+        self.__rB3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 3)), bg=color,anchor="sw")
+        self.__rB4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 4)), bg=color,anchor="sw")
+        self.__rB5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 5)), bg=color,anchor="sw")
+        self.__rB6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 6)), bg=color,anchor="sw")
+        self.__rB7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 7)), bg=color, anchor="sw")
+        self.__rB8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 8)), bg=color,anchor="sw")
+        self.__rB9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 9)), bg=color,anchor="sw")
+        self.__rB10 =Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((2, 10)), bg=color,anchor="sw")
+        self.__rC1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 1)), bg=color,anchor="sw", text="C")
+        self.__rC2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 2)), bg=color,anchor="sw")
+        self.__rC3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 3)), bg=color,anchor="sw")
+        self.__rC4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 4)), bg=color,anchor="sw")
+        self.__rC5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 5)), bg=color,anchor="sw")
+        self.__rC6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 6)), bg=color,anchor="sw")
+        self.__rC7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 7)), bg=color,anchor="sw")
+        self.__rC8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 8)), bg=color,anchor="sw")
+        self.__rC9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 9)), bg=color,anchor="sw")
+        self.__rC10 =Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((3, 10)), bg=color,anchor="sw")
+        self.__rD1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 1)), bg=color,anchor="sw", text="D")
+        self.__rD2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 2)), bg=color,anchor="sw")
+        self.__rD3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 3)), bg=color,anchor="sw")
+        self.__rD4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 4)), bg=color,anchor="sw")
+        self.__rD5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 5)), bg=color,anchor="sw")
+        self.__rD6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 6)), bg=color,anchor="sw")
+        self.__rD7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 7)), bg=color,anchor="sw")
+        self.__rD8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 8)), bg=color, anchor="sw")
+        self.__rD9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 9)), bg=color,anchor="sw")
+        self.__rD10 =Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((4, 10)), bg=color,anchor="sw")
+        self.__rE1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 1)), bg=color,anchor="sw", text="E")
+        self.__rE2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 2)), bg=color,anchor="sw")
+        self.__rE3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 3)), bg=color,anchor="sw")
+        self.__rE4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 4)), bg=color,anchor="sw")
+        self.__rE5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 5)), bg=color,anchor="sw")
+        self.__rE6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 6)), bg=color, anchor="sw")
+        self.__rE7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 7)), bg=color,anchor="sw")
+        self.__rE8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 8)), bg=color,anchor="sw")
+        self.__rE9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 9)), bg=color,anchor="sw")
+        self.__rE10 =Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((5, 10)), bg=color, anchor="sw")
+        self.__rF1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 1)), bg=color,anchor="sw", text="F")
+        self.__rF2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 2)), bg=color,anchor="sw")
+        self.__rF3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 3)), bg=color,anchor="sw")
+        self.__rF4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 4)), bg=color,anchor="sw")
+        self.__rF5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 5)), bg=color,anchor="sw")
+        self.__rF6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 6)), bg=color,anchor="sw")
+        self.__rF7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 7)), bg=color,anchor="sw")
+        self.__rF8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 8)), bg=color,anchor="sw")
+        self.__rF9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 9)), bg=color, anchor="sw")
+        self.__rF10 =Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((6, 10)), bg=color,anchor="sw")
+        self.__rG1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 1)), bg=color,anchor="sw", text="G")
+        self.__rG2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 2)), bg=color,anchor="sw")
+        self.__rG3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 3)), bg=color,anchor="sw")
+        self.__rG4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 4)), bg=color,anchor="sw")
+        self.__rG5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 5)), bg=color,anchor="sw")
+        self.__rG6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 6)), bg=color,anchor="sw")
+        self.__rG7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 7)), bg=color,anchor="sw")
+        self.__rG8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 8)), bg=color,anchor="sw")
+        self.__rG9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 9)), bg=color,anchor="sw")
+        self.__rG10= Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((7, 9)), bg=color,anchor="sw")
+        self.__rH1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 1)), bg=color,anchor="sw", text="H")
+        self.__rH2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 2)), bg=color,anchor="sw")
+        self.__rH3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 3)), bg=color,anchor="sw")
+        self.__rH4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 4)), bg=color,anchor="sw")
+        self.__rH5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 5)), bg=color,anchor="sw")
+        self.__rH6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 6)), bg=color,anchor="sw")
+        self.__rH7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 7)), bg=color,anchor="sw")
+        self.__rH8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 8)), bg=color,anchor="sw")
+        self.__rH9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 9)), bg=color,anchor="sw")
+        self.__rH10 =Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((8, 10)), bg=color, anchor="sw")
+        self.__rI1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 1)), bg=color,anchor="sw", text="I")
+        self.__rI2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 2)), bg=color,anchor="sw")
+        self.__rI3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 3)), bg=color,anchor="sw")
+        self.__rI4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 4)), bg=color,anchor="sw")
+        self.__rI5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 5)), bg=color,anchor="sw")
+        self.__rI6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 6)), bg=color,anchor="sw")
+        self.__rI7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 7)), bg=color,anchor="sw")
+        self.__rI8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 8)), bg=color,anchor="sw")
+        self.__rI9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 9)), bg=color,anchor="sw")
+        self.__rI10 =Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((9, 10)), bg=color,anchor="sw")
+        self.__rJ1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 1)), bg=color,anchor="sw", text="J")
+        self.__rJ2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 2)), bg=color,anchor="sw")
+        self.__rJ3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 3)), bg=color,anchor="sw")
+        self.__rJ4 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 4)), bg=color,anchor="sw")
+        self.__rJ5 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 5)), bg=color,anchor="sw")
+        self.__rJ6 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 6)), bg=color,anchor="sw")
+        self.__rJ7 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 7)), bg=color,anchor="sw")
+        self.__rJ8 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 8)), bg=color,anchor="sw")
+        self.__rJ9 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 9)), bg=color,anchor="sw")
+        self.__rJ10= Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((10, 10)), bg=color,anchor="sw")
+
+        # Placeing buttons on board
+        Alist = [self.__rA1, self.__rA2, self.__rA3, self.__rA4, self.__rA5, self.__rA6, self.__rA7, self.__rA8, self.__rA9, self.__rA10]
+        Blist = [self.__rB1, self.__rB2, self.__rB3, self.__rB4, self.__rB5, self.__rB6, self.__rB7, self.__rB8, self.__rB9, self.__rB10]
+        Clist = [self.__rC1, self.__rC2, self.__rC3, self.__rC4, self.__rC5, self.__rC6, self.__rC7, self.__rC8, self.__rC9, self.__rC10]
+        Dlist = [self.__rD1, self.__rD2, self.__rD3, self.__rD4, self.__rD5, self.__rD6, self.__rD7, self.__rD8, self.__rD9,  self.__rD10]
+        Elist = [self.__rE1, self.__rE2, self.__rE3, self.__rE4, self.__rE5, self.__rE6, self.__rE7, self.__rE8, self.__rE9, self.__rE10]
+        Flist = [self.__rF1, self.__rF2, self.__rF3, self.__rF4, self.__rF5, self.__rF6, self.__rF7, self.__rF8, self.__rF9, self.__rF10]
+        Glist = [self.__rG1, self.__rG2, self.__rG3, self.__rG4, self.__rG5, self.__rG6, self.__rG7, self.__rG8, self.__rG9,self.__rG10]
+        Hlist = [self.__rH1, self.__rH2, self.__rH3, self.__rH4, self.__rH5, self.__rH6, self.__rH7, self.__rH8, self.__rH9,self.__rH10]
+        IList = [self.__rI1, self.__rI2, self.__rI3, self.__rI4, self.__rI5, self.__rI6, self.__rI7, self.__rI8, self.__rI9,self.__rI10]
+        JList = [self.__rJ1, self.__rJ2, self.__rJ3, self.__rJ4, self.__rJ5, self.__rJ6, self.__rJ7, self.__rJ8, self.__rJ9,self.__rJ10]
+
+        self.__list_of_columns_right = [Alist, Blist, Clist, Dlist, Elist, Flist, Glist, Hlist, IList, JList]
+
+        self.place_buttons((self.__list_of_columns_right))
+
     def place_buttons(self, list_of_columns):
         for i in range(10):
             for j in range(10):
-                list_of_columns[i][j].grid(row=i, column=j)
+                list_of_columns[i][j].grid(row=j, column=i)
 
-    def click(self,coordinate):
+    def set_up_ship(self, coordinate):
         self.__clicked_coords.append(coordinate)
         print("wybrano miejsce :", coordinate)
 
@@ -178,7 +303,6 @@ class InterfaceUser():
         else:
             print("Zwariowales? Nie mozesz zestrzelic swojego statku. Juz wszystkie ustawiles. Przejdz do gry lub zresetuj")
 
-
     def automatic_shooting_faze(self):
 
         #Part of choosing random coordinates
@@ -192,39 +316,47 @@ class InterfaceUser():
 
         # Szukanie i usuwanie zestrzelonych pol/ statkow
         if self.pc.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
-            self.Faza_strzelanie_user()
+            self.shoot_ship()
         else:
             if self.us.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
                 self.automatic_shooting_faze()  # User ma kolejny ruch
             else:
                 self.EndGame(self.us.get_owner())  # W przeciwnym razie koniec gry User wygral
 
-    def Faza_strzelanie_user(self):
-        print("Twoja kolej!")
-        print("Podaj wspolrzedne : ")
-        x = int(input("Podaj x: "))
-        y = int(input("Podaj y: "))
 
-        if (x < 1 or x > 10 or y < 1 or y > 10):
-            print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
-            self.Faza_strzelanie_user()     #Jeszcze raz strzelaj bo dane bledne
 
-        #Po wykonaniu strzalu zostaje on zapisany do zbioru my shots!!!!
-        if self.us.get_my_shots() &{(x,y)}:
-            print("Tu juz strzelales!")
-            self.Faza_strzelanie_user()  # Jeszcze raz strzelaj jezeli strzeliles  w to samo miejsce
+    def shoot_ship(self,coordinate):
+
+        """
+        Jezeli ships_to_set nie jest pusta (PC nie ustawil jeszcze swoich statkow)
+        oraz zmienna turn nie zostala ustawiona to nie mozna strzelic
+        """
+        if not self.pc.get_ships_to_set() and not hasattr(self.us,"turn") :
+            print("Spokojnie jeszcze nie czas. Najpierw rozpocznij gre i daj przeciwnikowi ustawic statki")
+
+        elif not self.us.turn:
+            print("Badz cierpliwy. Teraz nie jest twoja kolej")
         else:
-            self.us.add_shot((x,y))
-
-        if self.pc.search_remove_coordinates(x, y): #Jesli 0- trafiony/zatopiony; jesli 1- pudlo
-            print("Kolej przeciwnika!")
-            self.automatic_shooting_faze()
-        else:
-            if self.pc.get_list_of_ships():         #Jezeli lista statkow przeciwnika nie jest pusta
-                self.Faza_strzelanie_user()         #User ma kolejny ruch
+            x,y=coordinate
+            # Po wykonaniu strzalu zostaje on zapisany do zbioru my shots!!!!
+            if self.us.get_my_shots() & {(x, y)}:
+                print("Tu juz strzelales!")
             else:
-                self.EndGame(self.us.get_owner())           #W przeciwnym razie koniec gry User wygral
+                self.us.add_shot((x, y))
 
+            if self.pc.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
+                print("Kolej przeciwnika!")
+                #Ustawiam atrybuut turn ( user -false przeciwnik -true)
+                self.us.__setattr__("turn",False)
+                self.pc.__setattr__("turn",True)
+            else:
+                if self.pc.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
+                    #Uzytkownik nadal ma swoja kolej
+                    pass
+                else:
+                    self.EndGame(self.us.get_owner())  # W przeciwnym razie koniec gry User wygral
+                    self.us.__setattr__("turn", False)
+                    self.pc.__setattr__("turn", False)
 
     def EndGame(self,name):
         print("Wygral: ",name)
@@ -234,6 +366,7 @@ if __name__ == '__main__':
     # Creating root window
     root = Tk()
     x = InterfaceUser(root)
+    x.pc.automatic_set_up()
     root.mainloop()
 
 
