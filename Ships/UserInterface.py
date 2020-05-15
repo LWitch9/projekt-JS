@@ -345,6 +345,9 @@ class InterfaceUser():
     def reset_game(self):
         self.__label_message["text"]="Resetuje gre"
 
+    def display_message(self, message):
+        self.__label_message["text"] = message
+
     def automatic_shooting_faze(self):
 
         #Part of choosing random coordinates
