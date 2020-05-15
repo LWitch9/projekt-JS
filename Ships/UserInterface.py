@@ -33,222 +33,106 @@ class InterfaceUser():
     def buttons_left(self,board_left):
 
         """ Wszystkie przyciski lewej planszy"""
-        self.__A1 = Button(board_left, height=1, width=3, command=lambda: self.click((1, 1)), bg="Olive Drab",
-                           anchor="sw",
-                           text="A1")
-        self.__A2 = Button(board_left, height=1, width=3, command=lambda: self.click((2, 1)), bg="Light Yellow",
-                           anchor="sw",
-                           text="2")
-        self.__A3 = Button(board_left, height=1, width=3, command=lambda: self.click((3, 1)), bg="Olive Drab",
-                           anchor="sw",
-                           text="3")
-        self.__A4 = Button(board_left, height=1, width=3, command=lambda: self.click((4, 1)), bg="Light Yellow",
-                           anchor="sw",
-                           text="4")
-        self.__A5 = Button(board_left, height=1, width=3, command=lambda: self.click((5, 1)), bg="Olive Drab",
-                           anchor="sw",
-                           text="5")
-        self.__A6 = Button(board_left, height=1, width=3, command=lambda: self.click((6, 1)), bg="Light Yellow",
-                           anchor="sw",
-                           text="6")
-        self.__A7 = Button(board_left, height=1, width=3, command=lambda: self.click((7, 1)), bg="Olive Drab",
-                           anchor="sw",
-                           text="7")
-        self.__A8 = Button(board_left, height=1, width=3, command=lambda: self.click((8, 1)), bg="Light Yellow",
-                           anchor="sw",
-                           text="8")
-        self.__A9 = Button(board_left, height=1, width=3, command=lambda: self.click((9, 1)), bg="Olive Drab",
-                           anchor="sw",
-                           text="9")
-        self.__A10 = Button(board_left, height=1, width=3, command=lambda: self.click((10, 1)), bg="Light Yellow",
-                            anchor="sw", text="10")
-        self.__B1 = Button(board_left, height=1, width=3, command=lambda: self.click("B1"), bg="Light Yellow",
-                           anchor="sw",
-                           text="B")
-        self.__B2 = Button(board_left, height=1, width=3, command=lambda: self.click("B2"), bg="Olive Drab",
-                           anchor="sw")
-        self.__B3 = Button(board_left, height=1, width=3, command=lambda: self.click("B3"), bg="Light Yellow",
-                           anchor="sw")
-        self.__B4 = Button(board_left, height=1, width=3, command=lambda: self.click("B4"), bg="Olive Drab",
-                           anchor="sw")
-        self.__B5 = Button(board_left, height=1, width=3, command=lambda: self.click("B5"), bg="Light Yellow",
-                           anchor="sw")
-        self.__B6 = Button(board_left, height=1, width=3, command=lambda: self.click("B6"), bg="Olive Drab",
-                           anchor="sw")
-        self.__B7 = Button(board_left, height=1, width=3, command=lambda: self.click("B7"), bg="Light Yellow",
-                           anchor="sw")
-        self.__B8 = Button(board_left, height=1, width=3, command=lambda: self.click("B8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__B9 = Button(board_left, height=1, width=3, command=lambda: self.click("B8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__B10 = Button(board_left, height=1, width=3, command=lambda: self.click("B8"), bg="Olive Drab",
-                            anchor="sw")
-        self.__C1 = Button(board_left, height=1, width=3, command=lambda: self.click("C1"), bg="Olive Drab",
-                           anchor="sw",
-                           text="C")
-        self.__C2 = Button(board_left, height=1, width=3, command=lambda: self.click("C2"), bg="Light Yellow",
-                           anchor="sw")
-        self.__C3 = Button(board_left, height=1, width=3, command=lambda: self.click("C3"), bg="Olive Drab",
-                           anchor="sw")
-        self.__C4 = Button(board_left, height=1, width=3, command=lambda: self.click("C4"), bg="Light Yellow",
-                           anchor="sw")
-        self.__C5 = Button(board_left, height=1, width=3, command=lambda: self.click("C5"), bg="Olive Drab",
-                           anchor="sw")
-        self.__C6 = Button(board_left, height=1, width=3, command=lambda: self.click("C6"), bg="Light Yellow",
-                           anchor="sw")
-        self.__C7 = Button(board_left, height=1, width=3, command=lambda: self.click("C7"), bg="Olive Drab",
-                           anchor="sw")
-        self.__C8 = Button(board_left, height=1, width=3, command=lambda: self.click("C8"), bg="Light Yellow",
-                           anchor="sw")
-        self.__C9 = Button(board_left, height=1, width=3, command=lambda: self.click("C8"), bg="Light Yellow",
-                           anchor="sw")
-        self.__C10 = Button(board_left, height=1, width=3, command=lambda: self.click("C8"), bg="Light Yellow",
-                            anchor="sw")
-        self.__D1 = Button(board_left, height=1, width=3, command=lambda: self.click("D1"), bg="Light Yellow",
-                           anchor="sw",
-                           text="D")
-        self.__D2 = Button(board_left, height=1, width=3, command=lambda: self.click("D2"), bg="Olive Drab",
-                           anchor="sw")
-        self.__D3 = Button(board_left, height=1, width=3, command=lambda: self.click("D3"), bg="Light Yellow",
-                           anchor="sw")
-        self.__D4 = Button(board_left, height=1, width=3, command=lambda: self.click("D4"), bg="Olive Drab",
-                           anchor="sw")
-        self.__D5 = Button(board_left, height=1, width=3, command=lambda: self.click("D5"), bg="Light Yellow",
-                           anchor="sw")
-        self.__D6 = Button(board_left, height=1, width=3, command=lambda: self.click("D6"), bg="Olive Drab",
-                           anchor="sw")
-        self.__D7 = Button(board_left, height=1, width=3, command=lambda: self.click("D7"), bg="Light Yellow",
-                           anchor="sw")
-        self.__D8 = Button(board_left, height=1, width=3, command=lambda: self.click("D8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__D9 = Button(board_left, height=1, width=3, command=lambda: self.click("D8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__D10 = Button(board_left, height=1, width=3, command=lambda: self.click("D8"), bg="Olive Drab",
-                            anchor="sw")
-        self.__E1 = Button(board_left, height=1, width=3, command=lambda: self.click("E1"), bg="Olive Drab",
-                           anchor="sw",
-                           text="E")
-        self.__E2 = Button(board_left, height=1, width=3, command=lambda: self.click("E2"), bg="Light Yellow",
-                           anchor="sw")
-        self.__E3 = Button(board_left, height=1, width=3, command=lambda: self.click("E3"), bg="Olive Drab",
-                           anchor="sw")
-        self.__E4 = Button(board_left, height=1, width=3, command=lambda: self.click("E4"), bg="Light Yellow",
-                           anchor="sw")
-        self.__E5 = Button(board_left, height=1, width=3, command=lambda: self.click("E5"), bg="Olive Drab",
-                           anchor="sw")
-        self.__E6 = Button(board_left, height=1, width=3, command=lambda: self.click("E6"), bg="Light Yellow",
-                           anchor="sw")
-        self.__E7 = Button(board_left, height=1, width=3, command=lambda: self.click("E7"), bg="Olive Drab",
-                           anchor="sw")
-        self.__E8 = Button(board_left, height=1, width=3, command=lambda: self.click("E8"), bg="Light Yellow",
-                           anchor="sw")
-        self.__E9 = Button(board_left, height=1, width=3, command=lambda: self.click("E8"), bg="Light Yellow",
-                           anchor="sw")
-        self.__E10 = Button(board_left, height=1, width=3, command=lambda: self.click("E8"), bg="Light Yellow",
-                            anchor="sw")
-        self.__F1 = Button(board_left, height=1, width=3, command=lambda: self.click("F1"), bg="Light Yellow",
-                           anchor="sw",
-                           text="F")
-        self.__F2 = Button(board_left, height=1, width=3, command=lambda: self.click("F2"), bg="Olive Drab",
-                           anchor="sw")
-        self.__F3 = Button(board_left, height=1, width=3, command=lambda: self.click("F3"), bg="Light Yellow",
-                           anchor="sw")
-        self.__F4 = Button(board_left, height=1, width=3, command=lambda: self.click("F4"), bg="Olive Drab",
-                           anchor="sw")
-        self.__F5 = Button(board_left, height=1, width=3, command=lambda: self.click("F5"), bg="Light Yellow",
-                           anchor="sw")
-        self.__F6 = Button(board_left, height=1, width=3, command=lambda: self.click("F6"), bg="Olive Drab",
-                           anchor="sw")
-        self.__F7 = Button(board_left, height=1, width=3, command=lambda: self.click("F7"), bg="Light Yellow",
-                           anchor="sw")
-        self.__F8 = Button(board_left, height=1, width=3, command=lambda: self.click("F8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__F9 = Button(board_left, height=1, width=3, command=lambda: self.click("F8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__F10 = Button(board_left, height=1, width=3, command=lambda: self.click("F8"), bg="Olive Drab",
-                            anchor="sw")
-        self.__G1 = Button(board_left, height=1, width=3, command=lambda: self.click("G1"), bg="Olive Drab",
-                           anchor="sw",
-                           text="G")
-        self.__G2 = Button(board_left, height=1, width=3, command=lambda: self.click("G2"), bg="Light Yellow",
-                           anchor="sw")
-        self.__G3 = Button(board_left, height=1, width=3, command=lambda: self.click("G3"), bg="Olive Drab",
-                           anchor="sw")
-        self.__G4 = Button(board_left, height=1, width=3, command=lambda: self.click("G4"), bg="Light Yellow",
-                           anchor="sw")
-        self.__G5 = Button(board_left, height=1, width=3, command=lambda: self.click("G5"), bg="Olive Drab",
-                           anchor="sw")
-        self.__G6 = Button(board_left, height=1, width=3, command=lambda: self.click("G6"), bg="Light Yellow",
-                           anchor="sw")
-        self.__G7 = Button(board_left, height=1, width=3, command=lambda: self.click("G7"), bg="Olive Drab",
-                           anchor="sw")
-        self.__G8 = Button(board_left, height=1, width=3, command=lambda: self.click("G8"), bg="Light Yellow",
-                           anchor="sw")
-        self.__G9 = Button(board_left, height=1, width=3, command=lambda: self.click("G8"), bg="Light Yellow",
-                           anchor="sw")
-        self.__G10 = Button(board_left, height=1, width=3, command=lambda: self.click("G8"), bg="Light Yellow",
-                            anchor="sw")
-        self.__H1 = Button(board_left, height=1, width=3, command=lambda: self.click("H1"), bg="Light Yellow",
-                           anchor="sw",
-                           text="H")
-        self.__H2 = Button(board_left, height=1, width=3, command=lambda: self.click("H2"), bg="Olive Drab",
-                           anchor="sw")
-        self.__H3 = Button(board_left, height=1, width=3, command=lambda: self.click("H3"), bg="Light Yellow",
-                           anchor="sw")
-        self.__H4 = Button(board_left, height=1, width=3, command=lambda: self.click("H4"), bg="Olive Drab",
-                           anchor="sw")
-        self.__H5 = Button(board_left, height=1, width=3, command=lambda: self.click("H5"), bg="Light Yellow",
-                           anchor="sw")
-        self.__H6 = Button(board_left, height=1, width=3, command=lambda: self.click("H6"), bg="Olive Drab",
-                           anchor="sw")
-        self.__H7 = Button(board_left, height=1, width=3, command=lambda: self.click("H7"), bg="Light Yellow",
-                           anchor="sw")
-        self.__H8 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__H9 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__H10 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                            anchor="sw")
-        self.__I1 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__I2 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__I3 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__I4 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__I5 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__I6 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__I7 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__I8 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__I9 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__I10 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                            anchor="sw")
-        self.__J1 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__J2 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__J3 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__J4 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__J5 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__J6 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__J7 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__J8 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__J9 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                           anchor="sw")
-        self.__J10 = Button(board_left, height=1, width=3, command=lambda: self.click("H8"), bg="Olive Drab",
-                            anchor="sw")
+        self.__A1 = Button(board_left, height=1, width=3, command=lambda: self.click((1, 1)), bg="Olive Drab",anchor="sw",text="A1")
+        self.__A2 = Button(board_left, height=1, width=3, command=lambda: self.click((2, 1)), bg="Light Yellow",anchor="sw",text="2")
+        self.__A3 = Button(board_left, height=1, width=3, command=lambda: self.click((3, 1)), bg="Olive Drab",anchor="sw",text="3")
+        self.__A4 = Button(board_left, height=1, width=3, command=lambda: self.click((4, 1)), bg="Light Yellow",anchor="sw",text="4")
+        self.__A5 = Button(board_left, height=1, width=3, command=lambda: self.click((5, 1)), bg="Olive Drab",anchor="sw",text="5")
+        self.__A6 = Button(board_left, height=1, width=3, command=lambda: self.click((6, 1)), bg="Light Yellow",anchor="sw",text="6")
+        self.__A7 = Button(board_left, height=1, width=3, command=lambda: self.click((7, 1)), bg="Olive Drab",anchor="sw",text="7")
+        self.__A8 = Button(board_left, height=1, width=3, command=lambda: self.click((8, 1)), bg="Light Yellow",anchor="sw",text="8")
+        self.__A9 = Button(board_left, height=1, width=3, command=lambda: self.click((9, 1)), bg="Olive Drab",anchor="sw",text="9")
+        self.__A10= Button(board_left, height=1, width=3, command=lambda: self.click((10, 1)), bg="Light Yellow",anchor="sw", text="10")
+        self.__B1 = Button(board_left, height=1, width=3, command=lambda: self.click((2,1)), bg="Light Yellow",anchor="sw",text="B")
+        self.__B2 = Button(board_left, height=1, width=3, command=lambda: self.click((2,2)), bg="Olive Drab",anchor="sw")
+        self.__B3 = Button(board_left, height=1, width=3, command=lambda: self.click((2,3)), bg="Light Yellow",anchor="sw")
+        self.__B4 = Button(board_left, height=1, width=3, command=lambda: self.click((2,4)), bg="Olive Drab",anchor="sw")
+        self.__B5 = Button(board_left, height=1, width=3, command=lambda: self.click((2,5)), bg="Light Yellow",anchor="sw")
+        self.__B6 = Button(board_left, height=1, width=3, command=lambda: self.click((2,6)), bg="Olive Drab",anchor="sw")
+        self.__B7 = Button(board_left, height=1, width=3, command=lambda: self.click((2,7)), bg="Light Yellow",anchor="sw")
+        self.__B8 = Button(board_left, height=1, width=3, command=lambda: self.click((2,8)), bg="Olive Drab",anchor="sw")
+        self.__B9 = Button(board_left, height=1, width=3, command=lambda: self.click((2,9)), bg="Olive Drab",anchor="sw")
+        self.__B10= Button(board_left, height=1, width=3, command=lambda: self.click((2,10)), bg="Olive Drab",anchor="sw")
+        self.__C1 = Button(board_left, height=1, width=3, command=lambda: self.click((3,1)), bg="Olive Drab",anchor="sw",text="C")
+        self.__C2 = Button(board_left, height=1, width=3, command=lambda: self.click((3,2)), bg="Light Yellow",anchor="sw")
+        self.__C3 = Button(board_left, height=1, width=3, command=lambda: self.click((3,3)), bg="Olive Drab",anchor="sw")
+        self.__C4 = Button(board_left, height=1, width=3, command=lambda: self.click((3,4)), bg="Light Yellow",anchor="sw")
+        self.__C5 = Button(board_left, height=1, width=3, command=lambda: self.click((3,5)), bg="Olive Drab",anchor="sw")
+        self.__C6 = Button(board_left, height=1, width=3, command=lambda: self.click((3,6)), bg="Light Yellow",anchor="sw")
+        self.__C7 = Button(board_left, height=1, width=3, command=lambda: self.click((3,7)), bg="Olive Drab",anchor="sw")
+        self.__C8 = Button(board_left, height=1, width=3, command=lambda: self.click((3,8)), bg="Light Yellow",anchor="sw")
+        self.__C9 = Button(board_left, height=1, width=3, command=lambda: self.click((3,9)), bg="Light Yellow",anchor="sw")
+        self.__C10= Button(board_left, height=1, width=3, command=lambda: self.click((3,10)), bg="Light Yellow",anchor="sw")
+        self.__D1 = Button(board_left, height=1, width=3, command=lambda: self.click((4,1)), bg="Light Yellow",anchor="sw",text="D")
+        self.__D2 = Button(board_left, height=1, width=3, command=lambda: self.click((4,2)), bg="Olive Drab",anchor="sw")
+        self.__D3 = Button(board_left, height=1, width=3, command=lambda: self.click((4,3)), bg="Light Yellow",anchor="sw")
+        self.__D4 = Button(board_left, height=1, width=3, command=lambda: self.click((4,4)), bg="Olive Drab",anchor="sw")
+        self.__D5 = Button(board_left, height=1, width=3, command=lambda: self.click((4,5)), bg="Light Yellow",anchor="sw")
+        self.__D6 = Button(board_left, height=1, width=3, command=lambda: self.click((4,6)), bg="Olive Drab",anchor="sw")
+        self.__D7 = Button(board_left, height=1, width=3, command=lambda: self.click((4,7)), bg="Light Yellow",anchor="sw")
+        self.__D8 = Button(board_left, height=1, width=3, command=lambda: self.click((4,8)), bg="Olive Drab",anchor="sw")
+        self.__D9 = Button(board_left, height=1, width=3, command=lambda: self.click((4,9)), bg="Olive Drab",anchor="sw")
+        self.__D10= Button(board_left, height=1, width=3, command=lambda: self.click((4,10)), bg="Olive Drab",anchor="sw")
+        self.__E1 = Button(board_left, height=1, width=3, command=lambda: self.click((5,1)), bg="Olive Drab",anchor="sw",text="E")
+        self.__E2 = Button(board_left, height=1, width=3, command=lambda: self.click((5,2)), bg="Light Yellow",anchor="sw")
+        self.__E3 = Button(board_left, height=1, width=3, command=lambda: self.click((5,3)), bg="Olive Drab", anchor="sw")
+        self.__E4 = Button(board_left, height=1, width=3, command=lambda: self.click((5,4)), bg="Light Yellow",anchor="sw")
+        self.__E5 = Button(board_left, height=1, width=3, command=lambda: self.click((5,5)), bg="Olive Drab",anchor="sw")
+        self.__E6 = Button(board_left, height=1, width=3, command=lambda: self.click((5,6)), bg="Light Yellow",anchor="sw")
+        self.__E7 = Button(board_left, height=1, width=3, command=lambda: self.click((5,7)), bg="Olive Drab",anchor="sw")
+        self.__E8 = Button(board_left, height=1, width=3, command=lambda: self.click((5,8)), bg="Light Yellow",anchor="sw")
+        self.__E9 = Button(board_left, height=1, width=3, command=lambda: self.click((5,9)), bg="Light Yellow",anchor="sw")
+        self.__E10= Button(board_left, height=1, width=3, command=lambda: self.click((5,10)), bg="Light Yellow",anchor="sw")
+        self.__F1 = Button(board_left, height=1, width=3, command=lambda: self.click((6,1)), bg="Light Yellow",anchor="sw",text="F")
+        self.__F2 = Button(board_left, height=1, width=3, command=lambda: self.click((6,2)), bg="Olive Drab",anchor="sw")
+        self.__F3 = Button(board_left, height=1, width=3, command=lambda: self.click((6,3)), bg="Light Yellow",anchor="sw")
+        self.__F4 = Button(board_left, height=1, width=3, command=lambda: self.click((6,4)), bg="Olive Drab",anchor="sw")
+        self.__F5 = Button(board_left, height=1, width=3, command=lambda: self.click((6,5)), bg="Light Yellow",anchor="sw")
+        self.__F6 = Button(board_left, height=1, width=3, command=lambda: self.click((6,6)), bg="Olive Drab",anchor="sw")
+        self.__F7 = Button(board_left, height=1, width=3, command=lambda: self.click((6,7)), bg="Light Yellow",anchor="sw")
+        self.__F8 = Button(board_left, height=1, width=3, command=lambda: self.click((6,8)), bg="Olive Drab",anchor="sw")
+        self.__F9 = Button(board_left, height=1, width=3, command=lambda: self.click((6,9)), bg="Olive Drab",anchor="sw")
+        self.__F10= Button(board_left, height=1, width=3, command=lambda: self.click((6,10)), bg="Olive Drab",anchor="sw")
+        self.__G1 = Button(board_left, height=1, width=3, command=lambda: self.click((7,1)), bg="Olive Drab",anchor="sw",text="G")
+        self.__G2 = Button(board_left, height=1, width=3, command=lambda: self.click((7,2)), bg="Light Yellow",anchor="sw")
+        self.__G3 = Button(board_left, height=1, width=3, command=lambda: self.click((7,3)), bg="Olive Drab",anchor="sw")
+        self.__G4 = Button(board_left, height=1, width=3, command=lambda: self.click((7,4)), bg="Light Yellow",anchor="sw")
+        self.__G5 = Button(board_left, height=1, width=3, command=lambda: self.click((7,5)), bg="Olive Drab",anchor="sw")
+        self.__G6 = Button(board_left, height=1, width=3, command=lambda: self.click((7,6)), bg="Light Yellow",anchor="sw")
+        self.__G7 = Button(board_left, height=1, width=3, command=lambda: self.click((7,7)), bg="Olive Drab",anchor="sw")
+        self.__G8 = Button(board_left, height=1, width=3, command=lambda: self.click((7,8)), bg="Light Yellow",anchor="sw")
+        self.__G9 = Button(board_left, height=1, width=3, command=lambda: self.click((7,9)), bg="Light Yellow",anchor="sw")
+        self.__G10= Button(board_left, height=1, width=3, command=lambda: self.click((7,10)), bg="Light Yellow",anchor="sw")
+        self.__H1 = Button(board_left, height=1, width=3, command=lambda: self.click((8,1)), bg="Light Yellow",anchor="sw",text="H")
+        self.__H2 = Button(board_left, height=1, width=3, command=lambda: self.click((8,2)), bg="Olive Drab",anchor="sw")
+        self.__H3 = Button(board_left, height=1, width=3, command=lambda: self.click((8,3)), bg="Light Yellow",anchor="sw")
+        self.__H4 = Button(board_left, height=1, width=3, command=lambda: self.click((8,4)), bg="Olive Drab",anchor="sw")
+        self.__H5 = Button(board_left, height=1, width=3, command=lambda: self.click(8,5), bg="Light Yellow",anchor="sw")
+        self.__H6 = Button(board_left, height=1, width=3, command=lambda: self.click((8,6)), bg="Olive Drab",anchor="sw")
+        self.__H7 = Button(board_left, height=1, width=3, command=lambda: self.click((8,7)), bg="Light Yellow",anchor="sw")
+        self.__H8 = Button(board_left, height=1, width=3, command=lambda: self.click((8,8)), bg="Olive Drab",anchor="sw")
+        self.__H9 = Button(board_left, height=1, width=3, command=lambda: self.click((8,9)), bg="Olive Drab",anchor="sw")
+        self.__H10= Button(board_left, height=1, width=3, command=lambda: self.click((8,10)), bg="Olive Drab",anchor="sw")
+        self.__I1 = Button(board_left, height=1, width=3, command=lambda: self.click((9,1)), bg="Olive Drab",anchor="sw")
+        self.__I2 = Button(board_left, height=1, width=3, command=lambda: self.click((9,2)), bg="Olive Drab",anchor="sw")
+        self.__I3 = Button(board_left, height=1, width=3, command=lambda: self.click((9,3)), bg="Olive Drab",anchor="sw")
+        self.__I4 = Button(board_left, height=1, width=3, command=lambda: self.click((9,4)), bg="Olive Drab",anchor="sw")
+        self.__I5 = Button(board_left, height=1, width=3, command=lambda: self.click((9,5)), bg="Olive Drab",anchor="sw")
+        self.__I6 = Button(board_left, height=1, width=3, command=lambda: self.click((9,6)), bg="Olive Drab",anchor="sw")
+        self.__I7 = Button(board_left, height=1, width=3, command=lambda: self.click((9,7)), bg="Olive Drab",anchor="sw")
+        self.__I8 = Button(board_left, height=1, width=3, command=lambda: self.click((9,8)), bg="Olive Drab",anchor="sw")
+        self.__I9 = Button(board_left, height=1, width=3, command=lambda: self.click((9,9)), bg="Olive Drab",anchor="sw")
+        self.__I10= Button(board_left, height=1, width=3, command=lambda: self.click((9,10)), bg="Olive Drab",anchor="sw")
+        self.__J1 = Button(board_left, height=1, width=3, command=lambda: self.click((10,1)), bg="Olive Drab",anchor="sw")
+        self.__J2 = Button(board_left, height=1, width=3, command=lambda: self.click((10,2)), bg="Olive Drab",anchor="sw")
+        self.__J3 = Button(board_left, height=1, width=3, command=lambda: self.click((10,3)), bg="Olive Drab",anchor="sw")
+        self.__J4 = Button(board_left, height=1, width=3, command=lambda: self.click((10,4)), bg="Olive Drab",anchor="sw")
+        self.__J5 = Button(board_left, height=1, width=3, command=lambda: self.click((10,5)), bg="Olive Drab",anchor="sw")
+        self.__J6 = Button(board_left, height=1, width=3, command=lambda: self.click((10,6)), bg="Olive Drab",anchor="sw")
+        self.__J7 = Button(board_left, height=1, width=3, command=lambda: self.click((10,7)), bg="Olive Drab",anchor="sw")
+        self.__J8 = Button(board_left, height=1, width=3, command=lambda: self.click((10,8)), bg="Olive Drab",anchor="sw")
+        self.__J9 = Button(board_left, height=1, width=3, command=lambda: self.click((10,9)), bg="Olive Drab",anchor="sw")
+        self.__J10= Button(board_left, height=1, width=3, command=lambda: self.click((10,10)), bg="Olive Drab",anchor="sw")
 
         # Placeing buttons on board
         Alist = [self.__A1, self.__A2, self.__A3, self.__A4, self.__A5, self.__A6, self.__A7, self.__A8, self.__A9, self.__A10]
