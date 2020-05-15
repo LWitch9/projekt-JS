@@ -1,6 +1,7 @@
 from Functionality import *
 import random
 from tkinter import *
+import time
 
 class InterfaceUser():
     def __init__(self, master):
@@ -318,7 +319,19 @@ class InterfaceUser():
             if len(self.__clicked_coords) == 2:
                 x1, y1 = self.__clicked_coords[0]
                 x2, y2 = self.__clicked_coords[1]
-                self.display_message(self.us.add_ship(x1, y1, x2, y2))
+                add_return=self.us.add_ship(x1, y1, x2, y2)
+                if not add_return:
+                    self.display_message("Statek zostal ustawiony pomyslnie!\n"+self.us.show_ships_to_set())
+                elif add_return == 1:
+                    self.display_message("Plansza jest wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy\n"+self.us.show_ships_to_set())
+                elif add_return == 2:
+                    self.display_message("Statek moze byc ustawiony tylko w poziomie lub pionie\n"+self.us.show_ships_to_set())
+                elif add_return == 3:
+                    self.display_message("Juz tu cos jest\n"+self.us.show_ships_to_set())
+                elif add_return == 4:
+                    self.display_message("Podana dlugosc statku nie odpowiada mozliwym do ustawienia\n"+self.us.show_ships_to_set())
+                #time.sleep(1)
+                #self.display_message(self.us.show_ships_to_set())
 
                 # Czyszcze liste kliknietych wspolrzednych!
                 self.__clicked_coords.clear()
@@ -328,9 +341,11 @@ class InterfaceUser():
 
     def start_game(self):
         self.display_message("Rozpoczynam gre")
-
+        if self.us.get_ships_to_set():
+            self.display_message("Najpierw musisz ustawic wszystkie statki")
+            return
         self.pc.automatic_set_up()
-        #todo sprawdz wszystkie atrybuty czy zgadzaja sioe przed rozpoczeciem
+        #todo sprawdz wszystkie atrybuty czy zgadzaja sie przed rozpoczeciem
         x=0 #todo ma byc losowanie pierwszego gracza
         if x:
             #Zaczyna Przeciwnik (PC)
@@ -347,14 +362,14 @@ class InterfaceUser():
     def display_message(self, message):
         self.__label_message["text"] = message
 
-    def automatic_shooting_faze(self):
+    def auto_shoot(self):
 
         #Part of choosing random coordinates
         #TODO usprawnic losowanie zeby nie losowal miejsc juz strzelanych
         #TODO Musi probowac zestrzelic statek do konca
         x, y = random.randint(1, 10), random.randint(1, 10)
         if self.pc.get_my_shots() &{(x,y)}:
-            self.automatic_shooting_faze()  # Jeszcze raz strzelaj jezeli strzeliles  w to samo miejsce
+            self.auto_shoot()  # Jeszcze raz strzelaj jezeli strzeliles  w to samo miejsce
         else:
             self.pc.add_shot((x,y))
 
@@ -365,7 +380,7 @@ class InterfaceUser():
             self.display_message("Twoja kolej")
         else:
             if self.us.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
-                self.automatic_shooting_faze()  # User ma kolejny ruch
+                self.auto_shoot()  # User ma kolejny ruch
             else:
                 self.EndGame(self.us.get_owner())  # W przeciwnym razie koniec gry User wygral
 
@@ -394,7 +409,7 @@ class InterfaceUser():
                 #Ustawiam atrybuut turn ( user -false przeciwnik -true)
                 self.us.__setattr__("turn",False)
                 self.pc.__setattr__("turn",True)
-                self.automatic_shooting_faze()
+                self.auto_shoot()
             else:
                 self.display_message("Trafiony lub Zatopiony (zmien potem) Probuj dalej")
                 if self.pc.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta

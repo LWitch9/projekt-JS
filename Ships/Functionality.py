@@ -58,6 +58,10 @@ class ShipsContainer():
     def get_ships_to_set(self):
         return self.__ships_to_set
 
+    def show_ships_to_set(self):
+        string= "Do ustawienia zostalo:\nJednomasztowcow x "+str(self.__ships_to_set.count(1))+"\tDwumasztowcow x "+str(self.__ships_to_set.count(2))+"\tTrzymasztowcow x "+str(self.__ships_to_set.count(3))+"\tCzteromasztowcow x "+str(self.__ships_to_set.count(4))
+        return string
+
     def get_my_shots(self):
         return self.__my_shots
 
@@ -74,11 +78,11 @@ class ShipsContainer():
         #TODO czesto sie powtarza mozna zrobic metode
         #Warunek na to czy miesci sie w planszy
         if (x1<1 or x1>10  or y1<1 or y1>10 or x2<1 or x2>10 or y2<1 or y2>10):
-            return "Plansza jest wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy"
+            return 1
 
         # Sprawdzenie pion/poziom po tym czy ktores wspolrzedne sa takie same
         elif x2 != x1 and y2 != y1:
-            return "Statek moze byc ustawiony tylko w poziomie lub pionie"
+            return 2
         else:   #Sprawdza orientacje i dlugosc
             dl=0
             if x2 != x1:
@@ -96,16 +100,16 @@ class ShipsContainer():
                     # Sprawdz czy pierwsze x1,y2 nie są hip_occupied
                     # Lub jezeli wielo-masztowiec czy rowniez x2,y2 nie sa hip_occupied
                     if i.get_hip_occupied() & {(x1, y1)} or (dl > 1 and i.get_hip_occupied() & {(x2, y2)}):
-                        return "Juz tu cos jest"
+                        return 3
 
                 # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
                 s = Ship(x1, y1, x2, y2)
                 print(s.get_list_of_coordinates())
                 self.__ships_to_set.pop(self.__ships_to_set.index(dl))
                 self.__list_of_ships.append(s)
-                return "Statek zostal ustawiony pomyslnie!"
+                return 0
             else:
-                return "Ustawiles juz wszystkie statki o dlugosci: ", dl, " lub nie ma takiego statku do ustawienia"
+                return 4
 
     def search_remove_coordinates(self,x,y):
         # Zwraca 0 jak pudlo 1 jak trafiony 2 jak trafiony zatopiony
@@ -140,7 +144,8 @@ class ShipsContainer():
                     x, y = random.randint(1, 10-i), random.randint(1, 10)
                     x2,y2 = x+i,y   #Tylko w poziomie!
                     check=self.add_ship(x, y, x2, y2)
-        print("Przeciwnik jest gotowy!")
-        self.count_ships()
+
+        return"Przeciwnik jest gotowy!"+str(self.count_ships())
+
 
 
