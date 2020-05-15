@@ -324,6 +324,24 @@ class InterfaceUser():
         else:
             print("Zwariowales? Nie mozesz zestrzelic swojego statku. Juz wszystkie ustawiles. Przejdz do gry lub zresetuj")
 
+    def start_game(self):
+        print("rozpoczynam gre")
+
+        self.pc.automatic_set_up()
+        #todo sprawdz wszystkie atrybuty czy zgadzaja sioe przed rozpoczeciem
+        x=0 #todo ma byc losowanie pierwszego gracza
+        if x:
+            #Zaczyna Przeciwnik (PC)
+            self.us.__setattr__("turn", False)
+            self.pc.__setattr__("turn", True)
+        else:
+            #Zaczyna user (us)
+            self.pc.__setattr__("turn", False)
+            self.us.__setattr__("turn", True)
+
+    def reset_game(self):
+        print("resetuje gre")
+
     def automatic_shooting_faze(self):
 
         #Part of choosing random coordinates
@@ -347,10 +365,11 @@ class InterfaceUser():
     def shoot_ship(self,coordinate):
 
         """
-        Jezeli ships_to_set nie jest pusta (PC nie ustawil jeszcze swoich statkow)
+        Jezeli ships_to_set jest pelna (PC nie ustawil jeszcze swoich statkow)
         oraz zmienna turn nie zostala ustawiona to nie mozna strzelic
         """
-        if not self.pc.get_ships_to_set() and not hasattr(self.us,"turn") :
+        print(self.pc.get_ships_to_set(), hasattr(self.us,"turn"))
+        if self.pc.get_ships_to_set() and not hasattr(self.us,"turn") :
             print("Spokojnie jeszcze nie czas. Najpierw rozpocznij gre i daj przeciwnikowi ustawic statki")
 
         elif not self.us.turn:
