@@ -68,19 +68,17 @@ class ShipsContainer():
         print(len(self.__list_of_ships))
 
     def add_ship(self, x1, y1, x2, y2):
-        # jezeli statek z jakis wzgledow nie zostanie ustawiony zwroci 1
+        # Uwaga zmianiane teraz zwraca komunikaty!
 
         #Warunek do sprawdzenia zawsze!
         #TODO czesto sie powtarza mozna zrobic metode
         #Warunek na to czy miesci sie w planszy
         if (x1<1 or x1>10  or y1<1 or y1>10 or x2<1 or x2>10 or y2<1 or y2>10):
-            print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
-            return 1
+            return "Plansza jest wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy"
 
         # Sprawdzenie pion/poziom po tym czy ktores wspolrzedne sa takie same
         elif x2 != x1 and y2 != y1:
-            print("Statek moze byc ustawiony tylko w poziomie lub pionie")
-            return 1
+            return "Statek moze byc ustawiony tylko w poziomie lub pionie"
         else:   #Sprawdza orientacje i dlugosc
             dl=0
             if x2 != x1:
@@ -98,29 +96,29 @@ class ShipsContainer():
                     # Sprawdz czy pierwsze x1,y2 nie są hip_occupied
                     # Lub jezeli wielo-masztowiec czy rowniez x2,y2 nie sa hip_occupied
                     if i.get_hip_occupied() & {(x1, y1)} or (dl > 1 and i.get_hip_occupied() & {(x2, y2)}):
-                        print("Juz tu cos jest")
-                        return 1
-                print("Nie ma ustawiam")
+                        return "Juz tu cos jest"
+
                 # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
                 s = Ship(x1, y1, x2, y2)
                 print(s.get_list_of_coordinates())
                 self.__ships_to_set.pop(self.__ships_to_set.index(dl))
                 self.__list_of_ships.append(s)
-                return 0
+                return "Statek zostal ustawiony pomyslnie!"
             else:
-                print("Ustawiles juz wszystkie statki o dlugosci: ", dl, " lub nie ma takiego statku do ustawienia")
+                return "Ustawiles juz wszystkie statki o dlugosci: ", dl, " lub nie ma takiego statku do ustawienia"
 
     def search_remove_coordinates(self,x,y):
+        # Zwraca 0 jak pudlo 1 jak trafiony 2 jak trafiony zatopiony
         for i in self.__list_of_ships:
             if i.get_list_of_coordinates().count((x, y)):
                 ind = i.get_list_of_coordinates().index((x, y))      #Pobieram indeks znalezionych wspolrzednych
                 d=i.get_list_of_coordinates().pop(ind)              #Usuwam wartosc i przypisuje do d (co z tym dalej?)
-                print("Trafiony")
                 print(i.get_list_of_coordinates())
-                self.search_remove_ship()
-                return 0
-        print("Pudlo")
-        return 1
+                if self.search_remove_ship():
+                    return 2
+                else:
+                    return 1
+        return 0
 
     def search_remove_ship(self):
         for i in range(len(self.__list_of_ships)):    #Searching for ship with empty list_of_coordinates
@@ -128,7 +126,9 @@ class ShipsContainer():
             if not self.__list_of_ships[i].get_list_of_coordinates():
                 print("Zatopiony!")
                 self.__list_of_ships.pop(i)
-                return
+                return 1
+            else:
+                return 0
 
     def automatic_set_up(self):
         #TODO Bardziej zaawansowana! Ustawia tylko w poziomie

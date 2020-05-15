@@ -306,7 +306,7 @@ class InterfaceUser():
 
     def set_up_ship(self, coordinate):
         self.__clicked_coords.append(coordinate)
-        print("wybrano miejsce :", coordinate)
+        self.display_message("wybrano miejsce :"+ str(coordinate))
 
         """
         Sprawdzam na jakim etapie gry jestesmy. Jezeli nie ma statkow do ustawienia dla usera to nie wyskoczy blad.
@@ -314,21 +314,20 @@ class InterfaceUser():
         """
 
         if  self.us.get_ships_to_set():
-            print("Ahoj kamracie. Dodaje statek!")
             # Sprawdzam ile wspolrzednych kliknieto. Jezeli dwie rozpoczynam proces dodawania
             if len(self.__clicked_coords) == 2:
                 x1, y1 = self.__clicked_coords[0]
                 x2, y2 = self.__clicked_coords[1]
-                self.us.add_ship(x1, y1, x2, y2)
+                self.display_message(self.us.add_ship(x1, y1, x2, y2))
 
                 # Czyszcze liste kliknietych wspolrzednych!
                 self.__clicked_coords.clear()
                 self.us.count_ships()
         else:
-            print("Zwariowales? Nie mozesz zestrzelic swojego statku. Juz wszystkie ustawiles. Przejdz do gry lub zresetuj")
+            self.display_message("Zwariowales? Nie mozesz zestrzelic swojego statku. Juz wszystkie ustawiles. Przejdz do gry lub zresetuj")
 
     def start_game(self):
-        print("rozpoczynam gre")
+        self.display_message("Rozpoczynam gre")
 
         self.pc.automatic_set_up()
         #todo sprawdz wszystkie atrybuty czy zgadzaja sioe przed rozpoczeciem
@@ -343,7 +342,7 @@ class InterfaceUser():
             self.us.__setattr__("turn", True)
 
     def reset_game(self):
-        self.__label_message["text"]="Resetuje gre"
+        self.display_message("Resetuje gre...")
 
     def display_message(self, message):
         self.__label_message["text"] = message
@@ -363,6 +362,7 @@ class InterfaceUser():
         if self.pc.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
             self.us.__setattr__("turn", True)
             self.pc.__setattr__("turn", False)
+            self.display_message("Twoja kolej")
         else:
             if self.us.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
                 self.automatic_shooting_faze()  # User ma kolejny ruch
@@ -377,25 +377,26 @@ class InterfaceUser():
         """
         print(self.pc.get_ships_to_set(), hasattr(self.us,"turn"))
         if self.pc.get_ships_to_set() and not hasattr(self.us,"turn") :
-            print("Spokojnie jeszcze nie czas. Najpierw rozpocznij gre i daj przeciwnikowi ustawic statki")
+            self.display_message("Spokojnie jeszcze nie czas. Najpierw rozpocznij gre i daj przeciwnikowi ustawic statki")
 
         elif not self.us.turn:
-            print("Badz cierpliwy. Teraz nie jest twoja kolej")
+            self.display_message("Badz cierpliwy. Teraz nie jest twoja kolej")
         else:
             x,y=coordinate
             # Po wykonaniu strzalu zostaje on zapisany do zbioru my shots!!!!
             if self.us.get_my_shots() & {(x, y)}:
-                print("Tu juz strzelales!")
+                self.display_message("Tu juz strzelales!")
             else:
                 self.us.add_shot((x, y))
 
-            if self.pc.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
-                print("Kolej przeciwnika!")
+            if not self.pc.search_remove_coordinates(x, y):  # Jesli 1/2- trafiony/zatopiony; jesli 0- pudlo
+                self.display_message("Pudlo! Kolej przeciwnika!")
                 #Ustawiam atrybuut turn ( user -false przeciwnik -true)
                 self.us.__setattr__("turn",False)
                 self.pc.__setattr__("turn",True)
                 self.automatic_shooting_faze()
             else:
+                self.display_message("Trafiony lub Zatopiony (zmien potem) Probuj dalej")
                 if self.pc.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
                     #Uzytkownik nadal ma swoja kolej
                     pass
@@ -405,7 +406,7 @@ class InterfaceUser():
                     self.pc.__setattr__("turn", False)
 
     def EndGame(self,name):
-        print("Wygral: ",name)
+        self.display_message("Wygral: ",name)
         return
 
 if __name__ == '__main__':
