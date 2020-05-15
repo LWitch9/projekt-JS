@@ -272,7 +272,27 @@ class InterfaceUser():
                 list_of_columns[i][j].grid(row=i, column=j)
 
     def click(self,coordinate):
+        self.__clicked_coords.append(coordinate)
+        print("wybrano miejsce :", coordinate)
 
+        """
+        Sprawdzam na jakim etapie gry jestesmy. Jezeli nie ma statkow do ustawienia dla usera to nie wyskoczy blad.
+        Poniewaz user nie moze zestrzeliwac swoich statkow a skoro wszystkie jez rozmiescil to nie ma powodu by tam klikac
+        """
+
+        if  self.us.get_ships_to_set():
+            print("Ahoj kamracie. Dodaje statek!")
+            # Sprawdzam ile wspolrzednych kliknieto. Jezeli dwie rozpoczynam proces dodawania
+            if len(self.__clicked_coords) == 2:
+                x1, y1 = self.__clicked_coords[0]
+                x2, y2 = self.__clicked_coords[1]
+                self.us.add_ship(x1, y1, x2, y2)
+
+                # Czyszcze liste kliknietych wspolrzednych!
+                self.__clicked_coords.clear()
+                self.us.count_ships()
+        else:
+            print("Zwariowales? Nie mozesz zestrzelic swojego statku. Juz wszystkie ustawiles. Przejdz do gry lub zresetuj")
 
 
     def automatic_shooting_faze(self):
