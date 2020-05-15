@@ -3,17 +3,15 @@ class Ship():
 
     def __init__(self, x1, y1, x2, y2):
 
-        self.__list_of_coordinates = []
-        if not x2:      #Jezeli x2 i y2 sa zerami to jednomasztowiec
-            self.__list_of_coordinates = [(x1,y1)]
-        else:
-            if x2 != x1:
-                # Statek pionowo y1=y2 stale zmienia sie x w zakresie od x1 do x2
-                self.__list_of_coordinates = [(x, y1) for x in range(x1, x2 + 1)]
+        #Warunek wystarczajacy dziala rowniez dla jednomasztowca
+        if x2 != x1:
+            # Statek pionowo y1=y2 stale zmienia sie x w zakresie od x1 do x2
+            self.__list_of_coordinates = [(x, y1) for x in range(x1, x2 + 1)]
 
-            else:
-                # Statek pionowo x1=x2 stale zmienia sie y w zakresie od y1 do y2
-                self.__list_of_coordinates = [(x1, y) for y in range(y1, y2 + 1)]
+        else:
+            # Statek pionowo x1=x2 stale zmienia sie y w zakresie od y1 do y2
+            self.__list_of_coordinates = [(x1, y) for y in range(y1, y2 + 1)]
+
 
     def get_list_of_coordinates(self):
         return self.__list_of_coordinates
@@ -74,26 +72,17 @@ class ShipsContainer():
 
         #Warunek do sprawdzenia zawsze!
         #TODO czesto sie powtarza mozna zrobic metode
-        if(x1<1 or x1>10  or y1<1 or y1>10 ):
+        #Warunek na to czy miesci sie w planszy
+        if (x1<1 or x1>10  or y1<1 or y1>10 or x2<1 or x2>10 or y2<1 or y2>10):
             print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
             return 1
-        dl = 0
-
-        #Warunek sprawdzajacy czy jednomasztowiec czy niee
-        if not x2 or not y2:
-            print("Jednomasztowiec ustawiam dlugosc")   #Jednomasztowiec to dlugosc=1
-            dl=1
-
-        #Warunek na to czy miesci sie w planszy
-        elif (x2<1 or x2>10 or y2<1 or y2>10):
-            print("Plansza jes wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy")
 
         # Sprawdzenie pion/poziom po tym czy ktores wspolrzedne sa takie same
         elif x2 != x1 and y2 != y1:
             print("Statek moze byc ustawiony tylko w poziomie lub pionie")
             return 1
-        else:   #Wykona sie jesli: nie jednomasztowiec oraz wspolrzedne sa poprawne
-                #Sprawdzi orientacje statku i poda jego dlugosc
+        else:   #Sprawdza orientacje i dlugosc
+            dl=0
             if x2 != x1:
                 dl = abs(x2 - x1) + 1  # dlugosc zadanego statku (+1 bo nie liczylo wlacznie z pierwszym polem)
                 if x2 < x1:
@@ -104,24 +93,24 @@ class ShipsContainer():
                 if y2 < y1:
                     y1, y2 = y2, y1   #Ustawienie wspolrzednych tak aby y wskazywala na mniejsza a y2 na wieksza
 
-        #Wykona sie dla wszystkich statkow o poprawnych danych (jedno i wielo masztowce)
-        if self.__ships_to_set.count(dl):
-            for i in self.__list_of_ships:
-            #Sprawdz czy pierwsze x1,y2 nie są hip_occupied
-            #Lub jezeli wielo-masztowiec czy rowniez x2,y2 nie sa hip_occupied
-                if i.get_hip_occupied()&{(x1, y1)} or (dl>1 and i.get_hip_occupied() & {(x2, y2)}):
-                    print("Juz tu cos jest")
-                    return 1
-            print("Nie ma ustawiam")
-            # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
-            s = Ship(x1, y1, x2, y2)
-            print(s.get_list_of_coordinates())
-            self.__ships_to_set.pop(self.__ships_to_set.index(dl))
-            self.__list_of_ships.append(s)
-            return 0
+            if self.__ships_to_set.count(dl):   #Sprawdza czy jeszcze mozna postawic statek o danej dlugosci
+                for i in self.__list_of_ships:
+                    # Sprawdz czy pierwsze x1,y2 nie są hip_occupied
+                    # Lub jezeli wielo-masztowiec czy rowniez x2,y2 nie sa hip_occupied
+                    if i.get_hip_occupied() & {(x1, y1)} or (dl > 1 and i.get_hip_occupied() & {(x2, y2)}):
+                        print("Juz tu cos jest")
+                        return 1
+                print("Nie ma ustawiam")
+                # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
+                s = Ship(x1, y1, x2, y2)
+                print(s.get_list_of_coordinates())
+                self.__ships_to_set.pop(self.__ships_to_set.index(dl))
+                self.__list_of_ships.append(s)
+                return 0
+            else:
+                print("Ustawiles juz wszystkie statki o dlugosci: ", dl, " lub nie ma takiego statku do ustawienia")
 
-        else:
-            print("Ustawiles juz wszystkie statki o dlugosci: ", dl, " lub nie ma takiego statku do ustawienia")
+
 
     def search_remove_coordinates(self,x,y):
         for i in self.__list_of_ships:
