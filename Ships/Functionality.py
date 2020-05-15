@@ -110,8 +110,6 @@ class ShipsContainer():
             else:
                 print("Ustawiles juz wszystkie statki o dlugosci: ", dl, " lub nie ma takiego statku do ustawienia")
 
-
-
     def search_remove_coordinates(self,x,y):
         for i in self.__list_of_ships:
             if i.get_list_of_coordinates().count((x, y)):
@@ -144,3 +142,5 @@ class ShipsContainer():
                     check=self.add_ship(x, y, x2, y2)
         print("Przeciwnik jest gotowy!")
         self.count_ships()
+
+

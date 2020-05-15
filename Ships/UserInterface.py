@@ -355,7 +355,8 @@ class InterfaceUser():
 
         # Szukanie i usuwanie zestrzelonych pol/ statkow
         if self.pc.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
-            self.shoot_ship()
+            self.us.__setattr__("turn", True)
+            self.pc.__setattr__("turn", False)
         else:
             if self.us.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
                 self.automatic_shooting_faze()  # User ma kolejny ruch
@@ -387,6 +388,7 @@ class InterfaceUser():
                 #Ustawiam atrybuut turn ( user -false przeciwnik -true)
                 self.us.__setattr__("turn",False)
                 self.pc.__setattr__("turn",True)
+                self.automatic_shooting_faze()
             else:
                 if self.pc.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
                     #Uzytkownik nadal ma swoja kolej

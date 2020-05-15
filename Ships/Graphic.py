@@ -1,8 +1,17 @@
 from tkinter import *
+
 #Pillow package for uploading images
 
+#Lista zapisująca klikniete wspołrzedne
+clicked_coords=[]
+
+#Wymiary okna
 HEIGHT = 600
 WIDTH =900
+
+def click(coordinate):
+    clicked_coords.append(coordinate)
+    print("wybrano miejsce :",coordinate)
 
 root = Tk()    #create root window
 
@@ -13,9 +22,6 @@ canvas.pack() #pack it in the root
 back_frame = Frame(root, bg='green')
 back_frame.place(relwidth=1,relheight=1) #place it in the root ( podaje dokladne wymiary gdzie ma sie znajdowac)
 
-
-
-
 #Pole komunikatu
 frame = Frame(back_frame, bg='Olive Drab')
 frame.place(x=90,y=60,width=720,height=60)  #place it in the root ( podaje dokladne wymiary gdzie ma sie znajdowac)
@@ -24,19 +30,18 @@ frame.place(x=90,y=60,width=720,height=60)  #place it in the root ( podaje dokla
 board_left = Frame(back_frame, bg='black')
 board_left.place(x=90,y=150,width=300,height=300)
 
-button=Button(board_left, text="A1", bg='gray', fg='black')  #create button
 
 squares = ["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","B1","B2","B3","B4","B5","B6","B7","B8","C1","C2","C3","C4","C5","C6","C7","C8","D1","D2","D3","D4","D5","D6","D7","D8","E1","E2","E3","E4","E5","E6","E7","E8","F1","F2","F3","F4","F5","F6","F7","F8","G1","G2","G3","G4","G5","G6","G7","G8","H1","H2","H3","H4","H5","H6","H7","H8"]
-A1 = Button(board_left, height = 1, width = 3, command = lambda: click("A1"), bg ="Olive Drab", anchor ="sw", text ="A1")
-A2 = Button(board_left, height = 1, width = 3, command = lambda: click("A2"), bg ="Light Yellow", anchor ="sw", text ="2")
-A3 = Button(board_left, height = 1, width = 3, command = lambda: click("A3"), bg ="Olive Drab", anchor ="sw", text ="3")
-A4 = Button(board_left, height = 1, width = 3, command = lambda: click("A4"), bg ="Light Yellow", anchor ="sw", text ="4")
-A5 = Button(board_left, height = 1, width = 3, command = lambda: click("A5"), bg ="Olive Drab", anchor ="sw", text ="5")
-A6 = Button(board_left, height = 1, width = 3, command = lambda: click("A6"), bg ="Light Yellow", anchor ="sw", text ="6")
-A7 = Button(board_left, height = 1, width = 3, command = lambda: click("A7"), bg ="Olive Drab", anchor ="sw", text ="7")
-A8 = Button(board_left, height = 1, width = 3, command = lambda: click("A8"), bg ="Light Yellow", anchor ="sw", text ="8")
-A9 = Button(board_left, height = 1, width = 3, command = lambda: click("A9"), bg ="Olive Drab", anchor ="sw", text ="9")
-A10= Button(board_left, height = 1, width = 3, command = lambda: click("A10"), bg ="Light Yellow", anchor ="sw", text ="10")
+A1 = Button(board_left, height = 1, width = 3, command = lambda: click((1,1)), bg ="Olive Drab", anchor ="sw", text ="A1")
+A2 = Button(board_left, height = 1, width = 3, command = lambda: click((2,1)), bg ="Light Yellow", anchor ="sw", text ="2")
+A3 = Button(board_left, height = 1, width = 3, command = lambda: click((3,1)), bg ="Olive Drab", anchor ="sw", text ="3")
+A4 = Button(board_left, height = 1, width = 3, command = lambda: click((4,1)), bg ="Light Yellow", anchor ="sw", text ="4")
+A5 = Button(board_left, height = 1, width = 3, command = lambda: click((5,1)), bg ="Olive Drab", anchor ="sw", text ="5")
+A6 = Button(board_left, height = 1, width = 3, command = lambda: click((6,1)), bg ="Light Yellow", anchor ="sw", text ="6")
+A7 = Button(board_left, height = 1, width = 3, command = lambda: click((7,1)), bg ="Olive Drab", anchor ="sw", text ="7")
+A8 = Button(board_left, height = 1, width = 3, command = lambda: click((8,1)), bg ="Light Yellow", anchor ="sw", text ="8")
+A9 = Button(board_left, height = 1, width = 3, command = lambda: click((9,1)), bg ="Olive Drab", anchor ="sw", text ="9")
+A10= Button(board_left, height = 1, width = 3, command = lambda: click((10,1)), bg ="Light Yellow", anchor ="sw", text ="10")
 B1 = Button(board_left, height = 1, width = 3, command = lambda: click("B1"), bg ="Light Yellow", anchor ="sw", text ="B")
 B2 = Button(board_left, height = 1, width = 3, command = lambda: click("B2"), bg ="Olive Drab", anchor ="sw")
 B3 = Button(board_left, height = 1, width = 3, command = lambda: click("B3"), bg ="Light Yellow", anchor ="sw")
@@ -145,12 +150,13 @@ list_of_columns = [Alist, Blist, Clist, Dlist, Elist, Flist, Glist, Hlist, IList
 #place the buttons in a grid layout
 for i in range(10):
 	for j in range(10):
-		list_of_columns[i][j].grid(row=10 - j, column=i)
+		list_of_columns[i][j].grid(row=i, column=j)
 
-def click(square):
-    print("what")
+
+
+
+
 #Pole planszy prawej
-
 board_right = Frame(back_frame, bg='black')
 board_right.place(x=510,y=150,width=300,height=300)
 
@@ -159,6 +165,7 @@ board_right.place(x=510,y=150,width=300,height=300)
 
 
 root.mainloop()
+
 
 """
 Pojecia
