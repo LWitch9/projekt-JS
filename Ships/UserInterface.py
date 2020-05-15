@@ -9,7 +9,6 @@ class InterfaceUser():
         1. Wygląd interface (wyswietla dwie plansze i przycinski)
         przechowalnie statkow dla uzytkownika i dla komputera ???
         """
-        #todo Czy zmienne frame itp powinny byc self?????
         self.__canvas = Canvas(master, height=600, width=900)
         self.__canvas.pack()
 
@@ -20,6 +19,10 @@ class InterfaceUser():
         #Pole na komunikaty
         self.__frame_message = Frame(self.__back_frame, bg='black')
         self.__frame_message.place(x=90, y=60, width=720, height=60)
+
+        #Label na komunikaty
+        self.__label_message= Label(self.__frame_message,bg='grey')
+        self.__label_message.pack(expand=True, fill=BOTH)
 
         # Pole planszy lewej
         self.__board_left = Frame(self.__back_frame, bg='black')
@@ -340,7 +343,7 @@ class InterfaceUser():
             self.us.__setattr__("turn", True)
 
     def reset_game(self):
-        print("resetuje gre")
+        self.__label_message["text"]="Resetuje gre"
 
     def automatic_shooting_faze(self):
 
