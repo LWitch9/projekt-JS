@@ -5,16 +5,12 @@ import time
 
 class InterfaceUser():
     def __init__(self, master):
-        """
-        Tworzy:
-        1. Wygląd interface (wyswietla dwie plansze i przycinski)
-        przechowalnie statkow dla uzytkownika i dla komputera ???
-        """
+
         self.__canvas = Canvas(master, height=600, width=900)
         self.__canvas.pack()
 
         # background
-        self.__back_frame = Frame(master, bg='green')
+        self.__back_frame = Frame(master, bg='#00b3b3')
         self.__back_frame.place(relwidth=1,relheight=1)
 
         #Pole na komunikaty
@@ -37,21 +33,29 @@ class InterfaceUser():
         self.buttons_left(self.__board_left, 1, 3, "Light Yellow")
         self.buttons_right(self.__board_right, 1, 3, "Light Yellow")
 
-        #Pole na start gry
-        self.__frame_start = Frame(self.__back_frame, bg='black')
-        self.__frame_start.place(x=150, y=480, width=180, height=60)
+        #Labes user
+        self.__label_user= Label(self.__board_left,height=2, width=43,bg='grey',text='user')
+        self.__label_user.grid(column=0,row=11,columnspan=10,rowspan=2)
 
-        #Przycisk start gry
-        self.__button_start = Button(self.__frame_start, command=lambda: self.start_game(), bg='grey',justify=CENTER, text="Battle!")
-        self.__button_start.pack(expand=True, fill=BOTH)
+        #Labes opponent
+        self.__label_opponent= Label(self.__board_right,height=2, width=43,bg='grey',text='opponent')
+        self.__label_opponent.grid(column=0,row=11,columnspan=10,rowspan=2)
 
         #Pole na reset gry
         self.__frame_reset = Frame(self.__back_frame, bg='black')
-        self.__frame_reset.place(x=570, y=480, width=180, height=60)
+        self.__frame_reset.place(x=150, y=480, width=180, height=60)
 
-        #Przycisk RESET gry
-        self.__button_reset = Button(self.__frame_reset, command=lambda: self.reset_game(), bg='grey',justify=CENTER, text="Reset")
+        #Przycisk reset gry
+        self.__button_reset = Button(self.__frame_reset, command=lambda: self.reset_game(), bg='grey', justify=CENTER,text="Reset")
         self.__button_reset.pack(expand=True, fill=BOTH)
+
+        #Pole na start gry
+        self.__frame_start = Frame(self.__back_frame, bg='black')
+        self.__frame_start.place(x=570, y=480, width=180, height=60)
+
+        #Przycisk start gry
+        self.__button_start = Button(self.__frame_start, command=lambda: self.start_game(), bg='grey', justify=CENTER,text="Battle!")
+        self.__button_start.pack(expand=True, fill=BOTH)
 
         #Tworze liste zbierajaca klikniecia
         self.__clicked_coords=[]
@@ -59,6 +63,9 @@ class InterfaceUser():
         #Tworze Przechowywalnie statkow dla 2 graczy (user, PC)
         self.us = ShipsContainer("user")
         self.pc=ShipsContainer("PC")
+
+        #Wyswietlenie wiadomosci powitalnej
+        self.display_message("Witaj w grze! Zacznij rozstawic statki.\n"+self.us.show_ships_to_set())
 
     def buttons_left(self,board_left,h,w,color,):
 
@@ -306,6 +313,7 @@ class InterfaceUser():
                 list_of_columns[i][j].grid(row=j, column=i)
 
     def set_up_ship(self, coordinate):
+        x,y=coordinate
         self.__clicked_coords.append(coordinate)
         self.display_message("wybrano miejsce :"+ str(coordinate))
 
@@ -321,6 +329,12 @@ class InterfaceUser():
                 x2, y2 = self.__clicked_coords[1]
                 add_return=self.us.add_ship(x1, y1, x2, y2)
                 if not add_return:
+                    #Dostanie sie do wspolrzednych
+                    for coor in self.us.get_list_of_ships()[-1].get_list_of_coordinates():
+                        #Ustawienie koloru i stanu przyciskow statku
+                        self.__list_of_columns_left[coor[0] - 1][coor[1] - 1]['bg'] = 'black'
+                        self.__list_of_columns_left[coor[0] - 1][coor[1] - 1]['state'] = 'disabled'
+
                     self.display_message("Statek zostal ustawiony pomyslnie!\n"+self.us.show_ships_to_set())
                 elif add_return == 1:
                     self.display_message("Plansza jest wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy\n"+self.us.show_ships_to_set())
@@ -338,9 +352,12 @@ class InterfaceUser():
                 self.us.count_ships()
         else:
             self.display_message("Zwariowales? Nie mozesz zestrzelic swojego statku. Juz wszystkie ustawiles. Przejdz do gry lub zresetuj")
+            for i in self.us.get_list_of_ships():
+                print(i.get_list_of_coordinates())
+
 
     def start_game(self):
-        self.display_message("Rozpoczynam gre")
+
         if self.us.get_ships_to_set():
             self.display_message("Najpierw musisz ustawic wszystkie statki")
             return
@@ -349,6 +366,7 @@ class InterfaceUser():
             self.display_message("Jestes juz w trakcje pojedynku")
             return
 
+        self.display_message("Rozpoczynam gre... Twoj przeciwnik rozstawia statki")
         self.pc.automatic_set_up()
         #todo sprawdz wszystkie atrybuty czy zgadzaja sie przed rozpoczeciem
         x=0 #todo ma byc losowanie pierwszego gracza
@@ -363,6 +381,10 @@ class InterfaceUser():
 
     def reset_game(self):
         self.display_message("Resetuje gre...")
+        #todo Czy tak mozna? przeciez zgubie dostep do wczesniejszych ShipsContainners. Jak usunac?
+        self.us = ShipsContainer("user")
+        self.pc = ShipsContainer("PC")
+        #todo Odblokuj przyciski itp
 
     def display_message(self, message):
         self.__label_message["text"] = message
@@ -379,13 +401,15 @@ class InterfaceUser():
             self.pc.add_shot((x,y))
 
         # Szukanie i usuwanie zestrzelonych pol/ statkow
-        if self.pc.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
+        if not self.us.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
             self.us.__setattr__("turn", True)
             self.pc.__setattr__("turn", False)
             self.display_message("Twoja kolej")
         else:
             if self.us.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
-                self.auto_shoot()  # User ma kolejny ruch
+                print("PC: ", self.pc.get_my_shots())
+                print("zestrzelono!",str((x,y)))
+                self.auto_shoot()  # Opponent ma kolejny ruch
             else:
                 self.EndGame(self.us.get_owner())  # W przeciwnym razie koniec gry User wygral
 
@@ -405,26 +429,27 @@ class InterfaceUser():
             x,y=coordinate
             # Po wykonaniu strzalu zostaje on zapisany do zbioru my shots!!!!
             if self.us.get_my_shots() & {(x, y)}:
-                self.display_message("Tu juz strzelales!")
+                self.display_message("Tu juz strzelales! wspolrzedne: "+str((x,y)))
                 return #Wyjdz z funkcji jesli juz strzeliles w to miejsce by moc znowu sprobowac
             else:
                 self.us.add_shot((x, y))
+                print("user ",self.us.get_my_shots())
 
-            if not self.pc.search_remove_coordinates(x, y):  # Jesli 1/2- trafiony/zatopiony; jesli 0- pudlo
-                self.display_message("Pudlo! Kolej przeciwnika!")
-                #Ustawiam atrybuut turn ( user -false przeciwnik -true)
-                self.us.__setattr__("turn",False)
-                self.pc.__setattr__("turn",True)
-                self.auto_shoot()
-            else:
-                self.display_message("Trafiony lub Zatopiony (zmien potem) Probuj dalej")
-                if self.pc.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
-                    #Uzytkownik nadal ma swoja kolej
-                    pass
-                else:
-                    self.EndGame(self.us.get_owner())  # W przeciwnym razie koniec gry User wygral
+                if not self.pc.search_remove_coordinates(x, y):  # Jesli 1/2- trafiony/zatopiony; jesli 0- pudlo
+                    self.display_message("Pudlo! Kolej przeciwnika!")
+                    # Ustawiam atrybuut turn ( user -false przeciwnik -true)
                     self.us.__setattr__("turn", False)
-                    self.pc.__setattr__("turn", False)
+                    self.pc.__setattr__("turn", True)
+                    self.auto_shoot()
+                else:
+                    self.display_message("Trafiony lub Zatopiony (zmien potem) Probuj dalej")
+                    if self.pc.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
+                        # Uzytkownik nadal ma swoja kolej
+                        pass
+                    else:
+                        self.EndGame(self.us.get_owner())  # W przeciwnym razie koniec gry User wygral
+                        self.us.__setattr__("turn", False)
+                        self.pc.__setattr__("turn", False)
 
     def EndGame(self,name):
         self.display_message("Wygral: ",name)
