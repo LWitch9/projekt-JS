@@ -47,7 +47,8 @@ class ShipsContainer():
         self.__owner=who
         self.__list_of_ships=[]
         self.__my_shots=set()
-        self.__ships_to_set=[4,3,3,2,2,2,1,1,1,1]
+        self.__ships_to_set=[]
+        self.fill_ships_to_set()
 
     def get_owner(self):
         return self.__owner
@@ -61,6 +62,29 @@ class ShipsContainer():
     def show_ships_to_set(self):
         string= "Do ustawienia zostalo:\nJednomasztowcow x "+str(self.__ships_to_set.count(1))+"\tDwumasztowcow x "+str(self.__ships_to_set.count(2))+"\tTrzymasztowcow x "+str(self.__ships_to_set.count(3))+"\tCzteromasztowcow x "+str(self.__ships_to_set.count(4))
         return string
+
+    def fill_ships_to_set(self):
+        for i in range(0,4):        #Jakie dlugosci
+            for j in range (4-i):   #Ile razy
+                self.__ships_to_set.append(i+1)
+
+    def initial_state(self):
+
+        if hasattr(self,'turn'):    #usuwam atrybut infoemujacy o tym czyja jest kolej
+            delattr(self,'turn')
+
+        if self.__list_of_ships:        #usuwam elementy z tablicy statkow
+            self.__list_of_ships.clear()
+
+        self.__ships_to_set.clear()
+        self.fill_ships_to_set() #Wypelniam tablice informujaca jakie statki powinny zostac ustawione
+
+
+        if self.__my_shots:
+            self.__my_shots.clear()
+
+
+
 
     def get_my_shots(self):
         return self.__my_shots
@@ -126,13 +150,13 @@ class ShipsContainer():
 
     def search_remove_ship(self):
         for i in range(len(self.__list_of_ships)):    #Searching for ship with empty list_of_coordinates
-
+            print("Usuwamy czy nie?", self.__list_of_ships[i].get_list_of_coordinates())
             if not self.__list_of_ships[i].get_list_of_coordinates():
-                print("Zatopiony!")
+                print("Zatopiony! Halo halo usuwamy ",self.__list_of_ships[i])
                 self.__list_of_ships.pop(i)
                 return 1
-            else:
-                return 0
+        print("zaden nie jest pusty")
+        return 0
 
     def automatic_set_up(self):
         #TODO Bardziej zaawansowana! Ustawia tylko w poziomie
@@ -142,6 +166,7 @@ class ShipsContainer():
                 check=1
                 while check:
                     x, y = random.randint(1, 10-i), random.randint(1, 10)
+                    print(x,y)
                     x2,y2 = x+i,y   #Tylko w poziomie!
                     check=self.add_ship(x, y, x2, y2)
 
