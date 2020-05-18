@@ -384,7 +384,20 @@ class InterfaceUser():
         #todo Czy tak mozna? przeciez zgubie dostep do wczesniejszych ShipsContainners. Jak usunac?
         self.us = ShipsContainer("user")
         self.pc = ShipsContainer("PC")
-        #todo Odblokuj przyciski itp
+
+        #Odblokuj przyciski itp
+
+        for i in self.__list_of_columns_left:
+            for j in range(10):
+                # Ustawienie koloru i stanu przyciskow statku
+                i[j]['bg'] = 'white'
+                i[j]['state'] = 'normal'
+
+        for i in self.__list_of_columns_right:
+            for j in range(10):
+                # Ustawienie koloru i stanu przyciskow statku
+                i[j]['bg'] = 'white'
+                i[j]['state'] = 'normal'
 
     def display_message(self, message):
         self.__label_message["text"] = message
