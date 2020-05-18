@@ -415,11 +415,15 @@ class InterfaceUser():
 
         # Szukanie i usuwanie zestrzelonych pol/ statkow
         if not self.us.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
+            self.__list_of_columns_left[x - 1][y - 1]['bg'] = 'blue'
+            self.__list_of_columns_left[x - 1][y - 1]['state'] = 'disabled'
             self.us.__setattr__("turn", True)
             self.pc.__setattr__("turn", False)
             self.display_message("Twoja kolej")
         else:
             if self.us.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
+                self.__list_of_columns_left[x - 1][y - 1]['bg'] = 'red'
+                self.__list_of_columns_left[x - 1][y - 1]['state'] = 'disabled'
                 print("PC: ", self.pc.get_my_shots())
                 print("zestrzelono!",str((x,y)))
                 self.auto_shoot()  # Opponent ma kolejny ruch
@@ -449,12 +453,19 @@ class InterfaceUser():
                 print("user ",self.us.get_my_shots())
 
                 if not self.pc.search_remove_coordinates(x, y):  # Jesli 1/2- trafiony/zatopiony; jesli 0- pudlo
+                    # Ustawienie koloru i stanu przycisku - niebieski pudlo
+                    self.__list_of_columns_right[x - 1][y - 1]['bg'] = 'blue'
+                    self.__list_of_columns_right[x - 1][y - 1]['state'] = 'disabled'
+
                     self.display_message("Pudlo! Kolej przeciwnika!")
                     # Ustawiam atrybuut turn ( user -false przeciwnik -true)
                     self.us.__setattr__("turn", False)
                     self.pc.__setattr__("turn", True)
                     self.auto_shoot()
                 else:
+                    # Ustawienie koloru i stanu przycisku - niebieski pudlo
+                    self.__list_of_columns_right[x - 1][y - 1]['bg'] = 'red'
+                    self.__list_of_columns_right[x - 1][y - 1]['state'] = 'disabled'
                     self.display_message("Trafiony lub Zatopiony (zmien potem) Probuj dalej")
                     if self.pc.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
                         # Uzytkownik nadal ma swoja kolej
