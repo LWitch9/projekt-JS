@@ -38,8 +38,6 @@ class Ship():
         occupied = {(x,y) for x in range(xp-1,xk+2) for y in range(yp-1,yk+2)}
         return occupied
 
-
-
 class ShipsContainer():
 
     def __init__(self, who):
@@ -82,9 +80,6 @@ class ShipsContainer():
 
         if self.__my_shots:
             self.__my_shots.clear()
-
-
-
 
     def get_my_shots(self):
         return self.__my_shots
@@ -171,6 +166,13 @@ class ShipsContainer():
                     check=self.add_ship(x, y, x2, y2)
 
         return"Przeciwnik jest gotowy!"+str(self.count_ships())
+
+class Game():
+
+    def __init__(self, who):
+        # Tworze Przechowywalnie statkow dla 2 graczy (user, PC)
+        self.__us = ShipsContainer("user")
+        self.__pc = ShipsContainer("PC")
 
 
 
