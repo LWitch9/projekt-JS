@@ -166,7 +166,7 @@ class ShipsContainer():
                     check=self.add_ship(x, y, x2, y2)
 
         return"Przeciwnik jest gotowy!"+str(self.count_ships())
-
+"""
 class Game():
 
     def __init__(self, who):
@@ -174,5 +174,45 @@ class Game():
         self.__us = ShipsContainer("user")
         self.__pc = ShipsContainer("PC")
 
+    def set_up_ship(self, coordinates):
+
+        #Sprawdzam stan gry. Jezeli nie ma statkow do ustawienia dla usera to nie wyskoczy blad.
+       # Poniewaz user nie moze zestrzeliwac swoich statkow a skoro wszystkie jez rozmiescil to nie ma powodu by tam klikac
+
+        if  self.__us.get_ships_to_set():
+
+            # Sprawdzam ile wspolrzednych kliknieto. Jezeli dwie rozpoczynam proces dodawania
+            if len(coordinates) == 2:
+                x1, y1 = coordinates[0]
+                x2, y2 = coordinates[1]
+                add_return=self.__us.add_ship(x1, y1, x2, y2)
+                if not add_return:
+                    #Mozna ustawic
+                    pass
+                    self.display_message("Statek zostal ustawiony pomyslnie!\n" + self.__us.show_ships_to_set())
+                elif add_return == 1:
+                    self.display_message("Plansza jest wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy\n" + self.__us.show_ships_to_set())
+                elif add_return == 2:
+                    self.display_message("Statek moze byc ustawiony tylko w poziomie lub pionie\n" + self.__us.show_ships_to_set())
+                elif add_return == 3:
+                    self.display_message("Juz tu cos jest\n" + self.__us.show_ships_to_set())
+                elif add_return == 4:
+                    self.display_message("Podana dlugosc statku nie odpowiada mozliwym do ustawienia\n" + self.__us.show_ships_to_set())
+                #time.sleep(1)
+                #self.display_message(self.us.show_ships_to_set())
+
+                # Czyszcze liste kliknietych wspolrzednych!
+                self.__clicked_coords.clear()
+                self.__us.count_ships()
+        else:
+            self.display_message("Zwariowales? Nie mozesz zestrzelic swojego statku. Juz wszystkie ustawiles. Przejdz do gry lub zresetuj")
+            for i in self.__us.get_list_of_ships():
+                print(i.get_list_of_coordinates())
 
 
+#Excaptions
+class GameExceptions(Exception):
+    pass
+
+class AddingShipException(GameExceptions):
+"""

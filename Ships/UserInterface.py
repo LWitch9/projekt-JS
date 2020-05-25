@@ -311,6 +311,16 @@ class InterfaceUser():
         for i in range(10):
             for j in range(10):
                 list_of_columns[i][j].grid(row=j, column=i)
+    """
+    def change_state_color(self,list_of_columns, coor, color, state):
+        # Ustawienie koloru i stanu przyciskow statku
+        list_of_columns[coor[0] - 1][coor[1] - 1]['bg'] = color
+        list_of_columns[coor[0] - 1][coor[1] - 1]['state'] = state
+
+    def add_click(self,coordinate):
+        x, y = coordinate
+        self.__clicked_coords.append(coordinate)
+    """
 
     def set_up_ship(self, coordinate):
         """
