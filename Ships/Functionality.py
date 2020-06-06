@@ -1,4 +1,5 @@
 import random
+from Exceptions import *
 class Ship():
 
     def __init__(self, x1, y1, x2, y2):
@@ -97,11 +98,11 @@ class ShipsContainer():
         #TODO czesto sie powtarza mozna zrobic metode
         #Warunek na to czy miesci sie w planszy
         if (x1<1 or x1>10  or y1<1 or y1>10 or x2<1 or x2>10 or y2<1 or y2>10):
-            return 1
+            raise CoordinatesOutOfRangeException()
 
         # Sprawdzenie pion/poziom po tym czy ktores wspolrzedne sa takie same
         elif x2 != x1 and y2 != y1:
-            return 2
+            raise WrongOrientationException()
         else:   #Sprawdza orientacje i dlugosc
             dl=0
             if x2 != x1:
@@ -119,7 +120,7 @@ class ShipsContainer():
                     # Sprawdz czy pierwsze x1,y2 nie są hip_occupied
                     # Lub jezeli wielo-masztowiec czy rowniez x2,y2 nie sa hip_occupied
                     if i.get_hip_occupied() & {(x1, y1)} or (dl > 1 and i.get_hip_occupied() & {(x2, y2)}):
-                        return 3
+                        raise OccupiedException()
 
                 # Nastepnie stworzenie statku ,dodanie do listy i usuniecie z ships_to_set 1
                 s = Ship(x1, y1, x2, y2)
@@ -128,7 +129,7 @@ class ShipsContainer():
                 self.__list_of_ships.append(s)
                 return 0
             else:
-                return 4
+                raise WrongLengthException()
 
     def search_remove_coordinates(self,x,y):
         # Zwraca 0 jak pudlo 1 jak trafiony 2 jak trafiony zatopiony
@@ -138,19 +139,17 @@ class ShipsContainer():
                 d=i.get_list_of_coordinates().pop(ind)              #Usuwam wartosc i przypisuje do d (co z tym dalej?)
                 print(i.get_list_of_coordinates())
                 if self.search_remove_ship():
-                    return 2
+                    raise SunkException()
                 else:
-                    return 1
-        return 0
+                    raise HitException()
+        else:
+            raise MissedException()
 
     def search_remove_ship(self):
         for i in range(len(self.__list_of_ships)):    #Searching for ship with empty list_of_coordinates
-            print("Usuwamy czy nie?", self.__list_of_ships[i].get_list_of_coordinates())
             if not self.__list_of_ships[i].get_list_of_coordinates():
-                print("Zatopiony! Halo halo usuwamy ",self.__list_of_ships[i])
                 self.__list_of_ships.pop(i)
                 return 1
-        print("zaden nie jest pusty")
         return 0
 
     def automatic_set_up(self):
@@ -163,56 +162,11 @@ class ShipsContainer():
                     x, y = random.randint(1, 10-i), random.randint(1, 10)
                     print(x,y)
                     x2,y2 = x+i,y   #Tylko w poziomie!
-                    check=self.add_ship(x, y, x2, y2)
-
+                    try:
+                        self.add_ship(x, y, x2, y2)
+                    except AddingShipException as e:
+                        pass
+                    else:
+                        check=0
         return"Przeciwnik jest gotowy!"+str(self.count_ships())
-"""
-class Game():
 
-    def __init__(self, who):
-        # Tworze Przechowywalnie statkow dla 2 graczy (user, PC)
-        self.__us = ShipsContainer("user")
-        self.__pc = ShipsContainer("PC")
-
-    def set_up_ship(self, coordinates):
-
-        #Sprawdzam stan gry. Jezeli nie ma statkow do ustawienia dla usera to nie wyskoczy blad.
-       # Poniewaz user nie moze zestrzeliwac swoich statkow a skoro wszystkie jez rozmiescil to nie ma powodu by tam klikac
-
-        if  self.__us.get_ships_to_set():
-
-            # Sprawdzam ile wspolrzednych kliknieto. Jezeli dwie rozpoczynam proces dodawania
-            if len(coordinates) == 2:
-                x1, y1 = coordinates[0]
-                x2, y2 = coordinates[1]
-                add_return=self.__us.add_ship(x1, y1, x2, y2)
-                if not add_return:
-                    #Mozna ustawic
-                    pass
-                    self.display_message("Statek zostal ustawiony pomyslnie!\n" + self.__us.show_ships_to_set())
-                elif add_return == 1:
-                    self.display_message("Plansza jest wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy\n" + self.__us.show_ships_to_set())
-                elif add_return == 2:
-                    self.display_message("Statek moze byc ustawiony tylko w poziomie lub pionie\n" + self.__us.show_ships_to_set())
-                elif add_return == 3:
-                    self.display_message("Juz tu cos jest\n" + self.__us.show_ships_to_set())
-                elif add_return == 4:
-                    self.display_message("Podana dlugosc statku nie odpowiada mozliwym do ustawienia\n" + self.__us.show_ships_to_set())
-                #time.sleep(1)
-                #self.display_message(self.us.show_ships_to_set())
-
-                # Czyszcze liste kliknietych wspolrzednych!
-                self.__clicked_coords.clear()
-                self.__us.count_ships()
-        else:
-            self.display_message("Zwariowales? Nie mozesz zestrzelic swojego statku. Juz wszystkie ustawiles. Przejdz do gry lub zresetuj")
-            for i in self.__us.get_list_of_ships():
-                print(i.get_list_of_coordinates())
-
-
-#Excaptions
-class GameExceptions(Exception):
-    pass
-
-class AddingShipException(GameExceptions):
-"""

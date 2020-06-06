@@ -337,25 +337,22 @@ class InterfaceUser():
             if len(self.__clicked_coords) == 2:
                 x1, y1 = self.__clicked_coords[0]
                 x2, y2 = self.__clicked_coords[1]
-                add_return=self.__us.add_ship(x1, y1, x2, y2)
-                if not add_return:
-                    #Dostanie sie do wspolrzednych
+                try:
+                    self.__us.add_ship(x1, y1, x2, y2)
+                except WrongOrientationException:
+                    self.display_message("Statek moze byc ustawiony tylko w poziomie lub pionie\n" + self.__us.show_ships_to_set())
+                except WrongLengthException:
+                    self.display_message("Podana dlugosc statku nie odpowiada mozliwym do ustawienia\n" + self.__us.show_ships_to_set())
+                except CoordinatesOutOfRangeException:
+                    self.display_message("Plansza jest wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy\n" + self.__us.show_ships_to_set())
+                except OccupiedException:
+                    self.display_message("Juz tu cos jest\n" + self.__us.show_ships_to_set())
+                else:
                     for coor in self.__us.get_list_of_ships()[-1].get_list_of_coordinates():
                         #Ustawienie koloru i stanu przyciskow statku
                         self.__list_of_columns_left[coor[0] - 1][coor[1] - 1]['bg'] = 'black'
                         self.__list_of_columns_left[coor[0] - 1][coor[1] - 1]['state'] = 'disabled'
-
-                    self.display_message("Statek zostal ustawiony pomyslnie!\n" + self.__us.show_ships_to_set())
-                elif add_return == 1:
-                    self.display_message("Plansza jest wymiarow 10 x 10! Podane wpolrzedne nie mieszcza sie w planszy\n" + self.__us.show_ships_to_set())
-                elif add_return == 2:
-                    self.display_message("Statek moze byc ustawiony tylko w poziomie lub pionie\n" + self.__us.show_ships_to_set())
-                elif add_return == 3:
-                    self.display_message("Juz tu cos jest\n" + self.__us.show_ships_to_set())
-                elif add_return == 4:
-                    self.display_message("Podana dlugosc statku nie odpowiada mozliwym do ustawienia\n" + self.__us.show_ships_to_set())
-                #time.sleep(1)
-                #self.display_message(self.us.show_ships_to_set())
+                        self.display_message("Statek zostal ustawiony pomyslnie!\n" + self.__us.show_ships_to_set())
 
                 # Czyszcze liste kliknietych wspolrzednych!
                 self.__clicked_coords.clear()
@@ -381,8 +378,9 @@ class InterfaceUser():
         #Losuje ktory gracz pierwszy
         if random.randint(0,1):
             #Zaczyna Przeciwnik (PC)
-            self.__us.__setattr__("turn", False)
-            self.auto_shoot()
+            #self.__us.__setattr__("turn", False)
+            #self.auto_shoot()
+            pass
         else:
             #Zaczyna user (us)
             self.__us.__setattr__("turn", True)
@@ -458,8 +456,9 @@ class InterfaceUser():
                 return #Wyjdz z funkcji jesli juz strzeliles w to miejsce by moc znowu sprobowac
             else:
                 self.__us.add_shot((x, y))
-
-                if not self.__pc.search_remove_coordinates(x, y):  # Jesli 1/2- trafiony/zatopiony; jesli 0- pudlo
+                try:
+                    self.__pc.search_remove_coordinates(x, y)  # Jesli 1/2- trafiony/zatopiony; jesli 0- pudlo
+                except MissedException:
                     # Ustawienie koloru i stanu przycisku - niebieski pudlo
                     self.__list_of_columns_right[x - 1][y - 1]['bg'] = 'blue'
                     self.__list_of_columns_right[x - 1][y - 1]['state'] = 'disabled'
@@ -468,13 +467,17 @@ class InterfaceUser():
                     # Ustawiam atrybuut turn ( user -false przeciwnik -true)
                     self.__us.__setattr__("turn", False)
                     self.auto_shoot()
-                else:
+                except ShootingShipException as ex:
                     print("user: ", self.__pc.get_list_of_ships())
                     # Ustawienie koloru i stanu przycisku - niebieski pudlo
                     self.__list_of_columns_right[x - 1][y - 1]['bg'] = 'red'
                     self.__list_of_columns_right[x - 1][y - 1]['state'] = 'disabled'
-                    self.display_message("Trafiony lub Zatopiony (zmien potem) Probuj dalej")
+                    if ex == HitException:
+                        self.display_message("Trafiony! Probuj dalej")
+                    else:
+                        self.display_message("Zatopiony! Probuj dalej")
 
+                    #Sprawdzam czy koniec gry
                     if self.__pc.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
                         # Uzytkownik nadal ma swoja kolej
                         pass
