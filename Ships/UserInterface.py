@@ -378,9 +378,8 @@ class InterfaceUser():
         #Losuje ktory gracz pierwszy
         if random.randint(0,1):
             #Zaczyna Przeciwnik (PC)
-            #self.__us.__setattr__("turn", False)
-            #self.auto_shoot()
-            pass
+            self.__us.__setattr__("turn", False)
+            self.auto_shoot()
         else:
             #Zaczyna user (us)
             self.__us.__setattr__("turn", True)
@@ -418,14 +417,16 @@ class InterfaceUser():
             self.__pc.add_shot((x, y))
             print(x,y)
             # Szukanie i usuwanie zestrzelonych pol/ statkow
-            if not self.__us.search_remove_coordinates(x, y):  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
+            try:
+                self.__us.search_remove_coordinates(x, y) # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
+            except MissedException:
                 self.__list_of_columns_left[x - 1][y - 1]['bg'] = 'blue'
                 self.__list_of_columns_left[x - 1][y - 1]['state'] = 'disabled'
 
                 self.__us.__setattr__("turn", True)
                 self.display_message("Twoja kolej")
                 return
-            else:
+            except ShootingShipException :
                 print("pc", self.__us.get_list_of_ships())
                 self.__list_of_columns_left[x - 1][y - 1]['bg'] = 'red'
                 self.__list_of_columns_left[x - 1][y - 1]['state'] = 'disabled'
@@ -467,15 +468,13 @@ class InterfaceUser():
                     # Ustawiam atrybuut turn ( user -false przeciwnik -true)
                     self.__us.__setattr__("turn", False)
                     self.auto_shoot()
-                except ShootingShipException as ex:
+                except HitException as ex:
                     print("user: ", self.__pc.get_list_of_ships())
                     # Ustawienie koloru i stanu przycisku - niebieski pudlo
                     self.__list_of_columns_right[x - 1][y - 1]['bg'] = 'red'
                     self.__list_of_columns_right[x - 1][y - 1]['state'] = 'disabled'
-                    if ex == HitException:
-                        self.display_message("Trafiony! Probuj dalej")
-                    else:
-                        self.display_message("Zatopiony! Probuj dalej")
+                    self.display_message(str(ex.name)+"! Probuj dalej")
+
 
                     #Sprawdzam czy koniec gry
                     if self.__pc.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta

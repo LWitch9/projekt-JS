@@ -19,7 +19,6 @@ class MissedException(ShootingShipException):
     pass
 
 class HitException(ShootingShipException):
-    pass
+    def __init__(self,name):
+        self.name=name
 
-class SunkException(ShootingShipException):
-    pass

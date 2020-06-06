@@ -139,9 +139,9 @@ class ShipsContainer():
                 d=i.get_list_of_coordinates().pop(ind)              #Usuwam wartosc i przypisuje do d (co z tym dalej?)
                 print(i.get_list_of_coordinates())
                 if self.search_remove_ship():
-                    raise SunkException()
+                    raise HitException("Zatopiony")
                 else:
-                    raise HitException()
+                    raise HitException("Trafiony")
         else:
             raise MissedException()
 
