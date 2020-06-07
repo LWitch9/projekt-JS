@@ -14,7 +14,6 @@ class Ship():
             # Statek pionowo x1=x2 stale zmienia sie y w zakresie od y1 do y2
             self.__list_of_coordinates = [(x1, y) for y in range(y1, y2 + 1)]
 
-
     def get_list_of_coordinates(self):
         return self.__list_of_coordinates
 
@@ -26,7 +25,6 @@ class Ship():
         else:
             self.__list_of_coordinates=sorted(self.__list_of_coordinates,key=itemgetter(1))
             self.__setattr__("horizontal", False)
-
 
     def set_state(self,name):
         if name=="Zatopiony":
@@ -69,7 +67,6 @@ class ShipsContainer():
 
         self.__my_shots=set()
         self.__hit_ships=[]
-
 
     def get_owner(self):
         return self.__owner
@@ -177,22 +174,28 @@ class ShipsContainer():
         return 0
 
     def automatic_set_up(self):
-        #TODO Bardziej zaawansowana! Ustawia tylko w poziomie
-        print("Przeciwnik rozmieszcza swoje statki...")
+
+        pula_niechcianych=set()
         for i in range(0,4):        #Jakie dlugosci
             for j in range (4-i):   #Ile razy
+                available_filds = [zb for zb in self.all_coordinates -pula_niechcianych ]
                 check=1
+
                 while check:
-                    x, y = random.randint(1, 10-i), random.randint(1, 10)
+                    x, y = random.choice(available_filds)
                     print(x,y)
                     x2,y2 = x+i,y   #Tylko w poziomie!
+                    if {(x2,y2)} & pula_niechcianych:
+                        x2,y2=x,y+i
                     try:
                         self.add_ship(x, y, x2, y2)
                     except AddingShipException as e:
                         pass
                     else:
-                        check=0
-        return"Przeciwnik jest gotowy!"+str(self.count_ships())
+                        pula_niechcianych = pula_niechcianych | self.__list_of_ships[-1].get_hip_occupied()
+                        check = 0
+
+        return"Przeciwnik jest gotowy!"
 
     def add_to_hit_ship(self,x,y,name):
         if self.__hit_ships:
@@ -200,9 +203,6 @@ class ShipsContainer():
                 if {(x,y)} & i.get_hip_occupied():
                     i.add_coordinate(x,y)
                     i.set_state(name)
-                    print("Juz byl stateczek i dodajemy ")
-                    print("coo: ", i.get_list_of_coordinates())
-                    print("occ from add: ",i.get_hip_occupied())
                     return
 
             s = Ship(x,y,x,y)
@@ -213,6 +213,13 @@ class ShipsContainer():
             s = Ship(x,y,x,y)
             s.set_state(name)
             self.__hit_ships.append(s)  #Tworze statek z tą wspolrzedna
+
+    def occupied_by_hit_ships(self):
+        pula=set()
+        for i in self.__hit_ships:
+            if i.state:
+                pula=pula | i.get_hip_occupied()
+        return pula
 
     def check_hit_ships(self):
         for i in self.__hit_ships:
@@ -226,5 +233,5 @@ class ShipsContainer():
                     pula1 = {zb for zb in i.get_hip_occupied() if zb[0] == i.get_list_of_coordinates()[0][0]}
                     pula2 = {zb for zb in i.get_hip_occupied() if zb[1] == i.get_list_of_coordinates()[0][1]}
                     pula = pula1 | pula2
-                return pula
-        return self.all_coordinates
+                return pula - self.occupied_by_hit_ships()
+        return self.all_coordinates - self.occupied_by_hit_ships()  #Inteligentne omija pola na ktorych na pewno nie ma statkow

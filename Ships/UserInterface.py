@@ -1,6 +1,6 @@
 from Functionality import *
 import random
-from tkinter import *
+from tkinter import Tk,Canvas,Frame,Label,Button,messagebox,BOTH,CENTER
 import time
 
 class InterfaceUser():
@@ -65,7 +65,7 @@ class InterfaceUser():
         self.__pc=ShipsContainer("PC")
 
         #Wyswietlenie wiadomosci powitalnej
-        self.display_message("Witaj w grze! Zacznij rozstawic statki.\n" + self.__us.show_ships_to_set())
+        self.display_message("Witaj w grze! Zacznij rozstawic statki. \nAby ustawic jednomasztowiec kliknij dwa razy w to samo pole. Przy dłuższych statkach zaznacz jego koniec i początek.\n" + self.__us.show_ships_to_set())
 
     def buttons_left(self,board_left,h,w,color,):
 
@@ -362,7 +362,6 @@ class InterfaceUser():
             for i in self.__us.get_list_of_ships():
                 print(i.get_list_of_coordinates())
 
-
     def start_game(self):
 
         if self.__us.get_ships_to_set():
@@ -389,6 +388,7 @@ class InterfaceUser():
 
         self.__pc.initial_state()
         self.__us.initial_state()
+        self.__clicked_coords.clear()
         #Resetuje plansze
         for i in self.__list_of_columns_left:
             for j in range(10):
@@ -407,15 +407,10 @@ class InterfaceUser():
 
     def auto_shoot(self):
 
-        #Part of choosing random coordinates
-        #TODO usprawnic losowanie zeby nie losowal miejsc juz strzelanych
-        #TODO Musi probowac zestrzelic statek do konca
-
         tmp= [zb for zb in self.__pc.check_hit_ships()-self.__pc.get_my_shots()]      #Tworzy liste nie strzelonych jeszcze wspolrzednych
 
-        print("Szukamy tuuu ",tmp)
         x, y = random.choice(tmp)       #Losuje wspolrzedne ze stworzonej listy
-        print(x, y)
+
         self.__pc.add_shot((x, y))
 
         # Szukanie i usuwanie zestrzelonych pol/ statkow
@@ -489,7 +484,12 @@ class InterfaceUser():
 
 
     def EndGame(self,name):
-        self.display_message("Wygral: "+name)
+        messagebox.showinfo("Koniec gry","Wygral "+name)
+        if name == "PC":
+            for i in self.__pc.get_list_of_ships():
+                for coor in i.get_list_of_coordinates():
+                    self.__list_of_columns_right[coor[0] - 1][coor[1] - 1]['bg'] = 'red'
+                    self.__list_of_columns_right[coor[0] - 1][coor[1] - 1]['state'] = 'disabled'
         return
 
 if __name__ == '__main__':
