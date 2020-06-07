@@ -413,7 +413,7 @@ class InterfaceUser():
 
         tmp= [zb for zb in self.__pc.check_hit_ships()-self.__pc.get_my_shots()]      #Tworzy liste nie strzelonych jeszcze wspolrzednych
 
-        print(tmp)
+        print("Szukamy tuuu ",tmp)
         x, y = random.choice(tmp)       #Losuje wspolrzedne ze stworzonej listy
         print(x, y)
         self.__pc.add_shot((x, y))

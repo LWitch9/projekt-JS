@@ -22,8 +22,10 @@ class Ship():
         self.__list_of_coordinates.append((x,y))
         if x!=self.__list_of_coordinates[0][0]:
             self.__list_of_coordinates=sorted(self.__list_of_coordinates,key=itemgetter(0))
+            self.__setattr__("horizontal",True)
         else:
             self.__list_of_coordinates=sorted(self.__list_of_coordinates,key=itemgetter(1))
+            self.__setattr__("horizontal", False)
 
 
     def set_state(self,name):
@@ -31,9 +33,6 @@ class Ship():
             self.__setattr__("state",True)
         else:
             self.__setattr__("state", False)
-            print("Traf af")
-
-
 
     #miejsca hipotetycznie zajete (zajete+ rogi boki)
     def get_hip_occupied(self):
@@ -97,6 +96,9 @@ class ShipsContainer():
 
         if self.__list_of_ships:        #usuwam elementy z tablicy statkow
             self.__list_of_ships.clear()
+
+        if self.__hit_ships:
+            self.__hit_ships.clear()
 
         self.__ships_to_set.clear()
         self.fill_ships_to_set() #Wypelniam tablice informujaca jakie statki powinny zostac ustawione
@@ -196,10 +198,11 @@ class ShipsContainer():
         if self.__hit_ships:
             for i in self.__hit_ships:
                 if {(x,y)} & i.get_hip_occupied():
-                    print("Juz mamy stateczek dodajemy wspolrzedna dudu")
                     i.add_coordinate(x,y)
                     i.set_state(name)
-                    print("A oto i stan",i.state)
+                    print("Juz byl stateczek i dodajemy ")
+                    print("coo: ", i.get_list_of_coordinates())
+                    print("occ from add: ",i.get_hip_occupied())
                     return
 
             s = Ship(x,y,x,y)
@@ -214,8 +217,14 @@ class ShipsContainer():
     def check_hit_ships(self):
         for i in self.__hit_ships:
             if not i.state:
-                print("check occ ",i.get_hip_occupied())
-                print("check coo ",i.get_list_of_coordinates())
-                return i.get_hip_occupied()
-        print("hehe")
+                if hasattr(i,"horizontal"): #Kiedy wiecej niz jeden trafione pole w statku
+                    if i.horizontal:
+                        pula={zb for zb in i.get_hip_occupied() if zb[1]==i.get_list_of_coordinates()[0][1]}
+                    else:
+                        pula = {zb for zb in i.get_hip_occupied() if zb[0] == i.get_list_of_coordinates()[0][0]}
+                else:
+                    pula1 = {zb for zb in i.get_hip_occupied() if zb[0] == i.get_list_of_coordinates()[0][0]}
+                    pula2 = {zb for zb in i.get_hip_occupied() if zb[1] == i.get_list_of_coordinates()[0][1]}
+                    pula = pula1 | pula2
+                return pula
         return self.all_coordinates
