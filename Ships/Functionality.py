@@ -1,4 +1,5 @@
 import random
+from operator import itemgetter
 from Exceptions import *
 class Ship():
 
@@ -16,6 +17,23 @@ class Ship():
 
     def get_list_of_coordinates(self):
         return self.__list_of_coordinates
+
+    def add_coordinate(self,x,y):
+        self.__list_of_coordinates.append((x,y))
+        if x!=self.__list_of_coordinates[0][0]:
+            self.__list_of_coordinates=sorted(self.__list_of_coordinates,key=itemgetter(0))
+        else:
+            self.__list_of_coordinates=sorted(self.__list_of_coordinates,key=itemgetter(1))
+
+
+    def set_state(self,name):
+        if name=="Zatopiony":
+            self.__setattr__("state",True)
+        else:
+            self.__setattr__("state", False)
+            print("Traf af")
+
+
 
     #miejsca hipotetycznie zajete (zajete+ rogi boki)
     def get_hip_occupied(self):
@@ -37,17 +55,22 @@ class Ship():
             #TODO Niech sprawdza tez czy te nowe miejsca mieszcza sie w planszy i tylko te uwzglednia
             xk,yk=xp,yp
         occupied = {(x,y) for x in range(xp-1,xk+2) for y in range(yp-1,yk+2)}
+        occupied = occupied & {(x,y) for x in range(1,11) for y in range(1,11)}
         return occupied
 
 class ShipsContainer():
+    all_coordinates={(x,y) for x in range(1,11) for y in range(1,11)}   #Dla wszystkich instancji
 
     def __init__(self, who):
         print("Tworze przechowalnie statkow dla: ",who)
         self.__owner=who
         self.__list_of_ships=[]
-        self.__my_shots=set()
         self.__ships_to_set=[]
         self.fill_ships_to_set()
+
+        self.__my_shots=set()
+        self.__hit_ships=[]
+
 
     def get_owner(self):
         return self.__owner
@@ -137,7 +160,6 @@ class ShipsContainer():
             if i.get_list_of_coordinates().count((x, y)):
                 ind = i.get_list_of_coordinates().index((x, y))      #Pobieram indeks znalezionych wspolrzednych
                 d=i.get_list_of_coordinates().pop(ind)              #Usuwam wartosc i przypisuje do d (co z tym dalej?)
-                print(i.get_list_of_coordinates())
                 if self.search_remove_ship():
                     raise HitException("Zatopiony")
                 else:
@@ -170,3 +192,30 @@ class ShipsContainer():
                         check=0
         return"Przeciwnik jest gotowy!"+str(self.count_ships())
 
+    def add_to_hit_ship(self,x,y,name):
+        if self.__hit_ships:
+            for i in self.__hit_ships:
+                if {(x,y)} & i.get_hip_occupied():
+                    print("Juz mamy stateczek dodajemy wspolrzedna dudu")
+                    i.add_coordinate(x,y)
+                    i.set_state(name)
+                    print("A oto i stan",i.state)
+                    return
+
+            s = Ship(x,y,x,y)
+            s.set_state(name)
+            self.__hit_ships.append(s)  #Tworze statek z tą wspolrzedna
+
+        else:
+            s = Ship(x,y,x,y)
+            s.set_state(name)
+            self.__hit_ships.append(s)  #Tworze statek z tą wspolrzedna
+
+    def check_hit_ships(self):
+        for i in self.__hit_ships:
+            if not i.state:
+                print("check occ ",i.get_hip_occupied())
+                print("check coo ",i.get_list_of_coordinates())
+                return i.get_hip_occupied()
+        print("hehe")
+        return self.all_coordinates

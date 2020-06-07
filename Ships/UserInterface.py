@@ -410,33 +410,36 @@ class InterfaceUser():
         #Part of choosing random coordinates
         #TODO usprawnic losowanie zeby nie losowal miejsc juz strzelanych
         #TODO Musi probowac zestrzelic statek do konca
-        x, y = random.randint(1, 10), random.randint(1, 10)
-        if self.__pc.get_my_shots() &{(x, y)}:
-            self.auto_shoot()  # Jeszcze raz strzelaj jezeli strzeliles  w to samo miejsce
-        else:
-            self.__pc.add_shot((x, y))
-            print(x,y)
-            # Szukanie i usuwanie zestrzelonych pol/ statkow
-            try:
-                self.__us.search_remove_coordinates(x, y) # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
-            except MissedException:
-                self.__list_of_columns_left[x - 1][y - 1]['bg'] = 'blue'
-                self.__list_of_columns_left[x - 1][y - 1]['state'] = 'disabled'
 
-                self.__us.__setattr__("turn", True)
-                self.display_message("Twoja kolej")
-                return
-            except ShootingShipException :
-                print("pc", self.__us.get_list_of_ships())
-                self.__list_of_columns_left[x - 1][y - 1]['bg'] = 'red'
-                self.__list_of_columns_left[x - 1][y - 1]['state'] = 'disabled'
+        tmp= [zb for zb in self.__pc.check_hit_ships()-self.__pc.get_my_shots()]      #Tworzy liste nie strzelonych jeszcze wspolrzednych
 
-                if self.__us.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
-                    self.auto_shoot()  # Opponent ma kolejny ruch
+        print(tmp)
+        x, y = random.choice(tmp)       #Losuje wspolrzedne ze stworzonej listy
+        print(x, y)
+        self.__pc.add_shot((x, y))
 
-                else:
-                    self.__us.__setattr__("turn", False)
-                    self.EndGame(self.__pc.get_owner())  # W przeciwnym razie koniec gry User wygral
+        # Szukanie i usuwanie zestrzelonych pol/ statkow
+        try:
+            self.__us.search_remove_coordinates(x, y)  # Jesli 0- trafiony/zatopiony; jesli 1- pudlo
+        except MissedException:
+            self.__list_of_columns_left[x - 1][y - 1]['bg'] = 'blue'
+            self.__list_of_columns_left[x - 1][y - 1]['state'] = 'disabled'
+
+            self.__us.__setattr__("turn", True)
+            self.display_message("Twoja kolej")
+            return
+        except ShootingShipException as ex:
+            self.__list_of_columns_left[x - 1][y - 1]['bg'] = 'red'
+            self.__list_of_columns_left[x - 1][y - 1]['state'] = 'disabled'
+
+            self.__pc.add_to_hit_ship(x,y,ex.name)
+
+            if self.__us.get_list_of_ships():  # Jezeli lista statkow przeciwnika nie jest pusta
+                self.auto_shoot()  # Opponent ma kolejny ruch
+
+            else:
+                self.__us.__setattr__("turn", False)
+                self.EndGame(self.__pc.get_owner())  # W przeciwnym razie koniec gry User wygral
 
     def shoot_ship(self,coordinate):
 
