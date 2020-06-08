@@ -4,6 +4,101 @@ from tkinter import Tk,Canvas,Frame,Label,Button,messagebox,BOTH,CENTER
 import time
 
 class InterfaceUser():
+    """
+    Główna klasa odpowiadająca ze Interface uzytkownika
+    Zajmuje się umieszczeniem i wyświetleniem odpowiednich komponentów oraz ich obsługą
+
+    Atrybuty:
+    Odpowiadające za GUI
+        __canvas : Canvas
+        __back_frame : Frame
+        __frame_message : Frame
+        __label_message : Label
+            Etykieta na której będą wyświetlane wszystkie komunikaty w trakcie gry
+        __board_left : Frame
+        __board_right : Frame
+        __list_of_columns_left : list   (Kazdy z przycisków również jest prywatnym atrybutem)
+            Lista zawierająca wszystkie przyciski planszy lewej umieszczonych na __board_left
+            Będą to przyciski aktywne podczas umieszczania statków przez użytkownika
+            W każdym z przycisków lambda: self_set_up_ship(x,y) gdzie x,y będzie odpowiadającymi
+            przyciskowi współrzędnymi
+        __list_of_columns_right : list  (Kazdy z przycisków również jest prywatnym atrybutem)
+            Lista zawierająca wszystkie przyciski planszy prawej umieszczonych na __board_right
+            Będą to przyciski aktywne podczas fazy strzelania
+            W każdym z przycisków lambda: shoot_ship(x,y) gdzie x,y będzie odpowiadającymi
+            przyciskowi współrzędnymi
+        __label_user : Label
+            Etykieta pod planszą lewą z textem "user"
+        __label_opponent : Label
+            Etykieta pod planszą prawą z textem "opponent"
+        __frame_reset :Frame
+        __frame_start :Frame
+        __button_start : Button
+            Przycisk odpowiadający za rozpoczęcie gry gdzie lambda: start_game()
+        __button_reset : Button
+            Przycisk odpowiadający za zresetowanie gry gdzie lambda: reset_game()
+        Reszta
+        __clicked_coords : list
+            lista w której zapisuje współrzędne kolejnych kliknięć
+        __us : ShipContainer
+            Obiekt odpowiadający za funkcjonalność planszy Użytkownika
+        __pc : ShipContainer
+            Obiekt odpowiadający za funkcjonalność planszy Przeciwnika  (PC)
+
+        Metody:
+        buttons_left(board_left,h,w,color,)
+            Metoda zajmująca się stworzeniem przycisków na lewej planszy i dodaniem ich do listy
+        buttons_right(board_right,h,w,color,)
+            Metoda zajmująca się stworzeniem przycisków na prawej planszy i dodaniem ich do listy
+        place_buttons(list_of_columns):
+            Metoda umieszczająca przyciski wybranej listy przycisków (list_of_columns) za pomocą grid
+        display_message( message)
+            Metoda wyświetlająca na etykiecie komunikat (message)
+        set_up_ship( coordinate)
+            Metoda ustawiająca statki używkownika. Użyta jako lambda w przyciskach lewj planszy.
+
+            Sprawdza etap gry: Jeżeli wszystkie statki zostały już rozstawione wyświetla komunikat na etykiecie
+            W przeciwnym razie dodaje współrzędne do __clicked_coordinates i jeżeli klikięte zostaly już dwie współrzędne
+
+            w bloku try rozpoczyna się dodawanie statku. Jezeli współrzędne zostaną wybrane niepoprawnie przechwycony zostanie odpowiedni
+            wyjątek i na etykiecie wyświetlony komunikat o błędzie wraz z akutalnym stanem statków do ustawienia
+            Kiedy współrzędne zostaną wybrane poprawnie Przyciski reprezentujące statek zmienią kolor na czarny i staną się nieaktywne
+        start_game
+            Metoda rozpoczynająca gre. Użyta jako lambda w przycisku odpowiedzialnym za start
+            Sprawdza etap gry:
+                Jeżeli wszystki statki nie zostały jeszcze rozstawione wyświetla komunikat na etykiecie
+                Jeżeli opponent ma już ustawione jakieś statki oznacza to że już jesteśmy w trakcie gry- Wyswietla się komunkat na etykiecie
+            Jezeli mozna rozpocząć gre opponent rozstawia automatycznie statki a następnie losowana jest kolej kto zacznie gre
+        reset_game
+            Metoda resutująca gre do stanu początkowego. Używa metody initial_state dla każdego gracza i zmienia color i stan przycisków
+            Do stanu w jakim były na początku gry
+        auto_shoot
+            Metoda wykonująca automatyczne strzelanie przez opponenta
+            Losowanie odbywa się ze zbioru zwróconego z metody check_hit_ships
+
+            Jezeli podczas szukania zostanie rzucony wyjątek odpowiadający spudłowaniu przycisk zmiania kolor na niebieski i staje się nieaktywny
+            Następuje kolej użytkownika - wyświtlony zostaje odpowiedni komunikat
+
+            W przypadku trafienia przycisk staje się czerwony i nieaktywny
+            współrzędne zostają dodane według metody add_to_hit_ship do listy zawierającej zestrzelone statki
+            Następuje znowu kolej PC chyba że wszystkie statki użytkownika zostały zestrzelone wtedy koniec gry (metoda EndGame)
+            def shoot_ship(self,coordinate):
+
+        shoot_ship(coordinate)
+            Metoda odpowiadająca za strzelanie w pola przeciwnika użyta jako lambda w przyciskach prawej planszy
+            Sprawdza stan gry:
+                Jezeli przeciwnik nie mo rozstawionych statków a zmienna turn u użytkownika nie została ustawiona gra nie została rozpoczeta
+                Jezeli zmienna turn ustawiona jest na False oznacza to że odbywa się kolej przeciwnika wyświetla się komunikat
+                Jezeli uzytkownik strzelił już w to samo miejsce wyswietla się komunikat
+            W przeciwnym razie rozpoczyna się proces szukania w bloku try reszta jak w metodzie wyżej
+            W zależności od rzuconego wyjątku :HitException przycisk czerwony MissedException przycisk niebieski (w obu przypadkach stan nieaktywny)
+            Jeżeli Missed -> kolej przeciwnika
+            Jezeli wszystkie statki rzeciwnika zostały zestrzelone rozpoczyna się metoda EndGame
+        EndGame(name
+            Wyświetla okno komunikatu typu messagebox.
+            Jeżeli wygrał przeciwnik wpokazuje statki których nie udało nam sie zestrzelić
+
+    """
     def __init__(self, master):
 
         self.__canvas = Canvas(master, height=600, width=900)
@@ -69,7 +164,13 @@ class InterfaceUser():
 
     def buttons_left(self,board_left,h,w,color,):
 
-        """ Wszystkie przyciski lewej planszy"""
+        """
+        Metoda zajmująca się stworzeniem przycisków na lewej planszy i dodaniem ich do listy
+        :param board_left: Frame - ramka na którą zostaną dodane przyciski
+        :param h: float : wysokosc przycisku
+        :param w: float : szerokość przycisku
+        :param color: string : kolor przycisku
+        """
         self.__A1 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 1)), bg=color, anchor="sw", text="A1")
         self.__A2 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 2)), bg=color, anchor="sw", text="2")
         self.__A3 = Button(board_left, height=h, width=w, command=lambda: self.set_up_ship((1, 3)), bg=color, anchor="sw", text="3")
@@ -188,8 +289,13 @@ class InterfaceUser():
         self.place_buttons((self.__list_of_columns_left))
 
     def buttons_right(self,board_right,h,w,color):
-
-        """ Wszystkie przyciski prawej planszy"""
+        """
+        Metoda zajmująca się stworzeniem przycisków na prawej planszy i dodaniem ich do listy
+        :param board_right: Frame - ramka na którą zostaną dodane przyciski
+        :param h: float : wysokosc przycisku
+        :param w: float : szerokość przycisku
+        :param color: string : kolor przycisku
+        """
         self.__rA1 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 1)), bg=color,anchor="sw", text="A1")
         self.__rA2 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 2)), bg=color,anchor="sw", text="2")
         self.__rA3 = Button(board_right, height=h, width=w, command=lambda: self.shoot_ship((1, 3)), bg=color,anchor="sw", text="3")
@@ -308,24 +414,33 @@ class InterfaceUser():
         self.place_buttons((self.__list_of_columns_right))
 
     def place_buttons(self, list_of_columns):
+        """
+        Metoda umieszczająca przyciski wybranej listy przycisków (list_of_columns) za pomocą grid
+        :param list_of_columns: list : lista przycisków które mają być umieszczone
+        :return:
+        """
         for i in range(10):
             for j in range(10):
                 list_of_columns[i][j].grid(row=j, column=i)
-    """
-    def change_state_color(self,list_of_columns, coor, color, state):
-        # Ustawienie koloru i stanu przyciskow statku
-        list_of_columns[coor[0] - 1][coor[1] - 1]['bg'] = color
-        list_of_columns[coor[0] - 1][coor[1] - 1]['state'] = state
 
-    def add_click(self,coordinate):
-        x, y = coordinate
-        self.__clicked_coords.append(coordinate)
-    """
+    def display_message(self, message):
+        """
+        Metoda wyświetlająca na etykiecie komunikat (message)
+        :param message: string - Komunikat który ma zostać wyświetlony
+        """
+        self.__label_message["text"] = message
 
     def set_up_ship(self, coordinate):
         """
-        Sprawdzam na jakim etapie gry jestesmy. Jezeli nie ma statkow do ustawienia dla usera to nie wyskoczy blad.
-        Poniewaz user nie moze zestrzeliwac swoich statkow a skoro wszystkie jez rozmiescil to nie ma powodu by tam klikac
+            Metoda ustawiająca statki używkownika. Użyta jako lambda w przyciskach lewj planszy.
+
+            Sprawdza etap gry: Jeżeli wszystkie statki zostały już rozstawione wyświetla komunikat na etykiecie
+            W przeciwnym razie dodaje współrzędne do __clicked_coordinates i jeżeli klikięte zostaly już dwie współrzędne
+
+            w bloku try rozpoczyna się dodawanie statku. Jezeli współrzędne zostaną wybrane niepoprawnie przechwycony zostanie odpowiedni
+            wyjątek i na etykiecie wyświetlony komunikat o błędzie wraz z akutalnym stanem statków do ustawienia
+            Kiedy współrzędne zostaną wybrane poprawnie Przyciski reprezentujące statek zmienią kolor na czarny i staną się nieaktywne
+        :param coordinate: tuple zawiera zmienne x oraz y reprezentuące wpsółrzędne
         """
 
         if  self.__us.get_ships_to_set():
@@ -356,14 +471,17 @@ class InterfaceUser():
 
                 # Czyszcze liste kliknietych wspolrzednych!
                 self.__clicked_coords.clear()
-                self.__us.count_ships()
         else:
             self.display_message("Zwariowales? Nie mozesz zestrzelic swojego statku. Juz wszystkie ustawiles. Przejdz do gry lub zresetuj")
-            for i in self.__us.get_list_of_ships():
-                print(i.get_list_of_coordinates())
 
     def start_game(self):
-
+        """
+            Metoda rozpoczynająca gre. Użyta jako lambda w przycisku odpowiedzialnym za start
+            Sprawdza etap gry:
+                Jeżeli wszystki statki nie zostały jeszcze rozstawione wyświetla komunikat na etykiecie
+                Jeżeli opponent ma już ustawione jakieś statki oznacza to że już jesteśmy w trakcie gry- Wyswietla się komunkat na etykiecie
+            Jezeli mozna rozpocząć gre opponent rozstawia automatycznie statki a następnie losowana jest kolej kto zacznie gre
+        """
         if self.__us.get_ships_to_set():
             self.display_message("Najpierw musisz ustawic wszystkie statki")
             return
@@ -372,7 +490,7 @@ class InterfaceUser():
             self.display_message("Jestes juz w trakcje pojedynku")
             return
 
-        self.display_message("Rozpoczynam gre... Twoj przeciwnik rozstawia statki")
+        self.display_message("Rozpoczynam gre... ")
         self.__pc.automatic_set_up()
         #Losuje ktory gracz pierwszy
         if random.randint(0,1):
@@ -382,8 +500,14 @@ class InterfaceUser():
         else:
             #Zaczyna user (us)
             self.__us.__setattr__("turn", True)
+            self.display_message("Twoja kolej ")
 
     def reset_game(self):
+        """
+            Metoda resutująca gre do stanu początkowego. Używa metody initial_state dla każdego gracza i zmienia color i stan przycisków
+            Do stanu w jakim były na początku gry
+
+        """
         self.display_message("Resetuje gre...")
 
         self.__pc.initial_state()
@@ -402,12 +526,20 @@ class InterfaceUser():
                 i[j]['bg'] = 'white'
                 i[j]['state'] = 'normal'
 
-    def display_message(self, message):
-        self.__label_message["text"] = message
-
     def auto_shoot(self):
+        """
+        Metoda wykonująca automatyczne strzelanie przez opponenta
+        Losowanie odbywa się ze zbioru zwróconego z metody check_hit_ships
 
-        tmp= [zb for zb in self.__pc.check_hit_ships()-self.__pc.get_my_shots()]      #Tworzy liste nie strzelonych jeszcze wspolrzednych
+        Jezeli podczas szukania zostanie rzucony wyjątek odpowiadający spudłowaniu przycisk zmiania kolor na niebieski i staje się nieaktywny
+        Następuje kolej użytkownika - wyświtlony zostaje odpowiedni komunikat
+
+        W przypadku trafienia przycisk staje się czerwony i nieaktywny
+        współrzędne zostają dodane według metody add_to_hit_ship do listy zawierającej zestrzelone statki
+        Następuje znowu kolej PC chyba że wszystkie statki użytkownika zostały zestrzelone wtedy koniec gry (metoda EndGame)
+        """
+
+        tmp= [zb for zb in self.__pc.check_hit_ships()]      #Tworzy liste nie strzelonych jeszcze wspolrzednych
 
         x, y = random.choice(tmp)       #Losuje wspolrzedne ze stworzonej listy
 
@@ -439,8 +571,18 @@ class InterfaceUser():
     def shoot_ship(self,coordinate):
 
         """
-        Jezeli ships_to_set jest pelna (PC nie ustawil jeszcze swoich statkow)
-        oraz zmienna turn nie zostala ustawiona to nie mozna strzelic
+        Metoda odpowiadająca za strzelanie w pola przeciwnika użyta jako lambda w przyciskach prawej planszy
+        Sprawdza stan gry:
+            Jezeli przeciwnik nie mo rozstawionych statków a zmienna turn u użytkownika nie została ustawiona gra nie została rozpoczeta
+            Jezeli zmienna turn ustawiona jest na False oznacza to że odbywa się kolej przeciwnika wyświetla się komunikat
+            Jezeli uzytkownik strzelił już w to samo miejsce wyswietla się komunikat
+        W przeciwnym razie rozpoczyna się proces szukania w bloku try reszta jak w metodzie wyżej
+        W zależności od rzuconego wyjątku :HitException przycisk czerwony MissedException przycisk niebieski (w obu przypadkach stan nieaktywny)
+        Jeżeli Missed -> kolej przeciwnika
+        Jezeli wszystkie statki rzeciwnika zostały zestrzelone rozpoczyna się metoda EndGame
+
+        :param coordinate: tuple zawiera zmienne x oraz y reprezentuące wpspółrzędne
+        :return:
         """
         if self.__pc.get_ships_to_set() and not hasattr(self.__us, "turn") :
             self.display_message("Spokojnie jeszcze nie czas. Najpierw rozpocznij gre i daj przeciwnikowi ustawic statki")
@@ -456,7 +598,7 @@ class InterfaceUser():
             else:
                 self.__us.add_shot((x, y))
                 try:
-                    self.__pc.search_remove_coordinates(x, y)  # Jesli 1/2- trafiony/zatopiony; jesli 0- pudlo
+                    self.__pc.search_remove_coordinates(x, y)
                 except MissedException:
                     # Ustawienie koloru i stanu przycisku - niebieski pudlo
                     self.__list_of_columns_right[x - 1][y - 1]['bg'] = 'blue'
@@ -467,7 +609,6 @@ class InterfaceUser():
                     self.__us.__setattr__("turn", False)
                     self.auto_shoot()
                 except HitException as ex:
-                    print("user: ", self.__pc.get_list_of_ships())
                     # Ustawienie koloru i stanu przycisku - niebieski pudlo
                     self.__list_of_columns_right[x - 1][y - 1]['bg'] = 'red'
                     self.__list_of_columns_right[x - 1][y - 1]['state'] = 'disabled'
@@ -482,8 +623,13 @@ class InterfaceUser():
                         self.__us.__setattr__("turn", False)
                         self.EndGame(self.__us.get_owner())  # W przeciwnym razie koniec gry User wygral
 
-
     def EndGame(self,name):
+        """
+        Wyświetla okno komunikatu typu messagebox.
+        Jeżeli wygrał przeciwnik wpokazuje statki których nie udało nam sie zestrzelić
+        :param name: string : nazw uzytkownika ktory wygrał
+
+        """
         messagebox.showinfo("Koniec gry","Wygral "+name)
         if name == "PC":
             for i in self.__pc.get_list_of_ships():
