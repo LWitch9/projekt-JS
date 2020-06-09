@@ -16,12 +16,12 @@ Uważam, że udało misię zrealizować wszystkie elementy według opisu projekt
 Największy problem sprawiła mi prawdopodobnie organizacja programu tak aby rozdzielić funkcjonalność od interface. Wydaje mi sie że poradziałam sobie jednak z tym problemem w miarę możliwości. Kolejnym aspektem była sztuczna inteligencja oponenta. Automatyczne rozstawianie statków czasami powodowało wykonywanie się pętli w nieskończoność. Jednak odkąd usprawniłam tą metodę nie napotkałam tego problemu. Również inteligentne zestrzeliwanie statków było problematyczne. Początkowo przeciwnik robił to całkowicie losowo. Aby usprawnić tą metodę potrzebowałam kolejnej listy przechowującej zestrzelone statki i pare metod z nią związanych. Dzięki temu jeżeli jakiś statek nie został jeszcze zatopiony ale został trafiony zwracany jest zbiór współrzędnych sugerujący położenie jego kolejnych pól.
 ## Linki do istotnych fragmentów kodu
 ### a. Lambda-wyrażenia 
-- [Obsługa przycisków lewej planszy](https://github.com/LWitch9/projektJS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/UserInterface.py#L174)
+- [Obsługa przycisków lewej planszy](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/UserInterface.py#L174)
 - [Obsługa przycisków prawej planszy](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/UserInterface.py#L299)
 ### b. List Comprehensions
 - [Tworzenie listy do losowania współrzędnych przy strzelaniu](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/UserInterface.py#L542)
 - [Tworzenie listy współrzędnych statku poziomego](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/Functionality.py#L52)
-- [Tworzenie listy współrzędnych statku poziomego](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/Functionality.py#L56)
+- [Tworzenie listy współrzędnych statku pionowego](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/Functionality.py#L56)
 - [Tworzy listę niechcianych współrzędnych przy ustawianiu statków](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/Functionality.py#L372)
 ### c. Klasy
 - [Odpowiedzialna za funkcjonalność programu](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/Functionality.py#L117)
