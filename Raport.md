@@ -23,6 +23,12 @@ Największy problem sprawiła mi prawdopodobnie organizacja programu tak aby roz
 - [Tworzenie listy współrzędnych statku poziomego](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/Functionality.py#L52)
 - [Tworzenie listy współrzędnych statku pionowego](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/Functionality.py#L56)
 - [Tworzy listę niechcianych współrzędnych przy ustawianiu statków](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/Functionality.py#L372)
+Set Comprahensions
+- [Zbiór współrzędnych hipotetycznie zajętych (boki,rogi)](https://github.com/LWitch9/projekt-JS/blob/40f0d7934799100a858dcc7b3fb75ae343cdf8d1/Ships/Functionality.py#L111)
+- [Wykluczenie ze zbioru współrzędnych spoza planszy](https://github.com/LWitch9/projekt-JS/blob/40f0d7934799100a858dcc7b3fb75ae343cdf8d1/Ships/Functionality.py#L114)
+- [Zbiór współrzędnych całej planszy](https://github.com/LWitch9/projekt-JS/blob/40f0d7934799100a858dcc7b3fb75ae343cdf8d1/Ships/Functionality.py#L191)
+- [Zbiór hipotetycznie zajętych tylko w poziomie(boki)](https://github.com/LWitch9/projekt-JS/blob/40f0d7934799100a858dcc7b3fb75ae343cdf8d1/Ships/Functionality.py#L447)
+- [Zbiór hipotetycznie zajętych tylko w pionie (boki)](https://github.com/LWitch9/projekt-JS/blob/40f0d7934799100a858dcc7b3fb75ae343cdf8d1/Ships/Functionality.py#L449)
 ### c. Klasy
 - [Odpowiedzialna za funkcjonalność programu](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/Functionality.py#L117)
 - [Odpowiedzialność za interface](https://github.com/LWitch9/projekt-JS/blob/536a8674939cfc14843cdd46f0d792640c53b035/Ships/UserInterface.py#L6)
